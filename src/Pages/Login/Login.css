@@ -1,0 +1,13 @@
+.login-bg {
+    background: url(../../assets/login-bg2.png) no-repeat;
+    background-size: contain;}
+
+    @media (max-width:535px) {
+        .login-box {
+            position: absolute;
+            right: 10px;
+            top: 70px;
+            left: 10px;
+            max-width: initial;
+        }
+    }
