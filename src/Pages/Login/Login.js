@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../Login/Login.css'
 
 export default function Login() {
     // const initialValues = { email: "", password: "" };
