@@ -16,16 +16,16 @@ export default function Login() {
     return (
         <div className='logon'>
             <div class="col-lg-6 login-box">
-                <div class="ibox bg-boxshadow mb-50">
+                <div class="ibox bg-boxshadow"> 
                     <div><img src={ logo2 } class="img-fluid logo" /></div>
                     
-                    <div class="ibox-title basic-form mb-30 bg-transparent">
+                    <div class="ibox-title basic-form mb-30 bg-transparent ">
                         <h5>Sign In Here</h5>
                     </div>
-                    <div class="ibox-content">
+                    <div class="ibox-content ">
                         {
-                            <form action="#">
-                                <div class="form-group row">
+                            <form action="#" >
+                                <div class="form-group row ">
                                     <label class="col-lg-3 col-form-label">Login Id</label>
                                     <div class="col-lg-9">
                                         <input type="email" placeholder="Email" class="form-control" />

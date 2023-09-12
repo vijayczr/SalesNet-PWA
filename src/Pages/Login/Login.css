@@ -21,6 +21,15 @@ html, body {
     top: 100px;
     max-width: 450px;
 }
+@media (max-width:535px) {
+    .login-box {
+        position: absolute;
+        right: 10px;
+        top: 70px;
+        left: 10px;
+        max-width: initial;
+    }
+}
 .logo {
     width: 200px;
     margin: auto;
@@ -28,6 +37,7 @@ html, body {
     display: block;
     margin-bottom: 0px;
     margin-top: 0px;
+    margin-bottom: 30px;
 }
 
 
@@ -38,6 +48,8 @@ html, body {
 .bg-boxshadow {
     -webkit-box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3);
     box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3);
+    padding: 20px;
+    margin-bottom: 50px;
 }
 
     .bg-boxshadow:hover {
