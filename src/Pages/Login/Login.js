@@ -1,17 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../Login/Login.css'
-import { Modal } from 'bootstrap';
-import logo from '../../assets/login-bg2.png';
+import { useNavigate } from "react-router-dom";
 import logo2 from '../../assets/logo.png';
 
 
 export default function Login() {
-    const initialValues = { email: "", password: "" };
-    const [formValues, setFormValues] = useState();
-    const [password, setpassword] = useState();
+    const [UserId, setUserId] = useState("");
+    const [password, setpassword] = useState("");
+    const navigate = useNavigate();
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+        LoginForm();
+    }  
+
+
+    async function LoginForm(){
+            let formData = {
+              UserId: UserId,
+              password: password,
+            };
+            const res = await fetch(
+              "https://localhost:44388/Authentication/Login",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+              }
+            );
+            const loginData = await res.json();
+            if (loginData.resCode === 200) {
+                console.log(loginData.resData);
+                navigate("/Dashboard", { replace: true });
+            }
+    }
 
     return (
         <div className='logon'>
@@ -24,18 +48,32 @@ export default function Login() {
                     </div>
                     <div class="ibox-content ">
                         {
-                            <form action="#" >
+                            <form onSubmit={handleSubmit} >
                                 <div class="form-group row ">
                                     <label class="col-lg-3 col-form-label">Login Id</label>
                                     <div class="col-lg-9">
-                                        <input type="email" placeholder="Email" class="form-control" />
+                                        <input 
+                                            type="text" 
+                                            value={UserId}
+                                            onChange={(e) => setUserId(e.target.value)}
+                                            placeholder="UserId" 
+                                            class="form-control" 
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">Password</label>
 
                                     <div class="col-lg-9">
-                                        <input type="password" placeholder="Password" class="form-control" />
+                                        <input 
+                                            type="password"
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={(e) => setpassword(e.target.value)}
+                                            class="form-control"
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group row">

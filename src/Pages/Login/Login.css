@@ -30,6 +30,12 @@ html, body {
         max-width: initial;
     }
 }
+.error {
+    margin: 1px;
+    font-size: 0.5em;
+    color: red;
+    text-align: left;
+}
 .logo {
     width: 200px;
     margin: auto;
