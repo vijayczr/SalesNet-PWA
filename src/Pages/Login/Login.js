@@ -8,7 +8,7 @@ import logo2 from '../../assets/logo.png';
 
 
 export default function Login() {
-    // const initialValues = { email: "", password: "" };
+    const initialValues = { email: "", password: "" };
     const [formValues, setFormValues] = useState();
     const [password, setpassword] = useState();
 
