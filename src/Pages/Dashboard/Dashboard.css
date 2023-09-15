@@ -1,0 +1,19 @@
+.vision-card {
+    position: relative;
+    display: block;
+    border-radius: 0;
+    border: 1px solid gainsboro;
+    border-bottom: 5px solid #183985;
+    background: #f7f7f7;
+    top: 85px;
+}
+
+.logo1 {
+    background-image: url('../../assets/login-bg2.png');
+    margin: 0;
+    width:100%;
+    box-sizing:border-box;
+    background-size:auto;
+    background-repeat:no-repeat;
+    background-position:center center;
+}

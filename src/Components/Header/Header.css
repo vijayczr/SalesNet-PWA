@@ -1,0 +1,46 @@
+.cssHead {
+    background-color: #da251c;
+    padding: 0%;
+    
+}
+
+.headlogo1 {
+    width: 180px;
+    margin: 0%;
+    height: 50px;
+    background-color: #f0ecec;
+}
+
+.logo {
+    height :50px;
+    width: 120px;
+    margin-left: 30px;
+}
+
+.defaultpfp {
+    height : 45px;
+    margin-right: 40px;
+}
+
+.profile {
+    background-color: #da251c;
+}
+
+.profile-menu {
+    width : 350px;
+    height : 230px;
+}
+
+.profile-option {
+    height: 115px;
+    background-image: url('../../assets/profile-bg.jpg');
+}
+
+.defaultpfp2 {
+    height : 65px;
+}
+
+.userDataa {
+    padding-left: 70px;
+    padding-top: 10px;
+}
