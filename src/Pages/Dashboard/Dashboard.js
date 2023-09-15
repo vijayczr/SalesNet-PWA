@@ -22,7 +22,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 logo1">
+                        <div class="col-md-6">
                         </div>
                         <div class="col-md-3">
                             <div class="card text-center vision-card">

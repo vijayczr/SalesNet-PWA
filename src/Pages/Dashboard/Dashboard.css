@@ -17,3 +17,9 @@
     background-repeat:no-repeat;
     background-position:center center;
 }
+
+.banner {
+    background: url('../../assets/about_banner.jpg') no-repeat center top;
+    height: 235px;
+    background-size: 890px;
+}
