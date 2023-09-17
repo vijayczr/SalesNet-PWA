@@ -38,7 +38,7 @@ export default function Login() {
     }
 
     return (
-        <div className='logon'>
+        <div class='container-fluid logon'>
             <div class="col-lg-6 login-box">
                 <div class="ibox bg-boxshadow"> 
                     <div><img src={ logo2 } class="img-fluid logo" /></div>
