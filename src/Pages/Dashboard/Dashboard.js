@@ -2,10 +2,15 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import HeaderDashboard from "../../Components/Header/DashHeader";
-
+import humanResourceLogo from '../../assets/contract.png';
+import KnowledgeSharinglogo from '../../assets/disbursement.png';
+import HRlogo from '../../assets/voyage_ico.png';
+import BlogLogo from '../../assets/laytime.png';
+import HolidayListLogo from '../../assets/appointment.png';
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
-
+    const navigate = useNavigate();
 
 
     return (
@@ -34,6 +39,52 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
+            </section>
+            <section class="page--wrapper navsecton">
+                <div class="container-fluid">
+                    <div class="row justify-content-center slider-row" style={{ padding: "50px" }}>
+                        <div class="col-md-2">
+                            <a 
+                            // onClick={
+                            //     navigate("/HumanResource", { replace: true })}
+                                 href="/HumanResource"
+                                    style={{color:"black" , textDecoration:"none"}}
+                                >
+                                <img src={humanResourceLogo} class="img-fluid" />
+                                <h5 class="text-center title W100">Human Resource</h5>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a>
+                                <img src={KnowledgeSharinglogo} class="img-fluid" />
+                                <h5 class="text-center title W100">Knowledge Sharing</h5>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a>
+                                <img src={HRlogo} class="img-fluid" />
+                                <h5 class="text-center title W100">HR</h5>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a>
+                                <img src={BlogLogo} class="img-fluid" />
+                                <h5 class="text-center title W100">Blogs</h5>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a>
+                                <img src={HolidayListLogo} class="img-fluid" />
+                                <h5 class="text-center title W100">List Of Holidays</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                        <div class="copywrite-text">
+                            <p>Copyright &copy; 2019. All Rights Reserved.</p>
+                        </div>
+                    </div>
             </section>
         </div>
 

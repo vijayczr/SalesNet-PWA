@@ -4,7 +4,7 @@ import { Button } from 'bootstrap';
 import Login from "./Pages/Login/Login"
 import Dashboard from './Pages/Dashboard/Dashboard';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import HeaderDashboard from './Components/Header/DashHeader';
+import HumanResource from './Pages/HumanResource/HumanResource';
 
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Dashboard" element={ <Dashboard />} />
+        <Route path="/HumanResource" element={ <HumanResource />} />
       </Routes>
     </BrowserRouter>
   );
