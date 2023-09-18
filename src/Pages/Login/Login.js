@@ -33,6 +33,7 @@ export default function Login() {
             const loginData = await res.json();
             if (loginData.resCode === 200) {
                 console.log(loginData.resData);
+                localStorage.setItem("JwtToken", loginData.resData.token);
                 navigate("/Dashboard", { replace: true });
             }
     }

@@ -10,10 +10,12 @@ import HumanResource from './Pages/HumanResource/HumanResource';
 function App() {
   return (
     <BrowserRouter>
+
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Dashboard" element={ <Dashboard />} />
         <Route path="/HumanResource" element={ <HumanResource />} />
+        <Route path='*' element={<h1>Page Not Found</h1>} ></Route>
       </Routes>
     </BrowserRouter>
   );
