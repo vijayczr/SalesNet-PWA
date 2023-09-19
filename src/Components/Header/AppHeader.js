@@ -7,7 +7,7 @@ import defaultpfp from '../../assets/Default_pfp.svg.png'
 import Popover from "@material-ui/core/Popover";
 import '../../Pages/Dashboard/Dashboard.css'
 
-export default function HeaderDashboard() {
+export default function AppHeader() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -23,7 +23,7 @@ export default function HeaderDashboard() {
                     <img src={logo2} class="img-fluid logo" />
                 </div>
                 <div class="d-flex align-items-end">
-                    <img src={defaultpfp} class="defaultpfp"   onMouseMove={(event) => {
+                    <img src={defaultpfp} class="defaultpfp"   onClick={(event) => {
                         setAnchorEl(event.currentTarget)
 
                     }}/> 
@@ -40,9 +40,10 @@ export default function HeaderDashboard() {
                             horizontal: "right",
                             vertical: "bottom",
                         }}
+                        onClick={handlePopoverClose}
                     >
-                        <div class="custprofile" >
-                        <div class="profile-menu" onMouseLeave={handlePopoverClose}>
+
+                        <div class="profile-menu" >
                             <div class="profile-option p-3" >
                                     <div class="mt-2 row">
                                         <div class="col-sm-1">
@@ -54,8 +55,7 @@ export default function HeaderDashboard() {
                                         </div>
                                     </div>
                             </div>
-                            <a href="/HumanResource">hey</a>
-                        </div>
+                            <a href="/Dashboard">hey</a>
                         </div>
                     </Popover>
                 </div>
