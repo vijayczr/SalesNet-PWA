@@ -1,36 +1,39 @@
 import React from 'react'
 import { DownOutlined , ToolOutlined } from '@ant-design/icons';
 import { Dropdown, message, Space } from 'antd';
+import { useNavigate } from "react-router-dom";
 
 export default function HrNavbar() {
     const onClick = ({ key }) => {
-        message.info(`Click on item ${key}`);
+        // message.info(`Click on item ${key}`);
+        navigate(`/${key}`, { replace: true });
     };
+    const navigate = useNavigate();
 
     const items = [
         {
             label: 'Employee Master',
-            key: '1',
+            key: 'Dashboard',
         },
         {
             label: 'Employee Design',
-            key: '2',
+            key: 'Dashboard',
         },
         {
             label: 'Employee Dept',
-            key: '3',
+            key: 'Dashboard',
         },
         {
             label: 'Manage Holiday',
-            key: '4',
+            key: 'Dashboard',
         },
         {
             label: 'Employee Target',
-            key: '5',
+            key: 'Dashboard',
         },
         {
             label: 'Human Resources',
-            key: '6',
+            key: 'HumanResource',
         },
     ];
     return (

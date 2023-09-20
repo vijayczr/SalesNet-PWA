@@ -6,5 +6,6 @@ import AppHeader from "../../Components/Header/AppHeader";
 export default function HumanResource() {
     return (
         <AppHeader/>
+        
       )
 }
