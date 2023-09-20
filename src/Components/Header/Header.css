@@ -1,7 +1,7 @@
 .cssHead {
     background-color: #da251c;
     padding: 0%;
-    
+
 }
 
 .headlogo1 {
@@ -12,13 +12,13 @@
 }
 
 .logo {
-    height :50px;
+    height: 50px;
     width: 120px;
     margin-left: 30px;
 }
 
 .defaultpfp {
-    height : 45px;
+    height: 45px;
     margin-right: 40px;
 }
 
@@ -27,8 +27,9 @@
 }
 
 .profile-menu {
-    width : 350px;
-    height : 230px;
+    width: 350px;
+    height: 230px;
+    padding: 0%;
 }
 
 .profile-option {
@@ -37,10 +38,53 @@
 }
 
 .defaultpfp2 {
-    height : 65px;
+    height: 65px;
 }
 
 .userDataa {
     padding-left: 70px;
     padding-top: 10px;
+}
+
+
+.defaultpfp3 {
+    height: 45px;
+    margin-top: -10px;
+}
+
+.service-btns {
+    padding: 0;
+}
+
+.service-btns li {
+    list-style: none;
+    display: inline-block;
+}
+
+.service-btns li a {
+    display: inline-block;
+    position: relative;
+    color: white;
+    padding: 16px 0;
+    background: #cc241c;
+    outline: none;
+    width: 140px;
+    text-align: center;
+    font-size: 12px;
+    transition: .3s;
+}
+
+.service-btns li a:hover,
+.service-btns li .active {
+    background: #183985;
+    transition: .3s;
+}
+
+.top-search-bar form input {
+    border-bottom: 1px solid rgb(255, 255, 255);
+    padding-right: 45px;
+}
+
+.top-search-bar form input::-webkit-input-placeholder {
+    color: white;
 }
