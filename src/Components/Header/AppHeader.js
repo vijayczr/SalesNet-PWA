@@ -9,8 +9,8 @@ import HrNavbar from '../Navbars/HrNavbar';
 
 export default function AppHeader() {
     return (
-        <div>
-            <nav class="navbar cssHead">
+        <div >
+            <nav class="navbar cssHead navbar-fixed-top">
                 <div class="headlogo1 ">
                     <img src={logo2} class="img-fluid logo" />
                 </div>
@@ -47,7 +47,7 @@ export default function AppHeader() {
                     </Popover>
                 </div>
             </nav>
-            <nav className="shadow p-2 px-4 border-bottom">
+            <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" >
                 <HrNavbar />
             </nav>
         </div>

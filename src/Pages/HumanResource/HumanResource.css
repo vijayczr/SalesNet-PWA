@@ -4,6 +4,24 @@
 }
 
 .breadcrumb-area {
-    padding: 0px 15px;
+    padding: 0px;
     background: #183985;
+}
+.breadcrumb-area h2 {
+    color: #fff;
+    margin: 5px 0;
+    font-size: 30px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #fff;
+}
+
+.breadcrumb-area .breadcrumb {
+    position: relative;
+    margin-bottom: 0px;
+}
+
+.scrolled{
+    overflow :hidden;
 }

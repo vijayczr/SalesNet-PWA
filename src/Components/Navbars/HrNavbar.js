@@ -38,6 +38,7 @@ export default function HrNavbar() {
     ];
     return (
 
+        <div >
         <Dropdown
             menu={{
                 items,
@@ -50,6 +51,6 @@ export default function HrNavbar() {
                 </Space>
             </a>
         </Dropdown>
-
+        </div>
     )
 }
