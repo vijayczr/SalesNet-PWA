@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppHeader from "../../Components/Header/AppHeader";
 import '../HumanResource/HumanResource.css'
-import { Space, Table, Tag } from 'antd';
+import { ConfigProvider, Space, Table, Tag } from 'antd';
+import { colors } from '@material-ui/core';
 
 export default function HumanResource() {
 
@@ -35,8 +36,8 @@ export default function HumanResource() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <button class="bg-success "style={{color:'white'}} >view</button>
+          <button class="bg-danger "style={{color:'white'}}>download</button>
         </Space>
       ),
       width: '15%',
@@ -53,8 +54,10 @@ export default function HumanResource() {
   async function HrManual(){
     let PageData = {
       pageNumber: tableParams.pagination.current,
-      pageSize: 4,
+      pageSize: 10,
     };
+    const userToken = localStorage.getItem("JwtToken");
+    console.log(userToken);
     const res = await fetch(
       "https://localhost:44388/HrManual/ManualList",
       {
@@ -120,8 +123,23 @@ export default function HumanResource() {
  
       <div className='containner p-5' style={{height:"600px" ,overflow:"auto"}} >
 
-
+      <ConfigProvider
+  theme={{
+    components: {
+      Table: {
+        borderColor:'#000000',
+        headerBg :'#da251c',
+        headerColor: 'white',
+        cellFontSizeMD : 14,
+        rowHoverBg : '#99a19b',
+        fontSize : 16
+        
+      },
+    },
+  }}
+>
       <Table
+      
       columns={columns}
       dataSource={data}
       pagination={tableParams.pagination}
@@ -129,6 +147,7 @@ export default function HumanResource() {
       onChange={handleTableChange}
       style={{overflowX:"auto"}}
     />
+    </ConfigProvider>
     </div>
 
     </div>
