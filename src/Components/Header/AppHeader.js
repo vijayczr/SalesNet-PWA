@@ -47,7 +47,7 @@ export default function AppHeader() {
                     </Popover>
                 </div>
             </nav>
-            <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" >
+            <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" style={{backgroundColor:"#f3f5f9"}}>
                 <HrNavbar />
             </nav>
         </div>

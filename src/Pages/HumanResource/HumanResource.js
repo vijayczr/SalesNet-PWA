@@ -1,15 +1,17 @@
-import React, { useEffect, useState }  from 'react'
+import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppHeader from "../../Components/Header/AppHeader";
 import '../HumanResource/HumanResource.css'
 import { ConfigProvider, Space, Table, Tag } from 'antd';
 import { colors } from '@material-ui/core';
+import { useNavigate } from "react-router-dom";
 
 export default function HumanResource() {
-
+  const navigate = useNavigate();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+  const [DocumentType, setDocumentType] = useState("");
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -36,8 +38,8 @@ export default function HumanResource() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <button class="bg-success "style={{color:'white'}} >view</button>
-          <button class="bg-danger "style={{color:'white'}}>download</button>
+          <button class="bg-success " style={{ color: 'white' }} >view</button>
+          <button class="bg-danger " style={{ color: 'white' }}>download</button>
         </Space>
       ),
       width: '15%',
@@ -51,38 +53,47 @@ export default function HumanResource() {
   });
 
 
-  async function HrManual(){
+  async function HrManual() {
     let PageData = {
+      Type: DocumentType,
       pageNumber: tableParams.pagination.current,
       pageSize: 10,
     };
     const userToken = localStorage.getItem("JwtToken");
-    console.log(userToken);
+    console.log(PageData);
     const res = await fetch(
       "https://localhost:44388/HrManual/ManualList",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
         body: JSON.stringify(PageData),
       }
     );
     const HrMAnualData = await res.json();
     if (HrMAnualData.resCode === 200) {
-        console.log(HrMAnualData.resData);
-        setData(HrMAnualData.resData.hrmanuals);
-        console.log(data);
-        setLoading(false);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            total: HrMAnualData.resData.totalcount,
-          }})
+      console.log(HrMAnualData.resData);
+      setData(HrMAnualData.resData.hrmanuals);
+      console.log(data);
+      setLoading(false);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: HrMAnualData.resData.totalcount,
+        }
+      })
     }
-}
+  }
+  const DocumentSearch = () => {
+    HrManual();
+  }
 
-
+  const clicked = () => {
+    console.log('1111')
+  }
   useEffect(() => {
     HrManual();
   }, [JSON.stringify(tableParams)]);
@@ -101,7 +112,7 @@ export default function HumanResource() {
 
 
   return (
-      <div>
+    <div>
       <AppHeader />
       <div class="breadcrumb-area">
         <div class="container-fluid">
@@ -120,35 +131,71 @@ export default function HumanResource() {
           </div>
         </div>
       </div>
- 
-      <div className='containner p-5' style={{height:"600px" ,overflow:"auto"}} >
 
-      <ConfigProvider
-  theme={{
-    components: {
-      Table: {
-        borderColor:'#000000',
-        headerBg :'#da251c',
-        headerColor: 'white',
-        cellFontSizeMD : 14,
-        rowHoverBg : '#99a19b',
-        fontSize : 16
-        
-      },
-    },
-  }}
->
-      <Table
-      
-      columns={columns}
-      dataSource={data}
-      pagination={tableParams.pagination}
-      loading={loading}
-      onChange={handleTableChange}
-      style={{overflowX:"auto"}}
-    />
-    </ConfigProvider>
-    </div>
+      <div className='containner p-4' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="bg-boxshadow">
+              <div class="ibox-content">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="d-flex">
+                      <label for="inputEmail3" class="col-md-5 mt-1">DocumentType <span class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <input
+                          style={{ borderColor: "#a1b1c9" }}
+                          type='text'
+                          value={DocumentType}
+                          onChange={(e) => { console.log(e.target.value); setDocumentType(e.target.value) }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="box-footer">
+                  <center style={{ padding: "10px" }}>
+                    <button style={{ marginRight: "10px", backgroundColor: "#da251c", color: 'white', paddingTop: '5px', paddingBottom: "7px", width: "80px" }} onClick={DocumentSearch}>Reset</button>
+                    <button style={{ marginRight: "10px", backgroundColor: "#183985", color: 'white', paddingTop: '5px', paddingBottom: "7px", width: "80px" }} onClick={DocumentSearch}>Search</button>
+                    <input type="button" value="VIEW PROFILE" class="btn btn-info pull-center" onclick="ViewEmployee()" style={{ marginRight: "10px", backgroundColor: "#183985" }} />
+                    <input type="button" value="Back" class="btn btn-warning" onclick="Back();" style={{ marginRight: "10px" }} />
+
+                  </center>
+                </div>
+
+              </div>
+
+              <hr></hr>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Table: {
+                      borderColor: '#000000',
+                      headerBg: '#da251c',
+                      headerColor: 'white',
+                      cellFontSizeMD: 14,
+                      rowHoverBg: '#99a19b',
+                      fontSize: 16,
+                      cellPaddingBlock: 0
+                    },
+                  },
+                }}
+              >
+                <Table
+
+                  columns={columns}
+                  dataSource={data}
+                  pagination={tableParams.pagination}
+                  loading={loading}
+                  onChange={handleTableChange}
+                  style={{ overflowX: "auto" }}
+                />
+              </ConfigProvider>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   )

@@ -1,4 +1,5 @@
-.breadcrumb-area .breadcrumb .breadcrumb-item, .breadcrumb-area .breadcrumb .breadcrumb-item a {
+.breadcrumb-area .breadcrumb .breadcrumb-item,
+.breadcrumb-area .breadcrumb .breadcrumb-item a {
     font-size: 14px;
     color: #fff;
 }
@@ -7,13 +8,14 @@
     padding: 0px;
     background: #183985;
 }
+
 .breadcrumb-area h2 {
     color: #fff;
     margin: 5px 0;
     font-size: 30px;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
     color: #fff;
 }
 
@@ -22,6 +24,34 @@
     margin-bottom: 0px;
 }
 
-.scrolled{
-    overflow :hidden;
+.scrolled {
+    overflow: hidden;
+}
+
+.bg-boxshadow {
+    -webkit-box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3);
+    box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3);
+}
+
+.bg-boxshadow:hover {
+    -webkit-box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.15) !important;
+}
+
+.ant-table-tbody>tr>td {
+    padding: 6px !important;
+}
+
+.ant-table-tbody {
+    padding: 5px !important;
+}
+
+.ibox-content>h5 {
+    font-weight: 300;
+    font-size: 22px;
+}
+
+.ibox-content>p {
+    font-size: 14px;
+    font-weight: 300;
 }
