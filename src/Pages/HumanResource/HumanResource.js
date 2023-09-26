@@ -38,13 +38,28 @@ export default function HumanResource() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <button class="bg-success " style={{ color: 'white' }} >view</button>
-          <button class="bg-danger " style={{ color: 'white' }}>download</button>
+          <button class="bg-success" style={{color:"white"}} onClick={() => FileDownload(record.type) }>View</button>
+          <button class="bg-danger " style={{ color: 'white' }}  onClick={() => FileDownload(record.type) }>download</button>
         </Space>
       ),
       width: '15%',
     },
   ];
+
+  const FileDownload =(a) => {
+    const res =  fetch(
+      `https://localhost:44388/HrManual/ManualDownload?DocumentType=${a}`,
+      {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    );
+  }
+
+
 
   const getRandomuserParams = (params) => ({
     results: params.pagination?.pageSize,
