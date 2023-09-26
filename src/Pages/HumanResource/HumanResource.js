@@ -53,6 +53,11 @@ export default function HumanResource() {
   });
 
 
+  const DocSearchReser = () =>{
+    window.location.reload();
+  }
+
+
   async function HrManual() {
     let PageData = {
       Type: DocumentType,
@@ -90,10 +95,13 @@ export default function HumanResource() {
   const DocumentSearch = () => {
     HrManual();
   }
-
-  const clicked = () => {
-    console.log('1111')
+  const NavBack = () => {
+    navigate(-1);
   }
+
+
+
+
   useEffect(() => {
     HrManual();
   }, [JSON.stringify(tableParams)]);
@@ -156,10 +164,10 @@ export default function HumanResource() {
 
                 <div class="box-footer">
                   <center style={{ padding: "10px" }}>
-                    <button style={{ marginRight: "10px", backgroundColor: "#da251c", color: 'white', paddingTop: '5px', paddingBottom: "7px", width: "80px" }} onClick={DocumentSearch}>Reset</button>
-                    <button style={{ marginRight: "10px", backgroundColor: "#183985", color: 'white', paddingTop: '5px', paddingBottom: "7px", width: "80px" }} onClick={DocumentSearch}>Search</button>
+                    <button class="FunctionButton" style={{backgroundColor: "#da251c"}} onClick={DocSearchReser}>Reset</button>
+                    <button class="FunctionButton" style={{backgroundColor: "#183985"}} onClick={DocumentSearch}>Search</button>
                     <input type="button" value="VIEW PROFILE" class="btn btn-info pull-center" onclick="ViewEmployee()" style={{ marginRight: "10px", backgroundColor: "#183985" }} />
-                    <input type="button" value="Back" class="btn btn-warning" onclick="Back();" style={{ marginRight: "10px" }} />
+                    <button class="FunctionButton" style={{backgroundColor: "#e8d105" , color:"black"}} onClick={NavBack}>Back</button>
 
                   </center>
                 </div>

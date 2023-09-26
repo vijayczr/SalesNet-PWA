@@ -17,11 +17,11 @@ export default function AppHeader() {
 
                 <div class="top-search-bar" style={{ marginBottom: "-17px" }}>
                     <ul class="service-btns">
-                        <li><a href="/Dashboard" style={{ textDecoration: "none" }}>Dashboard</a></li>
-                        <li><a href="/HRDocument" style={{ textDecoration: "none" }}>Human Resource</a></li>
-                        <li><a href="/Blogs" style={{ textDecoration: "none" }}>Blog</a></li>
-                        <li><a href="/KnowledgeSharing" style={{ textDecoration: "none" }}>Knowledge Sharing</a></li>
-                        <li><a href="/HolidayList" style={{ textDecoration: "none" }}>Holiday List</a></li>
+                        <li><a href="/Dashboard" style={{ textDecoration: "none" , fontWeight:"bold" }}>Dashboard</a></li>
+                        <li><a href="/HRDocument" style={{ textDecoration: "none", fontWeight:"bold"  }}>Human Resource</a></li>
+                        <li><a href="/Blogs" style={{ textDecoration: "none" , fontWeight:"bold" }}>Blog</a></li>
+                        <li><a href="/KnowledgeSharing" style={{ textDecoration: "none", fontWeight:"bold"  }}>Knowledge Sharing</a></li>
+                        <li><a href="/HolidayList" style={{ textDecoration: "none", fontWeight:"bold"  }}>Holiday List</a></li>
                     </ul>
                 </div>
                 <div class="d-flex align-items-end mr-5">
