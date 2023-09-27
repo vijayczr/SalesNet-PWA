@@ -38,25 +38,55 @@ export default function HumanResource() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <button class="bg-success" style={{color:"white"}} onClick={() => FileDownload(record.type) }>View</button>
-          <button class="bg-danger " style={{ color: 'white' }}  onClick={() => FileDownload(record.type) }>download</button>
+          <button class="bg-success" style={{ color: "white" }} onClick={() => FileDownload(record.type)}>View</button>
+          {/* <button class="bg-Success " style={{ color: 'white' }}  onClick={() => FileDownload(record.type) }><a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} >download</a></button> */}
+          <a class="downoadbutton" href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-download" viewBox="0 0 16 16">
+              <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+              <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+            </svg>
+          </a>
         </Space>
       ),
       width: '15%',
     },
   ];
 
-  const FileDownload =(a) => {
-    const res =  fetch(
+  const FileDownload = (a) => {
+    console.log(a);
+    fetch(
       `https://localhost:44388/HrManual/ManualDownload?DocumentType=${a}`,
       {
-        method: "Get",
+        method: "GET",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
         },
       }
-    );
+    )
+    console.log(a);
+    ;
+
+    //   fetch(`https://localhost:44388/HrManual/ManualDownload?DocumentType=${a}`, {
+    //     method: "GET",
+    //     headers: {
+    //         Accept: "application/pdf",
+    //         "Content-Type": "application/pdf",
+    //     },
+
+    // }).then(response => response.blob())
+    //     .then(response => {
+    //         var blob=response
+    //         var reader = new window.FileReader();
+    //         reader.readAsDataURL(blob);
+    //         reader.onloadend = function() {
+    //         var base64data = reader.result;
+    //         console.log(base64data);
+    //         window.open(base64data);
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     });
   }
 
 
@@ -68,7 +98,7 @@ export default function HumanResource() {
   });
 
 
-  const DocSearchReser = () =>{
+  const DocSearchReser = () => {
     window.location.reload();
   }
 
@@ -179,10 +209,10 @@ export default function HumanResource() {
 
                 <div class="box-footer">
                   <center style={{ padding: "10px" }}>
-                    <button class="FunctionButton" style={{backgroundColor: "#da251c"}} onClick={DocSearchReser}>Reset</button>
-                    <button class="FunctionButton" style={{backgroundColor: "#183985"}} onClick={DocumentSearch}>Search</button>
+                    <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
+                    <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
                     <input type="button" value="VIEW PROFILE" class="btn btn-info pull-center" onclick="ViewEmployee()" style={{ marginRight: "10px", backgroundColor: "#183985" }} />
-                    <button class="FunctionButton" style={{backgroundColor: "#e8d105" , color:"black"}} onClick={NavBack}>Back</button>
+                    <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
 
                   </center>
                 </div>
@@ -198,7 +228,7 @@ export default function HumanResource() {
                       headerBg: '#da251c',
                       headerColor: 'white',
                       cellFontSizeMD: 14,
-                      rowHoverBg: '#99a19b',
+                      rowHoverBg: '#abc4af',
                       fontSize: 16,
                       cellPaddingBlock: 0
                     },
