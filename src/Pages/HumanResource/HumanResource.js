@@ -4,8 +4,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppHeader from "../../Components/Header/AppHeader";
 import '../HumanResource/HumanResource.css'
 import { ConfigProvider, Space, Table, Tag } from 'antd';
-import { colors } from '@material-ui/core';
+import { EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
+import { Group } from '@mui/icons-material';
 
 export default function HumanResource() {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ export default function HumanResource() {
       pageSize: 10,
     },
   });
-
+  const [manualInfo, setmanualInfo] = useState("");
+console.log(manualInfo);
 
   const columns = [
     {
@@ -38,19 +40,102 @@ export default function HumanResource() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <button class="bg-success" style={{ color: "white" }} onClick={() => FileDownload(record.type)}>View</button>
+          <button type="button" data-toggle="modal" data-placement="top" data-target=".bd-example-modal-lg" class="viewbutton" onClick={()=>manualPopup(record.type)}> <EyeOutlined /> </button>
           {/* <button class="bg-Success " style={{ color: 'white' }}  onClick={() => FileDownload(record.type) }><a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} >download</a></button> */}
           <a class="downoadbutton" href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-download" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-download" viewBox="0 0 16 16">
               <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
               <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
             </svg>
           </a>
+
+          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                <div class="col-lg-12">
+                    <div class="form-group d-flex">
+                        <label for="inputEmail3" class="col-md-5 mt-1">Group <span class="pull-right">:</span></label>
+                        <div class="col-md-7">
+                            <input value={manualInfo.group} class="form-control" disabled readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group d-flex">
+                        <label for="inputEmail3" class="col-md-5 mt-1">Department <span class="pull-right">:</span></label>
+                        <div class="col-md-7">
+                            <input value={manualInfo.department} class="form-control" disabled readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group d-flex">
+                        <label for="inputEmail3" class="col-md-5 mt-1">Document <span class="pull-right">:</span></label>
+                        <div class="col-md-7">
+                            <input value={manualInfo.document} class="form-control"disabled readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group d-flex">
+                        <label for="inputEmail3" class="col-md-5 mt-1">Type <span class="pull-right">:</span></label>
+                        <div class="col-md-7">
+                            <input value={manualInfo.type} class="form-control"disabled readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group d-flex">
+                        <label for="inputEmail3" class="col-md-5 mt-1">Instruction <span class="pull-right">:</span></label>
+                        <div class="col-md-7">
+                            <input value={manualInfo.instruction} class="form-control"disabled readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </Space>
       ),
       width: '15%',
     },
   ];
+
+
+  async function manualPopup(a){
+    console.log(a);
+    const res = await fetch(
+      `https://localhost:44388/HrManual/ManualInfo?DocumentType=${a}`,
+      {
+        method :"GET",
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    );
+    const manualinfo = await res.json();
+    if(manualinfo.resCode ===200)
+    {
+        setmanualInfo(manualinfo.resData);
+        
+    }
+
+  }
 
   const FileDownload = (a) => {
     console.log(a);
@@ -197,7 +282,8 @@ export default function HumanResource() {
                       <label for="inputEmail3" class="col-md-5 mt-1">DocumentType <span class="pull-right">:</span></label>
                       <div class="col-md-7">
                         <input
-                          style={{ borderColor: "#a1b1c9" }}
+                          class="docinput"
+                          style={{ border: "none", paddingLeft: "0px" }}
                           type='text'
                           value={DocumentType}
                           onChange={(e) => { console.log(e.target.value); setDocumentType(e.target.value) }}
@@ -253,3 +339,7 @@ export default function HumanResource() {
     </div>
   )
 }
+
+
+
+
