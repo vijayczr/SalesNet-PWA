@@ -104,7 +104,8 @@ console.log(manualInfo);
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} ><button type="button" class="btn btn-primary">Download</button></a>
+                  
                 </div>
               </div>
             </div>
@@ -283,7 +284,6 @@ console.log(manualInfo);
                       <div class="col-md-7">
                         <input
                           class="docinput"
-                          style={{ border: "none", paddingLeft: "0px" }}
                           type='text'
                           value={DocumentType}
                           onChange={(e) => { console.log(e.target.value); setDocumentType(e.target.value) }}
