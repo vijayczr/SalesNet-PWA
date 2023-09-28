@@ -19,8 +19,14 @@ export default function HumanResource() {
       pageSize: 10,
     },
   });
+  const [value, pagesize] = useState(10);
+  const handleChange = (event) => {
+
+    pagesize(event.target.value);
+    console.log(value);
+    window.location.reload();
+  };
   const [manualInfo, setmanualInfo] = useState("");
-console.log(manualInfo);
 
   const columns = [
     {
@@ -40,7 +46,7 @@ console.log(manualInfo);
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <button type="button" data-toggle="modal" data-placement="top" data-target=".bd-example-modal-lg" class="viewbutton" onClick={()=>manualPopup(record.type)}> <EyeOutlined /> </button>
+          <button type="button" data-toggle="modal" data-placement="top" data-target=".bd-example-modal-lg" class="viewbutton" onClick={() => manualPopup(record.type)}> <EyeOutlined /> </button>
           {/* <button class="bg-Success " style={{ color: 'white' }}  onClick={() => FileDownload(record.type) }><a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} >download</a></button> */}
           <a class="downoadbutton" href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-download" viewBox="0 0 16 16">
@@ -60,52 +66,52 @@ console.log(manualInfo);
                 </div>
 
                 <div class="modal-body">
-                <div class="col-lg-12">
+                  <div class="col-lg-12">
                     <div class="form-group d-flex">
-                        <label for="inputEmail3" class="col-md-5 mt-1">Group <span class="pull-right">:</span></label>
-                        <div class="col-md-7">
-                            <input value={manualInfo.group} class="form-control" disabled readonly />
-                        </div>
+                      <label for="inputEmail3" class="col-md-5 mt-1">Group <span class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <input value={manualInfo.group} class="form-control" disabled readonly />
+                      </div>
                     </div>
-                </div>
-                <div class="col-lg-12">
+                  </div>
+                  <div class="col-lg-12">
                     <div class="form-group d-flex">
-                        <label for="inputEmail3" class="col-md-5 mt-1">Department <span class="pull-right">:</span></label>
-                        <div class="col-md-7">
-                            <input value={manualInfo.department} class="form-control" disabled readonly />
-                        </div>
+                      <label for="inputEmail3" class="col-md-5 mt-1">Department <span class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <input value={manualInfo.department} class="form-control" disabled readonly />
+                      </div>
                     </div>
-                </div>
-                <div class="col-lg-12">
+                  </div>
+                  <div class="col-lg-12">
                     <div class="form-group d-flex">
-                        <label for="inputEmail3" class="col-md-5 mt-1">Document <span class="pull-right">:</span></label>
-                        <div class="col-md-7">
-                            <input value={manualInfo.document} class="form-control"disabled readonly />
-                        </div>
+                      <label for="inputEmail3" class="col-md-5 mt-1">Document <span class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <input value={manualInfo.document} class="form-control" disabled readonly />
+                      </div>
                     </div>
-                </div>
-                <div class="col-lg-12">
+                  </div>
+                  <div class="col-lg-12">
                     <div class="form-group d-flex">
-                        <label for="inputEmail3" class="col-md-5 mt-1">Type <span class="pull-right">:</span></label>
-                        <div class="col-md-7">
-                            <input value={manualInfo.type} class="form-control"disabled readonly />
-                        </div>
+                      <label for="inputEmail3" class="col-md-5 mt-1">Type <span class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <input value={manualInfo.type} class="form-control" disabled readonly />
+                      </div>
                     </div>
-                </div>
-                <div class="col-lg-12">
+                  </div>
+                  <div class="col-lg-12">
                     <div class="form-group d-flex">
-                        <label for="inputEmail3" class="col-md-5 mt-1">Instruction <span class="pull-right">:</span></label>
-                        <div class="col-md-7">
-                            <input value={manualInfo.instruction} class="form-control"disabled readonly />
-                        </div>
+                      <label for="inputEmail3" class="col-md-5 mt-1">Instruction <span class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <input value={manualInfo.instruction} class="form-control" disabled readonly />
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} ><button type="button" class="btn btn-primary">Download</button></a>
-                  
+
                 </div>
               </div>
             </div>
@@ -118,22 +124,21 @@ console.log(manualInfo);
   ];
 
 
-  async function manualPopup(a){
+  async function manualPopup(a) {
     console.log(a);
     const res = await fetch(
       `https://localhost:44388/HrManual/ManualInfo?DocumentType=${a}`,
       {
-        method :"GET",
-        headers:{
+        method: "GET",
+        headers: {
           Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
         },
       }
     );
     const manualinfo = await res.json();
-    if(manualinfo.resCode ===200)
-    {
-        setmanualInfo(manualinfo.resData);
-        
+    if (manualinfo.resCode === 200) {
+      setmanualInfo(manualinfo.resData);
+
     }
 
   }
@@ -193,7 +198,7 @@ console.log(manualInfo);
     let PageData = {
       Type: DocumentType,
       pageNumber: tableParams.pagination.current,
-      pageSize: 10,
+      pageSize: value,
     };
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
@@ -208,6 +213,7 @@ console.log(manualInfo);
         body: JSON.stringify(PageData),
       }
     );
+    console.log(localStorage.getItem("JwtToken"));
     const HrMAnualData = await res.json();
     if (HrMAnualData.resCode === 200) {
       console.log(HrMAnualData.resData);
@@ -306,6 +312,20 @@ console.log(manualInfo);
               </div>
 
               <hr></hr>
+
+              <div class="row">
+                <p style={{paddingLeft:"20px"}}>Show</p>
+                <div style={{paddingLeft:"20px"}} >
+                  <select value={value} onChange={handleChange}>
+                    <option value={10}>10</option>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                  </select>
+                </div>
+                <p style={{paddingLeft:"20px"}}>entries.</p>
+              </div>
+
               <ConfigProvider
                 theme={{
                   components: {

@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+  background: #dadada;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#183985,#da251c);
+  background: -webkit-linear-gradient(#183985,#da251c);
+  background: -o-linear-gradient(#183985,#da251c);
+  background: -moz-linear-gradient(#183985,#da251c);
+  background: -ms-linear-gradient(#183985,#da251c);
+  border-radius: 3px;
+}
