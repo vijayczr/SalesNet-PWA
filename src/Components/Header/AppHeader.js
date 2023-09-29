@@ -6,6 +6,7 @@ import defaultpfp from '../../assets/Default_pfp.svg.png'
 import { Button, Popover } from "antd";
 import '../../Pages/Dashboard/Dashboard.css'
 import HrNavbar from '../Navbars/HrNavbar';
+import { LogoutOutlined,SettingOutlined } from '@ant-design/icons';
 
 export default function AppHeader() {
     return (
@@ -39,7 +40,22 @@ export default function AppHeader() {
                                     </div>
                                 </div>
                             </div>
-                            <a href="/Dashboard">hey</a>
+                            <a class="profile-list--data pt-3" style={{borderBottom:"1px solid"}} >
+                                <div class="profile--list-icon">
+                                <SettingOutlined style={{fontSize:"25px" , paddingRight:"20px"}} />
+                                </div>
+                                <div class="notification--list-body-text">
+                                    <h6>Change Password</h6>
+                                </div>
+                            </a>
+                            <a class="profile-list--data" href="/" style={{color:"black" , textDecoration:"none"}}>
+                                <div class="profile--list-icon" >
+                                <LogoutOutlined style={{fontSize:"25px" , paddingRight:"20px"}} />
+                                </div>
+                                <div class="notification--list-body-text" >
+                                    <h6 >Sign-out</h6>
+                                </div>
+                            </a>
                         </div>}>
                         <Button shape="circle" size="large" >
                             <img src={defaultpfp} class="defaultpfp3" alt="" />

@@ -88,3 +88,43 @@
 .top-search-bar form input::-webkit-input-placeholder {
     color: white;
 }
+
+
+.profile-list--data {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid rgba(241, 242, 241, 0.5);
+}
+
+.notification--list-body-text.profile > h6 {
+    margin-bottom: 0;
+    font-weight: 400;
+    -webkit-transition-duration: 400;
+    -o-transition-duration: 400;
+    transition-duration: 400;
+}
+
+.profile-list--data:hover .notification--list-body-text.profile1 > h6 {
+    color: #183985;
+}
+
+.profile-list--data:last-child {
+    border-bottom: none;
+}
+
+
+.profile--list-icon > i {
+    color: #999;
+    font-size: 14px;
+    border: 1px solid #ebebeb;
+    height: 30px;
+    border-radius: 50%;
+    width: 30px;
+    line-height: 28px;
+    text-align: center;
+}
