@@ -10,22 +10,23 @@ import { Group } from '@mui/icons-material';
 
 export default function HumanResource() {
   const navigate = useNavigate();
+  const [value, pagesize] = useState(10);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [DocumentType, setDocumentType] = useState("");
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
-      pageSize: 10,
+      pageSize: value,
     },
   });
-  const [value, pagesize] = useState(10);
-  const handleChange = (event) => {
 
-    pagesize(event.target.value);
-    console.log(value);
-    window.location.reload();
-  };
+  //   const handleChange=(e) => {
+  //   console.log(e);
+  //   pagesize(e.target.value);
+  //   console.log(value);
+  //   HrManual();
+  // };
   const [manualInfo, setmanualInfo] = useState("");
 
   const columns = [
@@ -110,7 +111,7 @@ export default function HumanResource() {
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} ><button type="button" class="btn btn-primary">Download</button></a>
+                  <a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${manualInfo.type}`} ><button type="button" class="btn btn-primary">Download</button></a>
 
                 </div>
               </div>
@@ -198,7 +199,7 @@ export default function HumanResource() {
     let PageData = {
       Type: DocumentType,
       pageNumber: tableParams.pagination.current,
-      pageSize: value,
+      pageSize: tableParams.pagination.pageSize,
     };
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
@@ -313,7 +314,7 @@ export default function HumanResource() {
 
               <hr></hr>
 
-              <div class="row">
+              {/* <div class="row">
                 <p style={{paddingLeft:"20px"}}>Show</p>
                 <div style={{paddingLeft:"20px"}} >
                   <select value={value} onChange={handleChange}>
@@ -324,7 +325,7 @@ export default function HumanResource() {
                   </select>
                 </div>
                 <p style={{paddingLeft:"20px"}}>entries.</p>
-              </div>
+              </div> */}
 
               <ConfigProvider
                 theme={{
