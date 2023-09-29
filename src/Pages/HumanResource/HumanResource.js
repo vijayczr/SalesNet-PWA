@@ -111,8 +111,7 @@ export default function HumanResource() {
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${manualInfo.type}`} ><button type="button" class="btn btn-primary">Download</button></a>
-
+                  <a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${manualInfo.document}`} ><button type="button" class="btn btn-primary">Download</button></a>
                 </div>
               </div>
             </div>
