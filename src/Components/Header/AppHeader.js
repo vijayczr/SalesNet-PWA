@@ -8,14 +8,13 @@ import '../../Pages/Dashboard/Dashboard.css'
 import HrNavbar from '../Navbars/HrNavbar';
 import { LogoutOutlined,SettingOutlined } from '@ant-design/icons';
 
-export default function AppHeader() {
+export default function AppHeader(props) {
 
     const [OldPassword, setOldPassword] = useState("");
     const [NewPassword, setNewPassword] = useState("");
     const [ConfirmPassword, setConfirmPassword] = useState("");
     const [loginErrorMssg, SetLoginErrorMssg] = useState("");
     const [resCOlor, SetresCOlor] = useState("");
-    const [profileData, setProfileData] = useState("");
 
     const Reset = () => {
         setOldPassword("");
@@ -23,32 +22,6 @@ export default function AppHeader() {
         setConfirmPassword("");
         SetLoginErrorMssg("");
     }
-
-    useEffect(() => {
-        let ignore = false;
-
-        if (!ignore) getProfiledata()
-        return () => { ignore = true; }
-    }, []);
-
-    async function getProfiledata() {
-
-        const res = await fetch(
-            "https://localhost:44388/Authentication/ProfileData",
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-                },
-            }
-        );
-            const profileData = await res.json();
-            if (profileData.resCode === 200) {
-                console.log(profileData.resData);
-                setProfileData(profileData.resData);
-            }
-    }
-
 
     async function ChangePassword() {
         let formData = {
@@ -105,12 +78,12 @@ export default function AppHeader() {
                                         <img src={defaultpfp} class="defaultpfp2" alt="" />
                                     </div>
                                     <div class="userDataa">
-                                        <h6>{profileData.userName}</h6>
-                                        <p>{profileData.email}</p>
+                                        <h6>{props.data.userName}</h6>
+                                        <p>{props.data.email}</p>
                                     </div>
                                 </div>
                             </div>
-                            <a role="button" class="profile-list--data pt-3 btn popovers" style={{ borderBottom: "1px solid" }} data-toggle="modal" data-placement="top" data-target=".bd-example-modal-lg" >
+                            <a role="button" class="profile-list--data pt-3 btn popovers" style={{ borderBottom: "1px solid" }} data-toggle="modal" data-placement="top" data-target=".bd-example1-modal-lg" >
                                 <div class="profile--list-icon">
                                     <SettingOutlined style={{ fontSize: "25px", paddingRight: "20px" }} />
                                 </div>
@@ -136,7 +109,7 @@ export default function AppHeader() {
             <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" style={{backgroundColor:"#f3f5f9"}}>
                 <HrNavbar />
             </nav>
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">

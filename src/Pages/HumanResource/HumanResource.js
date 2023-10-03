@@ -14,6 +14,7 @@ export default function HumanResource() {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [DocumentType, setDocumentType] = useState("");
+  const [profileData, setProfileData] = useState("");
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -21,6 +22,30 @@ export default function HumanResource() {
     },
   });
 
+  useEffect(() => {
+    let ignore = false;
+
+    if (!ignore) getProfiledata()
+    return () => { ignore = true; }
+  }, []);
+
+  async function getProfiledata() {
+
+    const res = await fetch(
+      "https://localhost:44388/Authentication/ProfileData",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    );
+    const profileData = await res.json();
+    if (profileData.resCode === 200) {
+      console.log(profileData.resData);
+      setProfileData(profileData.resData);
+    }
+  }
   //   const handleChange=(e) => {
   //   console.log(e);
   //   pagesize(e.target.value);
@@ -71,7 +96,7 @@ export default function HumanResource() {
                     <div class="form-group d-flex">
                       <label for="inputEmail3" class="col-md-5 mt-1">Group <span class="pull-right">:</span></label>
                       <div class="col-md-7">
-                        <input value={manualInfo.group} class="form-control" disabled readonly />
+                        <input placeholder={manualInfo.group} class="form-control" disabled readonly />
                       </div>
                     </div>
                   </div>
@@ -79,7 +104,7 @@ export default function HumanResource() {
                     <div class="form-group d-flex">
                       <label for="inputEmail3" class="col-md-5 mt-1">Department <span class="pull-right">:</span></label>
                       <div class="col-md-7">
-                        <input value={manualInfo.department} class="form-control" disabled readonly />
+                        <input value={manualInfo.department} class="form-control" disabled readonly/>
                       </div>
                     </div>
                   </div>
@@ -87,7 +112,7 @@ export default function HumanResource() {
                     <div class="form-group d-flex">
                       <label for="inputEmail3" class="col-md-5 mt-1">Document <span class="pull-right">:</span></label>
                       <div class="col-md-7">
-                        <input value={manualInfo.document} class="form-control" disabled readonly />
+                        <input placeholder={manualInfo.document} class="form-control" disabled readonly/>
                       </div>
                     </div>
                   </div>
@@ -258,7 +283,7 @@ export default function HumanResource() {
 
   return (
     <div>
-      <AppHeader />
+      <AppHeader data={profileData} />
       <div class="breadcrumb-area">
         <div class="container-fluid">
           <div class="row pt-1 pb-1">
