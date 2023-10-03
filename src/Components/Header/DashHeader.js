@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../Header/Header.css';
@@ -8,6 +8,73 @@ import '../../Pages/Dashboard/Dashboard.css'
 import { Button, Popover } from "antd";
 import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 export default function HeaderDashboard() {
+    const [OldPassword, setOldPassword] = useState("");
+    const [NewPassword, setNewPassword] = useState("");
+    const [ConfirmPassword, setConfirmPassword] = useState("");
+    const [loginErrorMssg, SetLoginErrorMssg] = useState("");
+    const [resCOlor, SetresCOlor] = useState("");
+    const [profileData, setProfileData] = useState("");
+
+    const Reset = () => {
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        SetLoginErrorMssg("");
+    }
+    useEffect(() => {
+        let ignore = false;
+
+        if (!ignore) getProfiledata()
+        return () => { ignore = true; }
+    }, []);
+
+    async function getProfiledata() {
+
+        const res = await fetch(
+            "https://localhost:44388/Authentication/ProfileData",
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+            }
+        );
+            const profileData = await res.json();
+            if (profileData.resCode === 200) {
+                console.log(profileData.resData);
+                setProfileData(profileData.resData);
+            }
+    }
+
+    async function ChangePassword() {
+        let formData = {
+            OldPassword: OldPassword,
+            NewPassword: NewPassword,
+            ReEnterPassword: ConfirmPassword,
+        }
+        console.log(formData);
+        const res = await fetch(
+            "https://localhost:44388/Authentication/changepassword",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData),
+            }
+        );
+        const Response = await res.json();
+        if (Response.resCode === 200) {
+            console.log(Response.resData);
+            SetLoginErrorMssg("Password Change Successfull!");
+            SetresCOlor("text-success");
+        }
+        else if (Response.resCode === 400) {
+            SetLoginErrorMssg(Response.resData);
+            SetresCOlor("text-danger");
+        }
+    }
 
     return (
         <div>
@@ -25,8 +92,8 @@ export default function HeaderDashboard() {
                                         <img src={defaultpfp} class="defaultpfp2" alt="" />
                                     </div>
                                     <div class="userDataa">
-                                        <h6>Vijay SIngh</h6>
-                                        <p>vjvijay130@gmail.com</p>
+                                        <h6>{profileData.userName}</h6>
+                                        <p>{profileData.email}</p>
                                     </div>
                                 </div>
                             </div>
@@ -64,17 +131,64 @@ export default function HeaderDashboard() {
                         </div>
                         <div class="modal-body">
                             <div class="col-lg-12">
-                                <div class="form-group d-flex">
-                                    <label for="inputEmail3" class="col-md-5 mt-1">Old Password<span class="pull-right">:</span></label>
-                                    <div class="col-md-7">
-                                        <input value={"ok"} class="form-control"  readonly />
-                                    </div>
+                                <div class="ibox-content ">
+                                    {
+                                        <form >
+                                            <div class="form-group row ">
+                                                <label class="col-lg-3 col-form-label">Old Password</label>
+                                                <div class="col-lg-9">
+                                                    <input
+                                                        type="text"
+                                                        value={OldPassword}
+                                                        onChange={(e) => setOldPassword(e.target.value)}
+                                                        placeholder="Old Password"
+                                                        class="form-control"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">New Password</label>
+
+                                                <div class="col-lg-9">
+                                                    <input
+                                                        type="password"
+                                                        placeholder="New Password"
+                                                        value={NewPassword}
+                                                        onChange={(e) => setNewPassword(e.target.value)}
+                                                        class="form-control"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Confirm Password</label>
+
+                                                <div class="col-lg-9">
+                                                    <input
+                                                        type="password"
+                                                        placeholder="Confirm Password"
+                                                        value={ConfirmPassword}
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                                        class="form-control"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            {loginErrorMssg ?
+                                                <div>
+                                                    <p class={`${resCOlor}`}>{loginErrorMssg}</p>
+                                                </div>
+                                                : null
+                                            }
+                                        </form>
+                                    }
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary">Reset</button>
-                            <a href="#" ><button type="button" class="btn btn-primary">Change Password</button></a>
+                            <button type="button" class="btn btn-secondary" onClick={Reset}>Reset</button>
+                            <a href="#" ><button type="button" class="btn btn-primary" onClick={ChangePassword}>Change Password</button></a>
                         </div>
                     </div>
                 </div>

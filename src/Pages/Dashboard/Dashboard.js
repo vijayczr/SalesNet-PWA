@@ -44,12 +44,12 @@ export default function Dashboard() {
                 <div class="container-fluid">
                     <div class="row justify-content-center slider-row" style={{ padding: "50px" }}>
                         <div class="col-md-2">
-                            <a 
-                            // onClick={
-                            //     navigate("/HumanResource", { replace: true })}
-                                 href="/HumanResource"
-                                    style={{color:"black" , textDecoration:"none"}}
-                                >
+                            <a
+                                // onClick={
+                                //     navigate("/HumanResource", { replace: true })}
+                                href="/HumanResource"
+                                style={{ color: "black", textDecoration: "none" }}
+                            >
                                 <img src={humanResourceLogo} class="img-fluid" />
                                 <h5 class="text-center title W100">Human Resource</h5>
                             </a>
@@ -73,7 +73,10 @@ export default function Dashboard() {
                             </a>
                         </div>
                         <div class="col-md-2">
-                            <a>
+                            <a
+                                href="/HolidayList"
+                                style={{ color: "black", textDecoration: "none" }}
+                            >
                                 <img src={HolidayListLogo} class="img-fluid" />
                                 <h5 class="text-center title W100">List Of Holidays</h5>
                             </a>
@@ -81,10 +84,10 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div class="col-12">
-                        <div class="copywrite-text">
-                            <p>Copyright &copy; 2019. All Rights Reserved.</p>
-                        </div>
+                    <div class="copywrite-text">
+                        <p>Copyright &copy; 2019. All Rights Reserved.</p>
                     </div>
+                </div>
             </section>
         </div>
 

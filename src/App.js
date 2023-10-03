@@ -5,6 +5,7 @@ import Login from "./Pages/Login/Login"
 import Dashboard from './Pages/Dashboard/Dashboard';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import HumanResource from './Pages/HumanResource/HumanResource';
+import HolidayList from './Pages/HolidayList/HolidayList';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/Dashboard" element={ <Dashboard />} />
         <Route path="/HumanResource" element={ <HumanResource />} />
         <Route path='*' element={<h1>Page Not Found</h1>} ></Route>
+        <Route path="/HolidayList" element={<HolidayList/>} />
       </Routes>
     </BrowserRouter>
   );

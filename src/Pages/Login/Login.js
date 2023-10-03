@@ -39,6 +39,8 @@ export default function Login() {
         }
         else {
             SetLoginErrorMssg("Please check your UserId and Password!")
+            setUserId("");
+            setpassword("");    
         }
     }
 

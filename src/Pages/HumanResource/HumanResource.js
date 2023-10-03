@@ -17,7 +17,7 @@ export default function HumanResource() {
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
-      pageSize: value,
+      pageSize: 10,
     },
   });
 
@@ -59,7 +59,7 @@ export default function HumanResource() {
           <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" >
 
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -198,7 +198,7 @@ export default function HumanResource() {
     let PageData = {
       Type: DocumentType,
       pageNumber: tableParams.pagination.current,
-      pageSize: tableParams.pagination.pageSize,
+      pageSize: 15,
     };
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
