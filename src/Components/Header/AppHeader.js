@@ -5,8 +5,8 @@ import logo2 from '../../assets/logo.png';
 import defaultpfp from '../../assets/Default_pfp.svg.png'
 import { Button, Popover } from "antd";
 import '../../Pages/Dashboard/Dashboard.css'
-import HrNavbar from '../Navbars/HrNavbar';
 import { LogoutOutlined,SettingOutlined } from '@ant-design/icons';
+import HrNavbar from '../Navbars/HrNavbar.js';
 
 export default function AppHeader(props) {
 
@@ -62,7 +62,7 @@ export default function AppHeader(props) {
                 <div class="top-search-bar" style={{ marginBottom: "-17px" }}>
                     <ul class="service-btns">
                         <li><a href="/Dashboard" style={{ textDecoration: "none" , fontWeight:"bold" }}>Dashboard</a></li>
-                        <li><a href="/HRDocument" style={{ textDecoration: "none", fontWeight:"bold"  }}>Human Resource</a></li>
+                        <li><a href="/HumanResource" style={{ textDecoration: "none", fontWeight:"bold"  }}>Human Resource</a></li>
                         <li><a href="/Blogs" style={{ textDecoration: "none" , fontWeight:"bold" }}>Blog</a></li>
                         <li><a href="/KnowledgeSharing" style={{ textDecoration: "none", fontWeight:"bold"  }}>Knowledge Sharing</a></li>
                         <li><a href="/HolidayList" style={{ textDecoration: "none", fontWeight:"bold"  }}>Holiday List</a></li>

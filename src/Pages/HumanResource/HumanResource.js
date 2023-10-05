@@ -6,7 +6,7 @@ import '../HumanResource/HumanResource.css'
 import { ConfigProvider, Space, Table, Tag } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
-import { Group } from '@mui/icons-material';
+import HrNavbar from '../../Components/Navbars/HrNavbar';
 
 export default function HumanResource() {
   const navigate = useNavigate();
@@ -284,6 +284,7 @@ export default function HumanResource() {
   return (
     <div>
       <AppHeader data={profileData} />
+
       <div class="breadcrumb-area">
         <div class="container-fluid">
           <div class="row pt-1 pb-1">
