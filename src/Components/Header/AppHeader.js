@@ -64,7 +64,7 @@ export default function AppHeader(props) {
                         <li><a href="/Dashboard" style={{ textDecoration: "none" , fontWeight:"bold" }}>Dashboard</a></li>
                         <li><a href="/HumanResource" style={{ textDecoration: "none", fontWeight:"bold"  }}>Human Resource</a></li>
                         <li><a href="/Blogs" style={{ textDecoration: "none" , fontWeight:"bold" }}>Blog</a></li>
-                        <li><a href="/KnowledgeSharing" style={{ textDecoration: "none", fontWeight:"bold"  }}>Knowledge Sharing</a></li>
+                        <li><a href="/KnowledgeShare" style={{ textDecoration: "none", fontWeight:"bold"  }}>Knowledge Sharing</a></li>
                         <li><a href="/HolidayList" style={{ textDecoration: "none", fontWeight:"bold"  }}>Holiday List</a></li>
                     </ul>
                 </div>

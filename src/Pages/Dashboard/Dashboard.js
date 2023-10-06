@@ -55,7 +55,10 @@ export default function Dashboard() {
                             </a>
                         </div>
                         <div class="col-md-2">
-                            <a>
+                            <a
+                                href="/KnowledgeShare"
+                                style={{ color: "black", textDecoration: "none" }}
+                            >
                                 <img src={KnowledgeSharinglogo} class="img-fluid" />
                                 <h5 class="text-center title W100">Knowledge Sharing</h5>
                             </a>
