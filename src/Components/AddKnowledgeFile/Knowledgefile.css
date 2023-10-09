@@ -1,0 +1,14 @@
+.FunctionButton {
+    margin-right: 10px;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 7px;
+    width: 80px;
+    border :none;
+    font-weight: bold;
+    outline: none;
+}
+
+.FunctionButton:hover {
+    box-shadow: 0 0 2px 2px rgb(107, 107, 211);
+}

@@ -4,6 +4,7 @@ import "../KnowledgeShare/KnowledgeShare.css"
 import { ConfigProvider, Space, Table, Tag } from 'antd';
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined } from '@ant-design/icons';
+import Knowledgefile from '../../Components/AddKnowledgeFile/Knowledgefile';
 
 export default function KnowledgeShare() {
   const navigate = useNavigate();
@@ -133,9 +134,9 @@ export default function KnowledgeShare() {
     KnowledgeShare();
   }
 
-  const DocSearchReser = () => {
+const DocSearchReser = () => {
     window.location.reload();
-  }
+  }  
 
 
 
@@ -284,6 +285,7 @@ export default function KnowledgeShare() {
 
                 <div class="box-footer">
                   <center style={{ padding: "10px" }}>
+                    <Knowledgefile/>
                     <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
