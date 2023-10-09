@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AppHeader from "../../Components/Header/AppHeader";
 import "../HolidayList/HolidayList.css";
-import { ConfigProvider, Space, Table, Tag } from 'antd';
+import { ConfigProvider,Table, Tag } from 'antd';
 
 import { useNavigate } from "react-router-dom";
 

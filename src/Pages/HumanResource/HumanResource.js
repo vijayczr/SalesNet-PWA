@@ -30,7 +30,7 @@ export default function HumanResource() {
   }, []);
 
   async function getProfiledata() {
-
+    try{
     const res = await fetch(
       "https://localhost:44388/Authentication/ProfileData",
       {
@@ -39,12 +39,21 @@ export default function HumanResource() {
           Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
         },
       }
-    );
+    )
     const profileData = await res.json();
     if (profileData.resCode === 200) {
       console.log(profileData.resData);
       setProfileData(profileData.resData);
     }
+    }catch(e) {
+      console.log("ok");
+      navigate("/", { replace: true });
+    }
+    // const profileData = await res.json();
+    // if (profileData.resCode === 200) {
+    //   console.log(profileData.resData);
+    //   setProfileData(profileData.resData);
+    // }
   }
   //   const handleChange=(e) => {
   //   console.log(e);
