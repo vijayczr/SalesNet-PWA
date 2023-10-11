@@ -64,7 +64,10 @@ export default function Dashboard() {
                             </a>
                         </div>
                         <div class="col-md-2">
-                            <a>
+                            <a
+                                href="/HR"
+                                style={{ color: "black", textDecoration: "none" }}
+                            >
                                 <img src={HRlogo} class="img-fluid" />
                                 <h5 class="text-center title W100">HR</h5>
                             </a>

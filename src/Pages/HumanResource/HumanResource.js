@@ -10,7 +10,7 @@ import HrNavbar from '../../Components/Navbars/HrNavbar';
 
 export default function HumanResource() {
   const navigate = useNavigate();
-  const [value, pagesize] = useState(10);
+  const [pagesize, setpagesize] = useState(10);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [DocumentType, setDocumentType] = useState("");
@@ -55,11 +55,13 @@ export default function HumanResource() {
     //   setProfileData(profileData.resData);
     // }
   }
-  //   const handleChange=(e) => {
-  //   console.log(e);
-  //   pagesize(e.target.value);
+
+
+  //   const handleChange=(event) => {
+  //     setpagesize(event.target.value);
+
   //   console.log(value);
-  //   HrManual();
+  //   // HrManual();
   // };
   const [manualInfo, setmanualInfo] = useState("");
 
@@ -232,7 +234,7 @@ export default function HumanResource() {
     let PageData = {
       Type: DocumentType,
       pageNumber: tableParams.pagination.current,
-      pageSize: 15,
+      pageSize: 10,
     };
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
@@ -351,7 +353,7 @@ export default function HumanResource() {
               {/* <div class="row">
                 <p style={{paddingLeft:"20px"}}>Show</p>
                 <div style={{paddingLeft:"20px"}} >
-                  <select value={value} onChange={handleChange}>
+                  <select onChange={(e) => { console.log(e.target.value); setpagesize(e.target.value); HrManual()  }}>
                     <option value={10}>10</option>
                     <option value={25}>25</option>
                     <option value={50}>50</option>
