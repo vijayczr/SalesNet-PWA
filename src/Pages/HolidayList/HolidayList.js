@@ -36,13 +36,13 @@ export default function HolidayList() {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      width: '35%',
+      width: '34%',
     },
     {
       title: 'Branch',
       dataIndex: 'branch',
       key: 'branch',
-      width: '15%',
+      width: '16%',
     }
   ];
 

@@ -1,0 +1,59 @@
+.breadcrumb-area .breadcrumb .breadcrumb-item,
+.breadcrumb-area .breadcrumb .breadcrumb-item a {
+    font-size: 14px;
+    color: #fff;
+}
+
+.breadcrumb-area {
+    padding: 0px;
+    background: #183985;
+}
+
+.breadcrumb-area h2 {
+    color: #fff;
+    margin: 5px 0;
+    font-size: 30px;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #fff;
+}
+
+.breadcrumb-area .breadcrumb {
+    position: relative;
+    margin-bottom: 0px;
+}
+
+.scrolled {
+    overflow: hidden;
+}
+.bg-boxshadow {
+    /* -webkit-box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3);
+    box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3); */
+
+    -webkit-box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.15) ;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.15);
+}
+
+.bg-boxshadow:hover {
+    /* -webkit-box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.15) !important; */
+
+        -webkit-box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3) !important;
+    box-shadow: 0 0 10px 1px rgba(0, 113, 206, 0.3) !important;
+}
+
+.FunctionButton {
+    margin-right: 10px;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 7px;
+    width: 80px;
+    border :none;
+    font-weight: bold;
+    outline: none;
+}
+
+.FunctionButton:hover {
+    box-shadow: 0 0 2px 2px rgb(107, 107, 211);
+}

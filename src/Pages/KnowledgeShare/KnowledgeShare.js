@@ -39,7 +39,7 @@ export default function KnowledgeShare() {
       title: 'Subject',
       dataIndex: 'subject',
       key: 'subject',
-      width: '60%',
+      width: '59%',
     },
     {
       title: 'Action',
@@ -103,7 +103,7 @@ export default function KnowledgeShare() {
 
         </Space>
       ),
-      width: '15%',
+      width: '26%',
     }
   ].filter(item => !item.hidden);;
 
