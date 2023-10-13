@@ -3,6 +3,7 @@ import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
 import { useNavigate } from "react-router-dom";
 import { ConfigProvider, Table, Tag } from 'antd';
+import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 
 export default function HR() {
   const navigate = useNavigate();
@@ -11,6 +12,10 @@ export default function HR() {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [Groupname, setGroupname] = useState(null);
+  const [BranchName, setBranchName] = useState(null);
+  const [FilterName, setFilterName] = useState(null);
+  const [FilterStatus, setFilterStatus] = useState("true");
+  const [FilterVertical, setFilterVertical] = useState(7);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -41,7 +46,7 @@ export default function HR() {
       title: 'Branch/Head office',
       dataIndex: 'branch',
       key: 'branch',
-      width: '9.5%',
+      width: '13.5%',
     },
     {
       title: 'Vertical',
@@ -65,7 +70,7 @@ export default function HR() {
       title: 'Action',
       dataIndex: 'status',
       key: 'status',
-      width: '16%',
+      width: '12%',
     }
   ];
 
@@ -112,8 +117,11 @@ export default function HR() {
 
   async function HrEmpList() {
     let PageData = {
-      IsActive: true,
+      IsActive : (FilterStatus === "true")? true : false,
       GroupName: (Groupname === "null")? null : Groupname,
+      Branch : (BranchName === "null")? null : BranchName,
+      Name : (FilterName === "null")? true : FilterName,
+      Vertical : (FilterVertical === "null")? parseInt("7") : parseInt(FilterVertical),
       pageNumber: tableParams.pagination.current,
       pageSize: tableParams.pagination.pageSize,
     };
@@ -192,13 +200,13 @@ export default function HR() {
             <div class="bg-boxshadow">
               <div class="ibox-content">
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-4 mt-3">
                     <div class="d-flex">
                       <label for="inputEmail3" class="col-md-5">Group Name<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                       <div class="col-md-7">
                         <select value={Groupname}
-                          onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
-                          style={{ width: "200px" }}
+                          onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value)   }}
+                           style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
                           <option value={"Corporate"}>Corporate</option>
@@ -207,12 +215,98 @@ export default function HR() {
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 mt-3">
+                  <div class="d-flex">
+                      <label for="inputEmail3" class="col-md-5">Branch<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <select value={BranchName}
+                          onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
+                           style={{ width: "15vw" }}
+                        >
+                          <option value={"null"}>Select</option>
+                          {
+                            (Groupname === "null")
+                            ? <></>
+                            :
+                            (
+                            (Groupname === "Branch"  )
+                            ? <> 
+                              <option value={"Delhi"}>Delhi</option>
+                              <option value={"Dehradun"}>Dehradun</option>
+                              <option value={"Bangalore"}>Bangalore</option>
+                              <option value={"Chennai"}>Chennai</option>
+                              <option value={"Hydrabad"}>Hydrabad</option>
+                              <option value={"Kolkata"}>Kolkata</option>
+                              <option value={"Pune"}>Pune</option>
+                              </>
+                            : <option value={"Corporate"}>Corporate</option>)
+                          }
+                        </select>
+                      </div>
+                    </div>
+
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 mt-3">
+                    <div class="d-flex">
+                    <label for="inputEmail3" class="col-md-5">Name<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                    <div class="col-md-7" style={{paddingLeft:"10px"}}>
+                        <input
+                          type='text'
+                          value={FilterName}
+                          onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value) }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mt-3">
+                    <div class="d-flex">
+                      <label for="inputEmail3" class="col-md-5">Status<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <select value={FilterStatus}
+                          onChange={(e) => { console.log(e.target.value); setFilterStatus(e.target.value)   }}
+                           style={{ width: "15vw" }}
+                        >
+                          <option value={"true"}>Active</option>
+                          <option value={"false"}>Inactive</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mt-3">
+                    <div class="d-flex">
+                      <label for="inputEmail3" class="col-md-5">Vertical<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <select value={FilterVertical}
+                          onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value)   }}
+                           style={{ width: "15vw" }}
+                        >
+                          <option value={"null"}>Select</option>
+                          <option value={1}>ASG</option>
+                          <option value={2}>ISG</option>
+                          <option value={3}>PSG</option>
+                          <option value={4}>Corporate</option>
+                          <option value={5}>Support staff</option>
+                          <option value={6}>ESG</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mt-3">
+                    <div class="d-flex">
+                      <label for="inputEmail3" class="col-md-5">Designation<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
+                      <div class="col-md-7">
+                        <select value={FilterVertical}
+                          onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value)   }}
+                           style={{ width: "15vw" }}
+                        >
+                          <option value={"null"}>Select</option>
+                          <EmpListDropdown/>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="box-footer">
+                <div class="box-footer mt-3">
                   <center style={{ padding: "10px" }}>
                     <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>

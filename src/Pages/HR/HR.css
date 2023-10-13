@@ -57,3 +57,10 @@
 .FunctionButton:hover {
     box-shadow: 0 0 2px 2px rgb(107, 107, 211);
 }
+
+.ant-table-tbody{
+    padding: 0 !important;
+  }
+  .ant-table-tbody > tr > td > th{
+    padding: 0 !important;
+  }
