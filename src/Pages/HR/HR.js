@@ -16,6 +16,7 @@ export default function HR() {
   const [FilterName, setFilterName] = useState(null);
   const [FilterStatus, setFilterStatus] = useState("true");
   const [FilterVertical, setFilterVertical] = useState(7);
+  const [FilterDesignation, setFilterDesignation] = useState(999);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -122,6 +123,7 @@ export default function HR() {
       Branch : (BranchName === "null")? null : BranchName,
       Name : (FilterName === "null")? true : FilterName,
       Vertical : (FilterVertical === "null")? parseInt("7") : parseInt(FilterVertical),
+      Designation : (FilterDesignation === "null")? parseInt("999") : parseInt(FilterDesignation),
       pageNumber: tableParams.pagination.current,
       pageSize: tableParams.pagination.pageSize,
     };
@@ -295,8 +297,8 @@ export default function HR() {
                     <div class="d-flex">
                       <label for="inputEmail3" class="col-md-5">Designation<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                       <div class="col-md-7">
-                        <select value={FilterVertical}
-                          onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value)   }}
+                        <select value={FilterDesignation}
+                          onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value)   }}
                            style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
