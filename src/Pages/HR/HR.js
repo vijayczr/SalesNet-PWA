@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
 import { useNavigate } from "react-router-dom";
-import { ConfigProvider, Table, Tag } from 'antd';
+import { ConfigProvider, Space, Table, Tag } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 
 export default function HR() {
@@ -44,10 +45,10 @@ export default function HR() {
       width: '12.5%',
     },
     {
-      title: 'Branch/Head office',
+      title: 'Branch',
       dataIndex: 'branch',
       key: 'branch',
-      width: '13.5%',
+      width: '10.5%',
     },
     {
       title: 'Vertical',
@@ -69,9 +70,14 @@ export default function HR() {
     },
     {
       title: 'Action',
-      dataIndex: 'status',
-      key: 'status',
-      width: '12%',
+      dataIndex: 'stActionatus',
+      key: 'Action',
+      render:(_,record) =>(
+        <Space size="middle">
+          <button type="button" class="viewbutton"><EyeOutlined /> </button>
+        </Space>
+      ),
+      width: '15%',
     }
   ];
 
@@ -113,6 +119,10 @@ export default function HR() {
   }
   const NavBack = () => {
     navigate(-1);
+  }
+
+  const NavAddEmployee =()=> {
+    navigate("/AddEmployee", { replace: true });
   }
 
 
@@ -310,8 +320,9 @@ export default function HR() {
                 </div>
                 <div class="box-footer mt-3">
                   <center style={{ padding: "10px" }}>
+                    <button class="FunctionButton1" style={{ backgroundColor: "#183985" }} onClick={NavAddEmployee}>+ ADD EMPLOYEE</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
+                    <button class="FunctionButton" style={{ backgroundColor: "#1b8532" }} onClick={DocumentSearch}>Search</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                   </center>
                 </div>
