@@ -185,7 +185,7 @@ export default function HR() {
 
 
   return (
-    <div>
+    <div style={{height:"100vh", overflow: "auto"}}>
       <AppHeader data={ProfileData} />
 
       <div class="breadcrumb-area">
@@ -206,7 +206,7 @@ export default function HR() {
         </div>
       </div>
 
-      <div className='containner p-4' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
+      <div className='containner p-4' style={{ height:"80vh",overflow: "auto",  backgroundColor: "#f3f5f9" }} >
         <div class="row">
           <div class="col-lg-12">
             <div class="bg-boxshadow">
