@@ -253,7 +253,7 @@ export default function AddEmployee() {
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">Group<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">Branch<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <select value={BranchName}
                             onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
@@ -909,7 +909,7 @@ export default function AddEmployee() {
                     </div>
                     <div class="col-lg-12 mt-0 mb-0">
                       <div class="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                        <p class="mt-0 mb-0">mediclaim Information</p>
+                        <p class="mt-0 mb-0">Mediclaim Information</p>
                       </div>
                     </div>
 
@@ -971,7 +971,7 @@ export default function AddEmployee() {
 
                     <div class="col-lg-12 mt-0 mb-0">
                       <div class="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                        <p class="mt-0 mb-0">mediclaim Information</p>
+                        <p class="mt-0 mb-0">LIC Information</p>
                       </div>
                     </div>
 
