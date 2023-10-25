@@ -318,7 +318,7 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">Designation<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <select value={FilterDesignation}
-                            onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
+                              onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
                             style={{ width: "100%" }}
                           >
                             <option value={"null"}>Select</option>
