@@ -14,7 +14,8 @@ export default function AddEmployee() {
   const [MaritalStatus, setMaritalStatus] = useState(null);
   const [FilterDesignation, setFilterDesignation] = useState(999);
   const [profileData, setProfileData] = useState("");
-
+  let hierarchylist = [];
+  let hierarchydata = [];
   useEffect(() => {
     let ignore = false;
 
@@ -57,6 +58,39 @@ export default function AddEmployee() {
     console.log(date, dateString);
   };
 
+  const [Name, setName] = useState(null);
+  const [TeamType, setTeamType] = useState(null);
+  const [Hierarchy, setHierarchy] = useState(null);
+  const [option, setOption] = useState(null);
+  console.log(option)
+  async function GetHeirarchy(e) {
+    const res = await fetch(
+      `https://localhost:44388/HrManual/ReportingListbyHId?HierarchyId=${e}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    )
+    const Hierarchy = await res.json();
+    if (Hierarchy.resCode === 200) {
+      console.log(Hierarchy.resData);
+      hierarchylist = Hierarchy.resData;
+      setOption(Hierarchy.resData)
+      console.log(option)
+      
+
+      // console.log(hierarchylist);
+
+      // for(let i = 0; i < hierarchylist.length; i++){
+      //   hierarchydata.push(
+      //     <option value={i.employeeId}>{i.name}</option>
+      //   )
+      // }
+      console.log(hierarchydata);
+    }
+  }
 
 
   return (
@@ -112,7 +146,10 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Name}
+                            onChange={(e) => setName(e.target.value)}
                             placeholder='Name'
+                            required
                           />
                         </div>
                       </div>
@@ -123,6 +160,9 @@ export default function AddEmployee() {
                         <div class="col-md-7">
                           <select
                             style={{ width: "100%" }}
+                            value={TeamType}
+                            onChange={(e) => { setTeamType(e.target.value); }}
+                            required
                           >
                             <option value={"null"}>Select</option>
                             <option value={"Sales Team"}>Sales Team</option>
@@ -135,10 +175,33 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Hierarchy<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <input
+                          <select
                             style={{ width: "100%" }}
-                            type='text'
-                          />
+                            value={Hierarchy}
+                            onChange={(e) => { setHierarchy(e.target.value); console.log(e.target.value);; GetHeirarchy(e.target.value); }}
+                            required
+                          >
+                            {(TeamType === "Sales Team") ?
+                              <>
+                                <option value={0}>Select</option>
+                                <option value={1}>DIRECTOR</option>
+                                <option value={2}>CHIEF TECHNICAL OFFICER</option>
+                                <option value={3}>DIVISIONAL HEAD</option>
+                                <option value={4}>VERTICAL HEAD</option>
+                                <option value={5}>SUB VERTICAL HEAD</option>
+                                <option value={6}>REGIONAL HEAD</option>
+                                <option value={7}>BRANCH HEAD</option>
+                                <option value={8}>REPORTING HEAD</option>
+                                <option value={9}>MARKETING ENGINEER</option>
+                                <option value={10}>APPLICATION ENGINEER</option>
+                              </>
+                              :
+                              <>
+                                <option value={0}>Select</option>
+                              </>
+
+                            }
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -150,8 +213,20 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                           >
                             <option value={"null"}>Select</option>
-                            <option value={"Sales Team"}>Sales Team</option>
-                            <option value={"Others"}>Others</option>
+                            
+                            {option ?
+                            option.map((e) =>(
+                              <option key={e.employeeId} value={e.name} >{e.name}</option>
+                            )):null}
+{/* 
+                            {hierarchylist.map((employee) => {
+                              console.log(employee[0]);
+                              return (
+                                <option value={employee.employeeId}>{employee.name}</option>
+                              );
+                            })} */}
+                            {/* {hierarchydata} */}
+
                           </select>
                         </div>
                       </div>
@@ -318,7 +393,7 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">Designation<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <select value={FilterDesignation}
-                              onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
+                            onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
                             style={{ width: "100%" }}
                           >
                             <option value={"null"}>Select</option>
@@ -1012,7 +1087,7 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Expiry Date<span class="float-right">:</span></label>
                         <div class="col-md-7">
-                        <Space >
+                          <Space >
                             <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
                           </Space>
                         </div>
@@ -1022,7 +1097,7 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Nominee Name<span class="float-right">:</span></label>
                         <div class="col-md-7">
-                        <input
+                          <input
                             style={{ width: "100%" }}
                             type='text'
                             placeholder='Nominee Name'
@@ -1082,10 +1157,10 @@ export default function AddEmployee() {
                       </div>
                     </div>
                     <div class="box-footer mt-3">
-                  <center style={{ padding: "10px" }}>
-                    <button class="FunctionButton1" style={{ backgroundColor: "#183985" }} >Submit</button>
-                    </center>
-                </div>
+                      <center style={{ padding: "10px" }}>
+                        <button class="FunctionButton1" style={{ backgroundColor: "#183985" }} >Submit</button>
+                      </center>
+                    </div>
 
 
 
