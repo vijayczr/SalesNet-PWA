@@ -6,16 +6,17 @@ import '../AddEmployee/AddEmployee.css';
 import { DatePicker, Space } from 'antd';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 import { useNavigate } from "react-router-dom";
+import { AspectRatio } from '@mui/icons-material';
 
 export default function AddEmployee() {
   const navigate = useNavigate();
-  const [Groupname, setGroupname] = useState(null);
-  const [BranchName, setBranchName] = useState(null);
   const [MaritalStatus, setMaritalStatus] = useState(null);
-  const [FilterDesignation, setFilterDesignation] = useState(999);
   const [profileData, setProfileData] = useState("");
-  let hierarchylist = [];
-  let hierarchydata = [];
+  const [Hierarchy1, setHierarchy1] = useState(null);
+  const [Reportingto1, setReportingto1] = useState(null);
+  const [Reportingto2, setReportingto2] = useState(null);
+  const [Subverticallist, setSubverticallist] = useState(null);
+
   useEffect(() => {
     let ignore = false;
 
@@ -53,16 +54,35 @@ export default function AddEmployee() {
   const NavBack = () => {
     navigate("/HR", { replace: true });
   }
-
-  const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
-  };
-
   const [Name, setName] = useState(null);
   const [TeamType, setTeamType] = useState(null);
   const [Hierarchy, setHierarchy] = useState(null);
-  const [option, setOption] = useState(null);
-  console.log(option)
+  const [Reportingto, setReportingto] = useState("null");
+  const [ReportingtoSecond, setReportingtoSecond] = useState("null");
+  const [ReportingtoThird, setReportingtoThird] = useState("null");
+  const [JoiningDate, setJoiningDate] = useState("null");
+  const [Aadhar, setAadhar] = useState('');
+  const [Gender, setGender] = useState();
+  const [PAN, setPAN] = useState();
+  const [Groupname, setGroupname] = useState(null);
+  const [BranchName, setBranchName] = useState(null);
+  const [Vertical, setVertical] = useState();
+  const [FilterDesignation, setFilterDesignation] = useState(999);
+  const [OfficialEmail, setOfficialEmail] = useState();
+  const [RefferedBy, setRefferedBy] = useState();
+  const [EmpStatus, setEmpStatus] = useState();
+  const [LoginId, setLoginId] = useState();
+  const [Password, setPassword] = useState();
+  const [VerificationDetails,setVerificationDetails] = useState();
+  const [GradeId,setGradeId] = useState();
+  const [CertificateDOB,setCertificateDOB] = useState();
+  const [EmployeeId,setEmployeeId] = useState();
+  const [UAN,setUAN] = useState();
+  const [PresentLocation,setPresentLocation] = useState();
+  const [FixedCtC,setFixedCtC] = useState();
+  const [AnnualCtC,setAnnualCtC] = useState();
+
+  //#region setHierarchy
   async function GetHeirarchy(e) {
     const res = await fetch(
       `https://localhost:44388/HrManual/ReportingListbyHId?HierarchyId=${e}`,
@@ -76,21 +96,81 @@ export default function AddEmployee() {
     const Hierarchy = await res.json();
     if (Hierarchy.resCode === 200) {
       console.log(Hierarchy.resData);
-      hierarchylist = Hierarchy.resData;
-      setOption(Hierarchy.resData)
-      console.log(option)
-      
-
-      // console.log(hierarchylist);
-
-      // for(let i = 0; i < hierarchylist.length; i++){
-      //   hierarchydata.push(
-      //     <option value={i.employeeId}>{i.name}</option>
-      //   )
-      // }
-      console.log(hierarchydata);
+      setHierarchy1(Hierarchy.resData)
     }
   }
+
+  async function GetHeirarchy1(e) {
+    const res = await fetch(
+      `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        }
+      }
+    )
+    const reportingData = await res.json();
+    if (reportingData.resCode === 200) {
+      console.log(reportingData.resData);
+      setReportingto1(reportingData.resData)
+    }
+  }
+
+  async function GetReporting2(e) {
+    const res = await fetch(
+      `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        }
+      }
+    )
+    const reportingData = await res.json();
+    if (reportingData.resCode === 200) {
+      console.log(reportingData.resData);
+      setReportingto2(reportingData.resData)
+    }
+  }
+
+  async function SubVerticalList(e) {
+    const res = await fetch(
+      `https://localhost:44388/HrManual/SubverticalList?VerticalId=${e}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        }
+      }
+    )
+    const reportingData = await res.json();
+    if (reportingData.resCode === 200) {
+      console.log(reportingData.resData);
+      setSubverticallist(reportingData.resData)
+    }
+  }
+
+  //#endregion
+
+  //#region DateMapping
+
+  const JoinDate = (date) => {
+    console.log(date);
+    setJoiningDate(date);
+    console.log(JoiningDate);
+  };
+
+  const onChangeDate = (date, dateString) => {
+    console.log(date, dateString);
+  }
+
+  const CerDOB = (date) => {
+    setCertificateDOB(date);
+  }
+
+
+  //#endregion
 
 
   return (
@@ -178,7 +258,7 @@ export default function AddEmployee() {
                           <select
                             style={{ width: "100%" }}
                             value={Hierarchy}
-                            onChange={(e) => { setHierarchy(e.target.value); console.log(e.target.value);; GetHeirarchy(e.target.value); }}
+                            onChange={(e) => { setHierarchy(e.target.value); console.log(e.target.tex); GetHeirarchy(e.target.value); }}
                             required
                           >
                             {(TeamType === "Sales Team") ?
@@ -199,7 +279,6 @@ export default function AddEmployee() {
                               <>
                                 <option value={0}>Select</option>
                               </>
-
                             }
                           </select>
                         </div>
@@ -211,22 +290,14 @@ export default function AddEmployee() {
                         <div class="col-md-7">
                           <select
                             style={{ width: "100%" }}
+                            onChange={(e) => { setReportingto(e.target.value); console.log(e.target.value); GetHeirarchy1(e.target.value); }}
+                            required
                           >
                             <option value={"null"}>Select</option>
-                            
-                            {option ?
-                            option.map((e) =>(
-                              <option key={e.employeeId} value={e.name} >{e.name}</option>
-                            )):null}
-{/* 
-                            {hierarchylist.map((employee) => {
-                              console.log(employee[0]);
-                              return (
-                                <option value={employee.employeeId}>{employee.name}</option>
-                              );
-                            })} */}
-                            {/* {hierarchydata} */}
-
+                            {Hierarchy1 ?
+                              Hierarchy1.map((e) => (
+                                <option key={e.employeeId} value={e.employeeId} >{e.name}</option>
+                              )) : null}
                           </select>
                         </div>
                       </div>
@@ -235,13 +306,25 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Reporting To (Second)<span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <select
-                            style={{ width: "100%" }}
-                          >
-                            <option value={"null"}>Select</option>
-                            <option value={"Sales Team"}>Sales Team</option>
-                            <option value={"Others"}>Others</option>
-                          </select>
+                          {(Reportingto === "null") ?
+                            <select
+                              style={{ width: "100%" }}
+                            >
+                              <option value={"null"}>Select</option>
+                            </select>
+                            :
+                            <select
+                              style={{ width: "100%" }}
+                              onChange={(e) => { setReportingtoSecond(e.target.value); console.log(e.target.value); GetReporting2(e.target.value); }}
+
+                            >
+                              <option value={"null"}>Select</option>
+                              {Reportingto1 ?
+                                Reportingto1.map((e) => (
+                                  <option key={e.employeeId} value={e.employeeId} >{e.name}</option>
+                                )) : null}
+                            </select>
+                          }
                         </div>
                       </div>
                     </div>
@@ -249,13 +332,25 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Reporting To (Third)<span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <select
-                            style={{ width: "100%" }}
-                          >
-                            <option value={"null"}>Select</option>
-                            <option value={"Sales Team"}>Sales Team</option>
-                            <option value={"Others"}>Others</option>
-                          </select>
+                          {(ReportingtoSecond === "null") ?
+                            <select
+                              style={{ width: "100%" }}
+                            >
+                              <option value={"null"}>Select</option>
+                            </select>
+                            :
+                            <select
+                              style={{ width: "100%" }}
+                              onChange={(e) => { setReportingtoThird(e.target.value); console.log(e.target.value); }}
+
+                            >
+                              <option value={"null"}>Select</option>
+                              {Reportingto2 ?
+                                Reportingto2.map((e) => (
+                                  <option key={e.employeeId} value={e.employeeId} >{e.name}</option>
+                                )) : null}
+                            </select>
+                          }
                         </div>
                       </div>
                     </div>
@@ -263,11 +358,9 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Joining Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <input
-                            style={{ width: "100%" }}
-                            type='text'
-                            placeholder='Joining Date'
-                          />
+                          <Space >
+                            <DatePicker style={{ width: "100%" }} onChange={JoinDate} />
+                          </Space>
                         </div>
                       </div>
                     </div>
@@ -278,7 +371,10 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Aadhar}
+                            onChange={(e) => { setAadhar(e.target.value); console.log(Aadhar); }}
                             placeholder='Aadhar'
+                            required
                           />
                         </div>
                       </div>
@@ -289,6 +385,8 @@ export default function AddEmployee() {
                         <div class="col-md-7">
                           <select
                             style={{ width: "100%" }}
+                            onChange={(e) => { setGender(e.target.value); console.log(e.target.value); }}
+                            required
                           >
                             <option value={"null"}>Select</option>
                             <option value={"Male"}>Male</option>
@@ -306,7 +404,10 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={PAN}
+                            onChange={(e) => { setPAN(e.target.value); console.log(PAN); }}
                             placeholder='PAN'
+                            required
                           />
                         </div>
                       </div>
@@ -318,6 +419,7 @@ export default function AddEmployee() {
                           <select value={Groupname}
                             onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
                             style={{ width: "100%" }}
+                            required
                           >
                             <option value={"null"}>Select</option>
                             <option value={"Corporate"}>Corporate</option>
@@ -333,6 +435,7 @@ export default function AddEmployee() {
                           <select value={BranchName}
                             onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
                             style={{ width: "100%" }}
+                            required
                           >
                             <option value={"null"}>Select</option>
                             {
@@ -360,9 +463,10 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Vertical<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <select value={Groupname}
-                            onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
+                          <select
+                            onChange={(e) => { console.log(e.target.value); setVertical(e.target.value); SubVerticalList(e.target.value) }}
                             style={{ width: "100%" }}
+                            required
                           >
                             <option value={"null"}>Select</option>
                             <option value={1}>ASG</option>
@@ -382,8 +486,13 @@ export default function AddEmployee() {
                           <select value={Groupname}
                             onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
                             style={{ width: "100%" }}
+                            required
                           >
                             <option value={"null"}>Select</option>
+                            {Subverticallist ?
+                              Subverticallist.map((e) => (
+                                <option value={e} >{e}</option>
+                              )) : null}
                           </select>
                         </div>
                       </div>
@@ -395,6 +504,7 @@ export default function AddEmployee() {
                           <select value={FilterDesignation}
                             onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
                             style={{ width: "100%" }}
+                            required
                           >
                             <option value={"null"}>Select</option>
                             <EmpListDropdown />
@@ -409,19 +519,24 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={OfficialEmail}
+                            onChange={(e) => setOfficialEmail(e.target.value)}
                             placeholder='E-mail'
+                            required
                           />
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">Reffered-By<span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">Referred-By<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <input
                             style={{ width: "100%" }}
                             type='text'
-                            placeholder='Reffered-By'
+                            value={RefferedBy}
+                            onChange={(e) => setRefferedBy(e.target.value)}
+                            placeholder='Referred-By'
                           />
                         </div>
                       </div>
@@ -432,6 +547,8 @@ export default function AddEmployee() {
                         <div class="col-md-7">
                           <select
                             style={{ width: "100%" }}
+                            onChange={(e) => { console.log(e.target.value); setEmpStatus(e.target.value) }}
+                            required
                           >
                             <option value={"null"}>Select</option>
                             <option value={"Active"}>Active</option>
@@ -448,6 +565,9 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                             type='text'
                             placeholder='Login Id'
+                            required
+                            value={LoginId}
+                            onChange={(e) => setLoginId(e.target.value)}
                           />
                         </div>
                       </div>
@@ -460,6 +580,9 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                             type='text'
                             placeholder='Password'
+                            required
+                            value={Password}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                         </div>
                       </div>
@@ -469,7 +592,11 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">Verification Details<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <div class="form-outline">
-                            <textarea class="form-control" id="textAreaExample1" rows="1" placeholder='messege'></textarea>
+                            <textarea class="form-control" id="textArea1" rows="1" placeholder='messege'
+                              value={VerificationDetails}
+                              onChange={(e) => {setVerificationDetails(e.target.value); console.log(VerificationDetails);}}
+                            >
+                            </textarea>
                           </div>
                         </div>
                       </div>
@@ -480,6 +607,8 @@ export default function AddEmployee() {
                         <div class="col-md-7">
                           <select
                             style={{ width: "100%" }}
+                            required
+                            onChange={(e) => { console.log(e.target.value); setGradeId(e.target.value)}}
                           >
                             <option value={"null"}>Select</option>
                             <option value={"1"}>G1</option>
@@ -523,8 +652,8 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Certificate Date of Birth<span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <Space >
-                            <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
+                          <Space>
+                            <DatePicker style={{ width: "100%" }} onChange={CerDOB} />
                           </Space>
                         </div>
                       </div>
@@ -536,6 +665,7 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            onChange={(e) => setEmployeeId(e.target.value)}
                             placeholder='Employee Id'
                           />
                         </div>
@@ -548,6 +678,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={UAN}
+                            onChange={(e) => setUAN(e.target.value)}
                             placeholder='UAN No.'
                           />
                         </div>
@@ -561,6 +693,9 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                             type='text'
                             placeholder='Present Location'
+                            required
+                            value={PresentLocation}
+                            onChange={(e)=> setPresentLocation(e.target.value)}
                           />
                         </div>
                       </div>
@@ -572,6 +707,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={FixedCtC}
+                            onChange={(e) => setFixedCtC(e.target.value)}
                             placeholder='Fixed Package'
                           />
                         </div>
@@ -584,6 +722,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={AnnualCtC}
+                            onChange={(e)=> setAnnualCtC(e.target.value)}
                             placeholder='Annual CTC'
                           />
                         </div>
