@@ -10,7 +10,7 @@ import { AspectRatio } from '@mui/icons-material';
 
 export default function AddEmployee() {
   const navigate = useNavigate();
-  const [MaritalStatus, setMaritalStatus] = useState(null);
+
   const [profileData, setProfileData] = useState("");
   const [Hierarchy1, setHierarchy1] = useState(null);
   const [Reportingto1, setReportingto1] = useState(null);
@@ -81,6 +81,58 @@ export default function AddEmployee() {
   const [PresentLocation,setPresentLocation] = useState();
   const [FixedCtC,setFixedCtC] = useState();
   const [AnnualCtC,setAnnualCtC] = useState();
+  const [IncentivePer,setIncentivePer] = useState();
+  const [IncentiveAmt,setIncentiveAmt] = useState();
+  const [EmployeeStatus,setEmployeeStatus] = useState();
+  const [EmpStatFromDate,setEmpStatFromDate] = useState();
+  const [EmpStatToDate,setEmpStatToDate] = useState();
+  const [TotalExp,setTotalExp] = useState();
+  const [Fathername,setFathername] = useState();
+  const [Mothername,setMothername] = useState();
+  const [Origindob,setOrigindob] = useState();
+  const [PersonalContact,setPersonalContact] = useState();
+  const [MaritalStatus, setMaritalStatus] = useState(null);
+  const [AniversaryDate, setAniversaryDate] = useState();
+  const [BloodGroup, setBloodGroup] = useState();
+  const [Peremail, setPeremail] = useState();
+  const [EmerContact,setEmerContact] = useState();
+  const [RelationWcontact,setRelationWcontact] = useState();
+  const [LandlineNo,setLandlineNo] = useState();
+  const [PAddress,setPAddress] = useState();
+  const [PCity,setPCity] = useState();
+  const [PState,setPState] = useState();
+  const [Pcountry,setPcountry] = useState();
+  const [Ppincode,setPpincode] = useState();
+  const [Pphone,setPphone] = useState();
+  const [Caddress,setCaddress] = useState();
+  const [Cstate,setCstate] = useState();
+  const [Ccity,setCcity] = useState();
+  const [Ccountry,setCcountry] = useState();
+  const [Cpincode,setCpincode] = useState();
+  const [Cphone,setCphone] = useState();
+  const [Mpolicyname,setMpolicyname] = useState();
+  const [Mpolicydetail,setMpolicydetail] = useState();
+  const [Massuredamout,setMassuredamout] = useState();
+  const [MediExpiry,setMediExpiry] = useState();
+  const [Mnomieename,setMnomieename] = useState();
+  const [Lpolicyname,setLpolicyname] = useState();
+  const [Lpolicydetail,setLpolicydetail] = useState();
+  const [Lassuredamount,setLassuredamount] = useState();
+  const [LicExpiry,setLicExpiry] = useState();
+  const [Lnomineename,setLnomineename] = useState();
+  const [ResignDate,setResignDate] = useState();
+  const [ResignAcceptBy,setResignAcceptBy] = useState();
+  const [LastDate,setLastDate] = useState();
+  const [ResignReason,setResignReason] = useState();
+
+  async function AddEmployee(){
+    let formData = {
+      
+    }
+  }
+
+
+
 
   //#region setHierarchy
   async function GetHeirarchy(e) {
@@ -167,6 +219,37 @@ export default function AddEmployee() {
 
   const CerDOB = (date) => {
     setCertificateDOB(date);
+  }
+
+  const onEmpStatFromDate = (date) => {
+    setEmpStatFromDate(date);
+  }
+
+  const onEmpStatToDate = (date) => {
+    setEmpStatToDate(date);
+  }
+
+  const OriginDOB = (date) => {
+    setOrigindob(date);
+  }
+
+  const AnniversaryDate= (date) => {
+    setAniversaryDate(date);
+  }
+
+  const MediExpDate = (date) => {
+    setMediExpiry(date);}
+
+  const LexpDate = (date) => {
+    setLicExpiry(date);
+  }  
+
+  const Resignationdate = (date) => {
+    setResignDate(date);
+  }
+
+  const LastWorking = (date) => {
+    setLastDate(date);
   }
 
 
@@ -737,6 +820,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={IncentivePer}
+                            onChange={(e) => setIncentivePer(e.target.value)}
                             placeholder='Incentive (%)'
                           />
                         </div>
@@ -749,6 +834,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={IncentiveAmt}
+                            onChange={(e) => setIncentiveAmt(e.target.value)}
                             placeholder='Incentive Amount'
                           />
                         </div>
@@ -760,6 +847,9 @@ export default function AddEmployee() {
                         <div class="col-md-7">
                           <select
                             style={{ width: "100%" }}
+                            required
+                            value={EmployeeStatus}
+                            onChange={(e) => { console.log(e.target.value); setEmployeeStatus(e.target.value)}}
                           >
                             <option value={"null"}>Select</option>
                             <option value={1}>Confirmed</option>
@@ -775,7 +865,7 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">From Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <Space >
-                            <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
+                            <DatePicker style={{ width: "100%" }} onChange={onEmpStatFromDate} />
                           </Space>
                         </div>
                       </div>
@@ -785,7 +875,7 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">To Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <Space >
-                            <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
+                            <DatePicker style={{ width: "100%" }} onChange={onEmpStatToDate} />
                           </Space>
                         </div>
                       </div>
@@ -797,6 +887,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={TotalExp}
+                            onChange={(e) => setTotalExp(e.target.value)}
                           />
                         </div>
                       </div>
@@ -815,6 +907,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Fathername}
+                            required
+                            onChange={(e) => setFathername(e.target.value)}
                             placeholder='Fathers Name'
                           />
                         </div>
@@ -827,6 +922,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Mothername}
+                            required
+                            onChange={(e) => setMothername(e.target.value)}
                             placeholder='Mothers Name'
                           />
                         </div>
@@ -837,7 +935,7 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">Original Date of Birth<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <Space >
-                            <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
+                            <DatePicker style={{ width: "100%" }} onChange={OriginDOB}/>
                           </Space>
                         </div>
                       </div>
@@ -849,6 +947,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={PersonalContact}
+                            onChange={(e)=> setPersonalContact(e.target.value)}
                           />
                         </div>
                       </div>
@@ -863,8 +964,8 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                           >
                             <option value={"null"}>Select</option>
-                            <option value={"Married"}>Married</option>
-                            <option value={"Unmarried"}>Unmarried</option>
+                            <option value={"true"}>Married</option>
+                            <option value={"false"}>Unmarried</option>
                           </select>
                         </div>
                       </div>
@@ -874,13 +975,13 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">Anniversary<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           {
-                            (MaritalStatus === "Married") ?
+                            (MaritalStatus === "true") ?
                               <Space >
-                                <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
+                                <DatePicker style={{ width: "100%" }} onChange={AnniversaryDate} />
                               </Space>
                               :
                               <Space >
-                                <DatePicker style={{ width: "100%" }} onChange={onChangeDate} disabled />
+                                <DatePicker style={{ width: "100%" }} onChange={AnniversaryDate} disabled />
                               </Space>
 
                           }
@@ -894,6 +995,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={BloodGroup}
+                            onChange={(e) => setBloodGroup(e.target.value)} 
                             placeholder='Blood Group'
                           />
                         </div>
@@ -906,6 +1009,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={Peremail}
+                            onChange={(e) => setPeremail(e.target.value)}
                             placeholder='Personal E-mail'
                           />
                         </div>
@@ -918,6 +1024,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={EmerContact}
+                            onChange={(e)=> setEmerContact(e.target.value)}
                           />
                         </div>
                       </div>
@@ -930,6 +1039,9 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                             type='text'
                             placeholder='name'
+                            required
+                            value={RelationWcontact}
+                            onChange={(e)=> setRelationWcontact(e.target.value)}
                           />
                         </div>
                       </div>
@@ -941,6 +1053,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={LandlineNo}
+                            onChange={(e) => setLandlineNo(e.target.value)}
                           />
                         </div>
                       </div>
@@ -984,6 +1098,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={PAddress}
+                            required
+                            onChange={(e) => setPAddress(e.target.value)}
                           />
                         </div>
                       </div>
@@ -995,6 +1112,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={PCity}
+                            onChange={(e) => setPCity(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1006,6 +1126,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={PState}
+                            onChange={(e) => setPState(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1017,6 +1140,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={Pcountry}
+                            onChange={(e) => setPcountry(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1028,6 +1154,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={Ppincode}
+                            onChange={(e)=> setPpincode}
                           />
                         </div>
                       </div>
@@ -1039,6 +1168,9 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            required
+                            value={Pphone}
+                            onChange={(e) => {setPphone(e.target.value); console.log(Pphone);}}
                           />
                         </div>
                       </div>
@@ -1051,66 +1183,78 @@ export default function AddEmployee() {
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">Address<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">Address<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Caddress}
+                            onChange={(e)=> setCaddress(e.target.value)}
                           />
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">City<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">City<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Ccity}
+                            onChange={(e)=> setCcity(e.target.value)}
                           />
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">State<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">State<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Cstate}
+                            onChange={(e) => setCstate(e.target.value)}
                           />
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">Country<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">Country<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Ccountry}
+                            onChange={(e)=> setCcountry(e.target.value)}
                           />
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">PinCode<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">PinCode<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Cpincode}
+                            onChange={(e) => setCpincode(e.target.value)}
                           />
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-6 ">
                       <div class="form-group d-flex">
-                        <label class="col-md-5 mt-1 mb-0">Phone<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
+                        <label class="col-md-5 mt-1 mb-0">Phone<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Cphone}
+                            onChange={(e) => setCphone(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1136,6 +1280,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Mpolicyname}
+                            onChange={(e)=>setMpolicyname(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1147,6 +1293,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Mpolicydetail}
+                            onChange={(e)=> setMpolicydetail(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1158,6 +1306,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Massuredamout}
+                            onChange={(e)=> setMassuredamout(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1167,7 +1317,7 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">Expiry Date<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <Space >
-                            <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
+                            <DatePicker style={{ width: "100%" }} onChange={MediExpDate} />
                           </Space>
                         </div>
                       </div>
@@ -1180,6 +1330,8 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                             type='text'
                             placeholder='Nominee Name'
+                            value={Mnomieename}
+                            onChange={(e)=> setMnomieename(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1198,6 +1350,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Lpolicyname}
+                            onChange={(e)=> setLpolicyname(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1209,6 +1363,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Lpolicydetail}
+                            onChange={(e)=> setLpolicydetail(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1220,6 +1376,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={Lassuredamount}
+                            onChange={(e)=> setLassuredamount(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1229,7 +1387,7 @@ export default function AddEmployee() {
                         <label class="col-md-5 mt-1 mb-0">Expiry Date<span class="float-right">:</span></label>
                         <div class="col-md-7">
                           <Space >
-                            <DatePicker style={{ width: "100%" }} onChange={onChangeDate} />
+                            <DatePicker style={{ width: "100%" }} onChange={LexpDate} />
                           </Space>
                         </div>
                       </div>
@@ -1242,6 +1400,8 @@ export default function AddEmployee() {
                             style={{ width: "100%" }}
                             type='text'
                             placeholder='Nominee Name'
+                            value={Lnomineename}
+                            onChange={(e)=> setLnomineename(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1257,10 +1417,9 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Resignation Date<span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <input
-                            style={{ width: "100%" }}
-                            type='text'
-                          />
+                        <Space >
+                            <DatePicker style={{ width: "100%" }} onChange={Resignationdate} />
+                          </Space>
                         </div>
                       </div>
                     </div>
@@ -1271,6 +1430,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={ResignAcceptBy}
+                            onChange={(e) => setResignAcceptBy(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1279,10 +1440,9 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">Last Working Date<span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <input
-                            style={{ width: "100%" }}
-                            type='text'
-                          />
+                        <Space >
+                            <DatePicker style={{ width: "100%" }} onChange={LastWorking} />
+                          </Space>
                         </div>
                       </div>
                     </div>
@@ -1293,6 +1453,8 @@ export default function AddEmployee() {
                           <input
                             style={{ width: "100%" }}
                             type='text'
+                            value={ResignReason}
+                            onChange={(e)=> setResignReason(e.target.value)}
                           />
                         </div>
                       </div>
