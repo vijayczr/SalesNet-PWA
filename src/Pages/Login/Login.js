@@ -24,7 +24,7 @@ export default function Login() {
             password: password,
         };
         const res = await fetch(
-            "https://localhost:44388/Authentication/Login",
+            `${localStorage.getItem("BaseUrl")}/Authentication/Login`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

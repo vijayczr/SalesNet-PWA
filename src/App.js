@@ -12,6 +12,8 @@ import AddEmployee from './Pages/AddEmployee/AddEmployee';
 
 
 function App() {
+
+  localStorage.setItem("BaseUrl", "https://localhost:44388");
   return (
     <BrowserRouter>
 

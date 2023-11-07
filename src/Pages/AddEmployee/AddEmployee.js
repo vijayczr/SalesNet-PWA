@@ -67,6 +67,7 @@ export default function AddEmployee() {
   const [Groupname, setGroupname] = useState(null);
   const [BranchName, setBranchName] = useState(null);
   const [Vertical, setVertical] = useState();
+  const [SubVertical , setSubVertical] = useState();
   const [FilterDesignation, setFilterDesignation] = useState(999);
   const [OfficialEmail, setOfficialEmail] = useState();
   const [RefferedBy, setRefferedBy] = useState();
@@ -127,7 +128,78 @@ export default function AddEmployee() {
 
   async function AddEmployee(){
     let formData = {
-      
+      Name : Name,
+      TeamType : TeamType ,
+      HierarchyId : Hierarchy,
+      ReportingId : Reportingto ,
+      ReportingId2 : ReportingtoSecond,
+      ReportingId3 : ReportingtoThird,
+      JoiningDate : JoiningDate ,
+      Aadhar : Aadhar ,
+      Gender : Gender ,
+      Pan : PAN ,
+      Group : Groupname ,
+      Branch : BranchName ,
+      VerticalId : Vertical ,
+      SubVerticalid :SubVertical,
+      DesignationId : FilterDesignation,
+      OfficialEmail : OfficialEmail,
+      Referredby :RefferedBy,
+      Status :EmpStatus,
+      LoginId : LoginId,
+      password : Password,
+      VerificationDetails :VerificationDetails ,
+      Grade : GradeId,
+      IssalesNetuser : "true",
+      Cer_DOB : CertificateDOB ,
+      EmployeeId : EmployeeId ,
+      Uanno : UAN ,
+      PresentLocation : PresentLocation,
+      FixedCtc : FixedCtC,
+      AnnualCtc : AnnualCtC ,
+      incenticePercent : IncentivePer ,
+      incentiveAmount : IncentiveAmt ,
+      EmpStatus : EmployeeStatus ,
+      FromDate : EmpStatFromDate ,
+      ToDate : EmpStatToDate ,
+      Totalexp : TotalExp,
+      FatherName : Fathername ,
+      MotherName : Mothername ,
+      DOB :Origindob ,
+      PersonalContact : PersonalContact ,
+      MaritalStatus : MaritalStatus ,
+      Anniversary : AniversaryDate ,
+      Bloodgroup : BloodGroup ,
+      Personalemail :Peremail ,
+      EmergencyContact : EmerContact ,
+      realtionwithContact : RelationWcontact,
+      LandlineNumber : LandlineNo ,
+      PAddress :PAddress ,
+      PCity : PCity ,
+      PState : PState ,
+      Pcountry : Pcountry ,
+      Ppincode : Ppincode ,
+      Pphone : Pphone ,
+      CAddress : Caddress ,
+      CCity : Ccity ,
+      CState : Cstate ,
+      Ccountry : Ccountry ,
+      Cpincode : Cpincode ,
+      Cphone : Cphone ,
+      Medi_PolicyName : Mpolicyname ,
+      Medi_PolicyDetail : Mpolicydetail ,
+      Medi_AssuredAmount : Massuredamout ,
+      Medi_ExpDate : MediExpiry ,
+      Medi_NomineeName : Mnomieename,
+      Lic_PolicyName : Lpolicyname ,
+      Lic_PolicyDetail : Lpolicydetail ,
+      Lic_AssuredAmount : Lassuredamount ,
+      Lic_ExpDate : LicExpiry,
+      Lic_NomineeName : Lnomineename ,
+      ResignationDate : ResignDate ,
+      AcceptedBy : ResignAcceptBy ,
+      LastDate : LastDate ,
+      Reason : ResignReason
     }
   }
 
@@ -566,8 +638,8 @@ export default function AddEmployee() {
                       <div class="form-group d-flex">
                         <label class="col-md-5 mt-1 mb-0">SubVertical<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                         <div class="col-md-7">
-                          <select value={Groupname}
-                            onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
+                          <select value={SubVertical}
+                            onChange={(e) => { console.log(e.target.value); setSubVertical(e.target.value) }}
                             style={{ width: "100%" }}
                             required
                           >
