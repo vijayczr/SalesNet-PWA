@@ -55,8 +55,12 @@ export default function AddEmployee() {
   }
 
   async function handleSubmit(e) {
+    console.log(e.target.value);
     e.preventDefault();
     AddEmployee();
+  }
+  const cancelCourse = () => { 
+    document.getElementById("clearForm").reset();
   }
 
   const [Name, setName] = useState(null);
@@ -67,160 +71,165 @@ export default function AddEmployee() {
   const [ReportingtoThird, setReportingtoThird] = useState("null");
   const [JoiningDate, setJoiningDate] = useState("null");
   const [Aadhar, setAadhar] = useState('');
-  const [Gender, setGender] = useState();
-  const [PAN, setPAN] = useState();
+  const [Gender, setGender] = useState(null);
+  const [PAN, setPAN] = useState(null);
   const [Groupname, setGroupname] = useState(null);
   const [BranchName, setBranchName] = useState(null);
-  const [Vertical, setVertical] = useState();
-  const [SubVertical, setSubVertical] = useState();
+  const [Vertical, setVertical] = useState(null);
+  const [SubVertical, setSubVertical] = useState(null);
   const [FilterDesignation, setFilterDesignation] = useState(999);
-  const [OfficialEmail, setOfficialEmail] = useState();
-  const [RefferedBy, setRefferedBy] = useState();
-  const [EmpStatus, setEmpStatus] = useState();
-  const [LoginId, setLoginId] = useState();
-  const [Password, setPassword] = useState();
-  const [VerificationDetails, setVerificationDetails] = useState();
-  const [GradeId, setGradeId] = useState();
-  const [CertificateDOB, setCertificateDOB] = useState();
-  const [EmployeeId, setEmployeeId] = useState();
-  const [UAN, setUAN] = useState();
-  const [PresentLocation, setPresentLocation] = useState();
-  const [FixedCtC, setFixedCtC] = useState();
-  const [AnnualCtC, setAnnualCtC] = useState();
-  const [IncentivePer, setIncentivePer] = useState();
-  const [IncentiveAmt, setIncentiveAmt] = useState();
-  const [EmployeeStatus, setEmployeeStatus] = useState();
-  const [EmpStatFromDate, setEmpStatFromDate] = useState();
-  const [EmpStatToDate, setEmpStatToDate] = useState();
-  const [TotalExp, setTotalExp] = useState();
-  const [Fathername, setFathername] = useState();
-  const [Mothername, setMothername] = useState();
-  const [Origindob, setOrigindob] = useState();
-  const [PersonalContact, setPersonalContact] = useState();
+  const [OfficialEmail, setOfficialEmail] = useState(null);
+  const [RefferedBy, setRefferedBy] = useState(null);
+  const [EmpStatus, setEmpStatus] = useState(null);
+  const [LoginId, setLoginId] = useState(null);
+  const [Password, setPassword] = useState(null);
+  const [VerificationDetails, setVerificationDetails] = useState(null);
+  const [GradeId, setGradeId] = useState(null);
+  const [CertificateDOB, setCertificateDOB] = useState(null);
+  const [EmployeeId, setEmployeeId] = useState(null);
+  const [UAN, setUAN] = useState(null);
+  const [PresentLocation, setPresentLocation] = useState(null);
+  const [FixedCtC, setFixedCtC] = useState(null);
+  const [AnnualCtC, setAnnualCtC] = useState(null);
+  const [IncentivePer, setIncentivePer] = useState(null);
+  const [IncentiveAmt, setIncentiveAmt] = useState(null);
+  const [EmployeeStatus, setEmployeeStatus] = useState(null);
+  const [EmpStatFromDate, setEmpStatFromDate] = useState(null);
+  const [EmpStatToDate, setEmpStatToDate] = useState(null);
+  const [TotalExp, setTotalExp] = useState(null);
+  const [Fathername, setFathername] = useState(null);
+  const [Mothername, setMothername] = useState(null);
+  const [Origindob, setOrigindob] = useState(null);
+  const [PersonalContact, setPersonalContact] = useState(null);
   const [MaritalStatus, setMaritalStatus] = useState(null);
-  const [AniversaryDate, setAniversaryDate] = useState();
-  const [BloodGroup, setBloodGroup] = useState();
-  const [Peremail, setPeremail] = useState();
-  const [EmerContact, setEmerContact] = useState();
-  const [RelationWcontact, setRelationWcontact] = useState();
-  const [LandlineNo, setLandlineNo] = useState();
-  const [PAddress, setPAddress] = useState();
-  const [PCity, setPCity] = useState();
-  const [PState, setPState] = useState();
-  const [Pcountry, setPcountry] = useState();
-  const [Ppincode, setPpincode] = useState();
-  const [Pphone, setPphone] = useState();
-  const [Caddress, setCaddress] = useState();
-  const [Cstate, setCstate] = useState();
-  const [Ccity, setCcity] = useState();
-  const [Ccountry, setCcountry] = useState();
-  const [Cpincode, setCpincode] = useState();
-  const [Cphone, setCphone] = useState();
-  const [Mpolicyname, setMpolicyname] = useState();
-  const [Mpolicydetail, setMpolicydetail] = useState();
-  const [Massuredamout, setMassuredamout] = useState();
-  const [MediExpiry, setMediExpiry] = useState();
-  const [Mnomieename, setMnomieename] = useState();
-  const [Lpolicyname, setLpolicyname] = useState();
-  const [Lpolicydetail, setLpolicydetail] = useState();
-  const [Lassuredamount, setLassuredamount] = useState();
-  const [LicExpiry, setLicExpiry] = useState();
-  const [Lnomineename, setLnomineename] = useState();
-  const [ResignDate, setResignDate] = useState();
-  const [ResignAcceptBy, setResignAcceptBy] = useState();
-  const [LastDate, setLastDate] = useState();
-  const [ResignReason, setResignReason] = useState();
+  const [AniversaryDate, setAniversaryDate] = useState(null);
+  const [BloodGroup, setBloodGroup] = useState(null);
+  const [Peremail, setPeremail] = useState(null);
+  const [EmerContact, setEmerContact] = useState(null);
+  const [RelationWcontact, setRelationWcontact] = useState(null);
+  const [LandlineNo, setLandlineNo] = useState(null);
+  const [PAddress, setPAddress] = useState(null);
+  const [PCity, setPCity] = useState(null);
+  const [PState, setPState] = useState(null);
+  const [Pcountry, setPcountry] = useState(null);
+  const [Ppincode, setPpincode] = useState(null);
+  const [Pphone, setPphone] = useState(null);
+  const [Caddress, setCaddress] = useState(null);
+  const [Cstate, setCstate] = useState(null);
+  const [Ccity, setCcity] = useState(null);
+  const [Ccountry, setCcountry] = useState(null);
+  const [Cpincode, setCpincode] = useState(null);
+  const [Cphone, setCphone] = useState(null);
+  const [Mpolicyname, setMpolicyname] = useState(null);
+  const [Mpolicydetail, setMpolicydetail] = useState(null);
+  const [Massuredamout, setMassuredamout] = useState(null);
+  const [MediExpiry, setMediExpiry] = useState(null);
+  const [Mnomieename, setMnomieename] = useState(null);
+  const [Lpolicyname, setLpolicyname] = useState(null);
+  const [Lpolicydetail, setLpolicydetail] = useState(null);
+  const [Lassuredamount, setLassuredamount] = useState(null);
+  const [LicExpiry, setLicExpiry] = useState(null);
+  const [Lnomineename, setLnomineename] = useState(null);
+  const [ResignDate, setResignDate] = useState(null);
+  const [ResignAcceptBy, setResignAcceptBy] = useState(null);
+  const [LastDate, setLastDate] = useState(null);
+  const [ResignReason, setResignReason] = useState(null);
 
   async function AddEmployee() {
-    let formData = {
-      Name: Name,
-      TeamType: TeamType,
-      HierarchyId: Hierarchy,
-      ReportingId: Reportingto,
-      ReportingId2: ReportingtoSecond,
-      ReportingId3: ReportingtoThird,
-      JoiningDate: JoiningDate,
-      Aadhar: Aadhar,
-      Gender: Gender,
-      Pan: PAN,
-      Group: Groupname,
-      Branch: BranchName,
-      VerticalId: Vertical,
-      SubVerticalid: SubVertical,
-      DesignationId: FilterDesignation,
-      OfficialEmail: OfficialEmail,
-      Referredby: RefferedBy,
-      Status: EmpStatus,
-      LoginId: LoginId,
-      password: Password,
-      VerificationDetails: VerificationDetails,
-      Grade: GradeId,
-      IssalesNetuser: "true",
-      Cer_DOB: CertificateDOB,
-      EmployeeId: EmployeeId,
-      Uanno: UAN,
-      PresentLocation: PresentLocation,
-      FixedCtc: FixedCtC,
-      AnnualCtc: AnnualCtC,
-      incenticePercent: IncentivePer,
-      incentiveAmount: IncentiveAmt,
-      EmpStatus: EmployeeStatus,
-      FromDate: EmpStatFromDate,
-      ToDate: EmpStatToDate,
-      Totalexp: TotalExp,
-      FatherName: Fathername,
-      MotherName: Mothername,
-      DOB: Origindob,
-      PersonalContact: PersonalContact,
-      MaritalStatus: MaritalStatus,
-      Anniversary: AniversaryDate,
-      Bloodgroup: BloodGroup,
-      Personalemail: Peremail,
-      EmergencyContact: EmerContact,
-      realtionwithContact: RelationWcontact,
-      LandlineNumber: LandlineNo,
-      PAddress: PAddress,
-      PCity: PCity,
-      PState: PState,
-      Pcountry: Pcountry,
-      Ppincode: Ppincode,
-      Pphone: Pphone,
-      CAddress: Caddress,
-      CCity: Ccity,
-      CState: Cstate,
-      Ccountry: Ccountry,
-      Cpincode: Cpincode,
-      Cphone: Cphone,
-      Medi_PolicyName: Mpolicyname,
-      Medi_PolicyDetail: Mpolicydetail,
-      Medi_AssuredAmount: Massuredamout,
-      Medi_ExpDate: MediExpiry,
-      Medi_NomineeName: Mnomieename,
-      Lic_PolicyName: Lpolicyname,
-      Lic_PolicyDetail: Lpolicydetail,
-      Lic_AssuredAmount: Lassuredamount,
-      Lic_ExpDate: LicExpiry,
-      Lic_NomineeName: Lnomineename,
-      ResignationDate: ResignDate,
-      AcceptedBy: ResignAcceptBy,
-      LastDate: LastDate,
-      Reason: ResignReason
-    };
-    console.log(formData);
+    let FormData1 = new FormData();
+    FormData1.append("Name", Name);
+    FormData1.append("TeamType", TeamType);
+    FormData1.append("HierarchyId", Hierarchy);
+    FormData1.append("ReportingId", Reportingto);
+    FormData1.append("ReportingId2", ReportingtoSecond);
+    FormData1.append("ReportingId3", ReportingtoThird);
+    FormData1.append("JoiningDate", JoiningDate);
+    FormData1.append("Aadhar", Aadhar);
+    FormData1.append("Gender", Gender);
+    FormData1.append("Pan", PAN);
+    FormData1.append("Group", Groupname);
+    FormData1.append("Branch", BranchName);
+    FormData1.append("VerticalId", Vertical);
+    FormData1.append("SubVerticalid", SubVertical);
+    FormData1.append("DesignationId", FilterDesignation);
+    FormData1.append("OfficialEmail", OfficialEmail);
+    FormData1.append("Referredby", RefferedBy);
+    FormData1.append("Status", EmpStatus);
+    FormData1.append("LoginId", LoginId);
+    FormData1.append("password", Password);
+    FormData1.append("VerificationDetails", VerificationDetails);
+    FormData1.append("Grade", GradeId);
+    FormData1.append("IssalesNetuser", "true");
+    FormData1.append("Cer_DOB", CertificateDOB);
+    FormData1.append("EmployeeId", EmployeeId);
+    FormData1.append("Uanno", UAN);
+    FormData1.append("PresentLocation", PresentLocation);
+    FormData1.append("FixedCtc", FixedCtC);
+    FormData1.append("AnnualCtc", AnnualCtC);
+    FormData1.append("incenticePercent", IncentivePer);
+    FormData1.append("incentiveAmount", IncentiveAmt);
+    FormData1.append("EmpStatus", EmployeeStatus);
+    FormData1.append("FromDate", EmpStatFromDate);
+    FormData1.append("ToDate", EmpStatToDate);
+    FormData1.append("Totalexp", TotalExp);
+    FormData1.append("FatherName", Fathername);
+    FormData1.append("MotherName", Mothername);
+    FormData1.append("DOB", Origindob);
+    FormData1.append("PersonalContact", PersonalContact);
+    FormData1.append("MaritalStatus", MaritalStatus);
+    FormData1.append("Anniversary", AniversaryDate);
+    FormData1.append("Bloodgroup", BloodGroup);
+    FormData1.append("Personalemail", Peremail);
+    FormData1.append("EmergencyContact", EmerContact);
+    FormData1.append("realtionwithContact", RelationWcontact);
+    FormData1.append("LandlineNumber", LandlineNo);
+    FormData1.append("PAddress", PAddress);
+    FormData1.append("PCity", PCity);
+    FormData1.append("PState", PState);
+    FormData1.append("Pcountry", Pcountry);
+    FormData1.append("Ppincode", Ppincode);
+    FormData1.append("Pphone", Pphone);
+    FormData1.append("CAddress", Caddress);
+    FormData1.append("CCity", Ccity);
+    FormData1.append("CState", Cstate);
+    FormData1.append("Ccountry", Ccountry);
+    FormData1.append("Cpincode", Cpincode);
+    FormData1.append("Cphone", Cphone);
+    FormData1.append("Medi_PolicyName", Mpolicyname);
+    FormData1.append("Medi_PolicyDetail", Mpolicydetail);
+    FormData1.append("Medi_AssuredAmount", Massuredamout);
+    FormData1.append("Medi_ExpDate", MediExpiry);
+    FormData1.append("Medi_NomineeName", Mnomieename);
+    FormData1.append("Lic_PolicyName", Lpolicyname);
+    FormData1.append("Lic_PolicyDetail", Lpolicydetail);
+    FormData1.append("Lic_AssuredAmount", Lassuredamount);
+    FormData1.append("Lic_ExpDate", LicExpiry);
+    FormData1.append("Lic_NomineeName", Lnomineename);
+    FormData1.append("ResignationDate", ResignDate);
+    FormData1.append("AcceptedBy", ResignAcceptBy);
+    FormData1.append("LastDate", LastDate);
+    FormData1.append("Reason", ResignReason);
+    
+    console.log(FormData1);
+    for (var pair of FormData1.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
+  }
     const res = await fetch(
       `${localStorage.getItem("BaseUrl")}/HrManual/AddEmployee`,
       {
         method: "POST",
+        body: FormData1,
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
         },
-        body: JSON.stringify(formData),
       }
     );
     const loginData = await res.json();
     if (loginData.resCode === 200) {
       console.log(loginData.resData);
+
+      cancelCourse();
+
     }
   }
 
@@ -396,8 +405,9 @@ export default function AddEmployee() {
 
                 <div class="col-lg-12">
                   
-                <form onSubmit={handleSubmit} >
+                <form id='clearForm' onSubmit={handleSubmit} >
                   <div class="row">
+                  
                       <div class="col-lg-6">
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Name <span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
@@ -1561,13 +1571,6 @@ export default function AddEmployee() {
                         </center>
                       </div>
                    
-
-
-
-
-
-
-
                   </div>
                   </form>
                 </div>
