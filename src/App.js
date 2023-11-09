@@ -9,6 +9,7 @@ import HolidayList from './Pages/HolidayList/HolidayList';
 import KnowledgeShare from './Pages/KnowledgeShare/KnowledgeShare';
 import HR from './Pages/HR/HR';
 import AddEmployee from './Pages/AddEmployee/AddEmployee';
+import EditEmployee from './Pages/EditEmployee/EditEmployee';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/KnowledgeShare" element={<KnowledgeShare/>} />
         <Route path="/HR" element={<HR/>} />
         <Route path="/AddEmployee" element={<AddEmployee/>} />
+        <Route path="/EditEmployee" element={<EditEmployee/>} />
       </Routes>
     </BrowserRouter>
   );

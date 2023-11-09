@@ -234,8 +234,6 @@ export default function AddEmployee() {
   }
 
 
-
-
   //#region setHierarchy
   async function GetHeirarchy(e) {
     const res = await fetch(
@@ -314,10 +312,6 @@ export default function AddEmployee() {
     setJoiningDate(date);
     console.log(JoiningDate);
   };
-
-  const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
-  }
 
   const CerDOB = (date) => {
     setCertificateDOB(date);

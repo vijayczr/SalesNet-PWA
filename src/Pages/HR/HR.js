@@ -3,7 +3,7 @@ import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
 import { useNavigate } from "react-router-dom";
 import { ConfigProvider, Space, Table, Tag } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
+import { EyeOutlined,EditOutlined } from '@ant-design/icons';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 
 export default function HR() {
@@ -74,7 +74,7 @@ export default function HR() {
       key: 'Action',
       render:(_,record) =>(
         <Space size="middle">
-          <button type="button" class="viewbutton"><EyeOutlined /> </button>
+          <button type="button" class="viewbutton" onClick={()=> EditEmpPage()}><EditOutlined /> </button>
         </Space>
       ),
       width: '15%',
@@ -82,6 +82,9 @@ export default function HR() {
   ];
 
 
+  const EditEmpPage = () => {
+    navigate("/EditEmployee", { replace: true });
+  };
 
   useEffect(() => {
     let ignore = false;
