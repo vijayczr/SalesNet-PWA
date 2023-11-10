@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link,createSearchParams  } from "react-router-dom";
 import { ConfigProvider, Space, Table, Tag } from 'antd';
 import { EyeOutlined,EditOutlined } from '@ant-design/icons';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
@@ -74,7 +74,7 @@ export default function HR() {
       key: 'Action',
       render:(_,record) =>(
         <Space size="middle">
-          <button type="button" class="viewbutton" onClick={()=> EditEmpPage()}><EditOutlined /> </button>
+          <button type="button" class="viewbutton" onClick={()=> EditEmpPage(record.userId)}><EditOutlined /> </button>
         </Space>
       ),
       width: '15%',
@@ -82,8 +82,16 @@ export default function HR() {
   ];
 
 
-  const EditEmpPage = () => {
-    navigate("/EditEmployee", { replace: true });
+  const EditEmpPage = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate(
+      {
+        pathname:"/EditEmployee",
+        search : createSearchParams({
+          id : e
+        }).toString()
+      }
+    );
   };
 
   useEffect(() => {
