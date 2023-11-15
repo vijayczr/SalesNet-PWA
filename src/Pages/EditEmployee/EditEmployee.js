@@ -3,9 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppHeader from "../../Components/Header/AppHeader";
 import '../AddEmployee/AddEmployee.css';
-import { DatePicker, Space } from 'antd';
+import { ConfigProvider, DatePicker, Space } from 'antd';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 import { useNavigate , useSearchParams } from "react-router-dom";
+import locale from 'antd/locale/zh_CN';
+import dayjs from 'dayjs';
 
 export default function EditEmployee(props) {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ export default function EditEmployee(props) {
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata();EditEmployee();
+    if (!ignore) getProfiledata();EditEmployee();GetHeirarchy(10)
     return () => { ignore = true; }
   }, []);
 
@@ -67,7 +69,7 @@ export default function EditEmployee(props) {
   const [Name, setName] = useState(null);
   const [TeamType, setTeamType] = useState(null);
   const [Hierarchy, setHierarchy] = useState(null);
-  const [Reportingto, setReportingto] = useState("null");
+  const [Reportingto, setReportingto] = useState(null);
   const [ReportingtoSecond, setReportingtoSecond] = useState("null");
   const [ReportingtoThird, setReportingtoThird] = useState("null");
   const [JoiningDate, setJoiningDate] = useState("null");
@@ -98,6 +100,7 @@ export default function EditEmployee(props) {
   const [EmpStatFromDate, setEmpStatFromDate] = useState(null);
   const [EmpStatToDate, setEmpStatToDate] = useState(null);
   const [TotalExp, setTotalExp] = useState(null);
+
   const [Fathername, setFathername] = useState(null);
   const [Mothername, setMothername] = useState(null);
   const [Origindob, setOrigindob] = useState(null);
@@ -109,6 +112,7 @@ export default function EditEmployee(props) {
   const [EmerContact, setEmerContact] = useState(null);
   const [RelationWcontact, setRelationWcontact] = useState(null);
   const [LandlineNo, setLandlineNo] = useState(null);
+
   const [PAddress, setPAddress] = useState(null);
   const [PCity, setPCity] = useState(null);
   const [PState, setPState] = useState(null);
@@ -121,6 +125,7 @@ export default function EditEmployee(props) {
   const [Ccountry, setCcountry] = useState(null);
   const [Cpincode, setCpincode] = useState(null);
   const [Cphone, setCphone] = useState(null);
+
   const [Mpolicyname, setMpolicyname] = useState(null);
   const [Mpolicydetail, setMpolicydetail] = useState(null);
   const [Massuredamout, setMassuredamout] = useState(null);
@@ -131,6 +136,7 @@ export default function EditEmployee(props) {
   const [Lassuredamount, setLassuredamount] = useState(null);
   const [LicExpiry, setLicExpiry] = useState(null);
   const [Lnomineename, setLnomineename] = useState(null);
+
   const [ResignDate, setResignDate] = useState(null);
   const [ResignAcceptBy, setResignAcceptBy] = useState(null);
   const [LastDate, setLastDate] = useState(null);
@@ -149,30 +155,93 @@ export default function EditEmployee(props) {
     const EmpData = await res.json();
     if (EmpData.resCode === 200) {
       const data = EmpData.resData;
-      console.log(loginData.resData);
+      console.log(EmpData.resData);
       setName(data.name);
       setTeamType(data.teamType);
       setHierarchy(data.hierarchyId);
       setReportingto(data.reportingId);
       setReportingtoSecond(data.reportingId2);
       setReportingtoThird(data.reportingId3);
-      setJoiningDate(data.joiningDate);
+      setJoiningDate(  (data.joiningDate=== null)?null  :data.joiningDate.toString().substring(0,10));
       setAadhar(data.aadhar);
       setGender(data.gender);
       setPAN(data.pan);
       setGroupname(data.group);
-      BranchName(data.branch);
+      setBranchName(data.branch);
       setVertical(data.VerticalId);
       setSubVertical(data.subVerticalId);
       setFilterDesignation(data.designationId);
-      setOfficialEmail(data.OfficialEmail);
+      setOfficialEmail(data.officialEmail);
       setRefferedBy(data.referredby);
+      setEmpStatus(data.status);
+      setLoginId(data.loginId);
+      setPassword(data.password);
+      setVerificationDetails(data.verificationDetails);
+      setGradeId(data.grade);
+      setCertificateDOB((data.cer_DOB=== null)?null  :data.cer_DOB.toString().substring(0,10));
+      setEmployeeId(data.employeeId);
+      setUAN(data.uanno);
+      setPresentLocation(data.presentLocation);
+      setFixedCtC(data.fixedCtc);
+      setAnnualCtC(data.annualCtc);
+      setIncentivePer(data.incenticePercent);
+      setIncentiveAmt(data.incentiveAmount);
+      setEmployeeStatus(data.empStatus);
+      setEmpStatFromDate((data.fromDate=== null)?null  :data.fromDate.toString().substring(0,10));
+      setEmpStatToDate((data.toDate=== null)?null  :data.toDate.toString().substring(0,10));
+      setTotalExp(data.totalexp);
+      setFathername(data.fatherName);
+      setMothername(data.motherName);
+      setOrigindob((data.dob=== null)?null  :data.dob.toString().substring(0,10));
+      setPersonalContact(data.personalContact);
+      setMaritalStatus((data.maritalStatus === "True") ? "true" : "false");
+      setAniversaryDate((data.anniversary=== null)?null  :data.anniversary.toString().substring(0,10));
+      setBloodGroup(data.bloodgroup);
+      setPeremail(data.personalemail);
+      setEmerContact(data.emergencyContact);
+      setRelationWcontact(data.realtionwithContact);
+      setLandlineNo(data.landlineNumber);
+      setPAddress(data.pAddress);
+      setPCity(data.pCity);
+      setPState(data.pState);
+      setPcountry(data.pcountry);
+      setPpincode(data.ppincode);
+      setPphone(data.pphone);
+      setCaddress(data.cAddress);
+      setCstate(data.cState);
+      setCcity(data.cCity);
+      setCcountry(data.ccountry);
+      setCpincode(data.cpincode);
+      setCphone(data.cphone);
+      setCpincode(data.cpincode);
+      setMpolicyname(data.medi_PolicyName);
+      setMpolicydetail(data.medi_PolicyDetail);
+      setMassuredamout(data.medi_AssuredAmount);
+      setMediExpiry((data.medi_ExpDate=== null)?null  :data.medi_ExpDate.toString().substring(0,10));
+      setMnomieename(data.medi_NomineeName);
+      setLpolicyname(data.lic_PolicyName);
+      setLpolicydetail(data.lic_PolicyDetail);
+      setLassuredamount(data.lic_AssuredAmount);
+      setLicExpiry((data.lic_ExpDate=== null)?null  :data.lic_ExpDate.toString().substring(0,10));
+      setLnomineename(data.lic_NomineeName);
+      setResignDate((data.resignationDate=== null)?null  :data.resignationDate.toString().substring(0,10))
+      setResignAcceptBy(data.acceptedBy);
+      setLastDate((data.lastDate=== null)?null  :data.lastDate.toString().substring(0,10))
+      setResignReason(data.reason);
 
-
-
+      
     }
   }
-  
+
+  console.log(JoiningDate);
+  // useEffect(() => {
+  //   let ignore = false;
+  //   if (!ignore) GetHeirarchy1(Reportingto);
+  //   console.log(Reportingto);
+  //   return () => { ignore = true; }
+  // }, []);
+  // const jDate = JoiningDate.toString().substring(0,10);
+  // console.log(jDate);
 
   async function AddEmployee() {
     let FormData1 = new FormData();
@@ -512,6 +581,7 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                             <select
                               style={{ width: "100%" }}
+                              value={Reportingto}
                               onChange={(e) => { setReportingto(e.target.value); console.log(e.target.value); GetHeirarchy1(e.target.value); }}
                               required
                             >
@@ -536,6 +606,7 @@ export default function EditEmployee(props) {
                               </select>
                               :
                               <select
+                              
                                 style={{ width: "100%" }}
                                 onChange={(e) => { setReportingtoSecond(e.target.value); console.log(e.target.value); GetReporting2(e.target.value); }}
 
@@ -581,7 +652,9 @@ export default function EditEmployee(props) {
                           <label class="col-md-5 mt-1 mb-0">Joining Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                           <div class="col-md-7">
                             <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={JoinDate} />
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs(JoiningDate)} style={{ width: "100%" }} onChange={JoinDate} />
+                              </ConfigProvider>
                             </Space>
                           </div>
                         </div>
@@ -607,6 +680,7 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                             <select
                               style={{ width: "100%" }}
+                              value={Gender}
                               onChange={(e) => { setGender(e.target.value); console.log(e.target.value); }}
                               required
                             >
@@ -654,7 +728,8 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Branch<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <select value={BranchName}
+                            <select 
+                              value={BranchName}
                               onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
                               style={{ width: "100%" }}
                               required
@@ -769,6 +844,7 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                             <select
                               style={{ width: "100%" }}
+                              value={EmpStatus}
                               onChange={(e) => { console.log(e.target.value); setEmpStatus(e.target.value) }}
                               required
                             >
@@ -831,6 +907,7 @@ export default function EditEmployee(props) {
                             <select
                               style={{ width: "100%" }}
                               required
+                              value={GradeId}
                               onChange={(e) => { console.log(e.target.value); setGradeId(e.target.value) }}
                             >
                               <option value={"null"}>Select</option>
@@ -875,9 +952,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Certificate Date of Birth<span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space>
-                              <DatePicker style={{ width: "100%" }} onChange={CerDOB} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs(CertificateDOB)} style={{ width: "100%" }} onChange={CerDOB} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space>
+                              <DatePicker style={{ width: "100%" }} onChange={CerDOB} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
@@ -889,6 +971,7 @@ export default function EditEmployee(props) {
                               style={{ width: "100%" }}
                               type='text'
                               disabled
+                              value={EmployeeId}
                               onChange={(e) => setEmployeeId(e.target.value)}
                               placeholder='Employee Id'
                             />
@@ -1005,9 +1088,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">From Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={onEmpStatFromDate} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs(EmpStatFromDate)} style={{ width: "100%" }} onChange={onEmpStatFromDate} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space >
+                              <DatePicker style={{ width: "100%" }} onChange={onEmpStatFromDate} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
@@ -1015,9 +1103,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">To Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={onEmpStatToDate} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs(EmpStatToDate)} style={{ width: "100%" }} onChange={onEmpStatToDate} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space >
+                              <DatePicker style={{ width: "100%" }} onChange={onEmpStatToDate} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
@@ -1075,9 +1168,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Original Date of Birth<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={OriginDOB} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs(Origindob)} style={{ width: "100%" }} onChange={OriginDOB} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space >
+                              <DatePicker style={{ width: "100%" }} onChange={OriginDOB} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
@@ -1117,9 +1215,14 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                             {
                               (MaritalStatus === "true") ?
-                                <Space >
-                                  <DatePicker style={{ width: "100%" }} onChange={AnniversaryDate} />
-                                </Space>
+                              <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs(AniversaryDate)} style={{ width: "100%" }} onChange={AnniversaryDate} />
+                              </ConfigProvider>
+                            </Space>
+                                // <Space >
+                                //   <DatePicker style={{ width: "100%" }} onChange={AnniversaryDate} />
+                                // </Space>
                                 :
                                 <Space >
                                   <DatePicker style={{ width: "100%" }} onChange={AnniversaryDate} disabled />
@@ -1457,9 +1560,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Expiry Date<span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={MediExpDate} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs((MediExpiry === null)? '2000-01-01':MediExpiry)} style={{ width: "100%" }} onChange={MediExpDate} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space >
+                              <DatePicker style={{ width: "100%" }} onChange={MediExpDate} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
@@ -1527,9 +1635,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Expiry Date<span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={LexpDate} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs((LicExpiry === null)? '2000-01-01':LicExpiry)} style={{ width: "100%" }} onChange={LexpDate} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space >
+                              <DatePicker style={{ width: "100%" }} onChange={LexpDate} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
@@ -1558,9 +1671,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Resignation Date<span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={Resignationdate} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs((ResignDate === null)? '2000-01-01':ResignDate)} style={{ width: "100%" }} onChange={Resignationdate} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space >
+                              <DatePicker style={{ width: "100%" }} onChange={Resignationdate} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
@@ -1581,9 +1699,14 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">Last Working Date<span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={LastWorking} />
+                          <Space >
+                              <ConfigProvider locale={locale}>
+                              <DatePicker value={dayjs((LastDate === null)? '2000-01-01':LastDate)} style={{ width: "100%" }} onChange={LastWorking} />
+                              </ConfigProvider>
                             </Space>
+                            {/* <Space >
+                              <DatePicker style={{ width: "100%" }} onChange={LastWorking} />
+                            </Space> */}
                           </div>
                         </div>
                       </div>
