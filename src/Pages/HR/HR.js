@@ -74,7 +74,8 @@ export default function HR() {
       key: 'Action',
       render:(_,record) =>(
         <Space size="middle">
-          <button type="button" class="viewbutton" onClick={()=> EditEmpPage(record.userId)}><EditOutlined /> </button>
+          <button type="button" class="viewbutton" style={{marginRight:"0px"}} onClick={()=> EditEmpPage(record.userId)}><EditOutlined /> </button>
+          <button type="button" class="viewbutton" style={{marginLeft:"0px"}} onClick={()=> ViewEmpPage(record.userId)}><EditOutlined /> </button>
         </Space>
       ),
       width: '15%',
@@ -87,6 +88,18 @@ export default function HR() {
     navigate(
       {
         pathname:"/EditEmployee",
+        search : createSearchParams({
+          id : e
+        }).toString()
+      }
+    );
+  };
+
+  const ViewEmpPage = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate(
+      {
+        pathname:"/ViewEmployee",
         search : createSearchParams({
           id : e
         }).toString()

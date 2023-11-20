@@ -10,6 +10,7 @@ import KnowledgeShare from './Pages/KnowledgeShare/KnowledgeShare';
 import HR from './Pages/HR/HR';
 import AddEmployee from './Pages/AddEmployee/AddEmployee';
 import EditEmployee from './Pages/EditEmployee/EditEmployee';
+import ViewEmployee from './Pages/ViewEmployee/ViewEmployee';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/HR" element={<HR/>} />
         <Route path="/AddEmployee" element={<AddEmployee/>} />
         <Route path="/EditEmployee" element={<EditEmployee/>} />
+        <Route path="/ViewEmployee" element={<ViewEmployee/>} />
       </Routes>
     </BrowserRouter>
   );

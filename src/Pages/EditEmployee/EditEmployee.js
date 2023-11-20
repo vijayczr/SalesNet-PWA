@@ -16,13 +16,14 @@ export default function EditEmployee(props) {
   const [Hierarchy1, setHierarchy1] = useState(null);
   const [Reportingto1, setReportingto1] = useState(null);
   const [Reportingto2, setReportingto2] = useState(null);
+  const [Vertic1 , setVertic1] = useState("null");
   const [Subverticallist, setSubverticallist] = useState(null);
   const [searchparams] = useSearchParams();
   console.log(searchparams.get("id"));
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata();EditEmployee();GetHeirarchy(10)
+    if (!ignore) getProfiledata();EditEmployee();
     return () => { ignore = true; }
   }, []);
 
@@ -168,8 +169,9 @@ export default function EditEmployee(props) {
       setPAN(data.pan);
       setGroupname(data.group);
       setBranchName(data.branch);
-      setVertical((data.VerticalId === undefined) ? "null":data.VerticalId);
-      setSubVertical((data.subVerticalId === undefined) ? "null":data.subVerticalId);
+      setVertical(data.verticalId);
+      // setVertic1(parseInt(data.VerticalId));
+      setSubVertical(data.subVerticalid);
       setFilterDesignation(data.designationId);
       setOfficialEmail(data.officialEmail);
       setRefferedBy(data.referredby);
@@ -231,6 +233,24 @@ export default function EditEmployee(props) {
 
       
     }
+
+      GetHeirarchy(EmpData.resData.hierarchyId);
+      console.log(EmpData.resData.hierarchyId);
+
+      if(EmpData.resData.reportingId != null){
+        GetHeirarchy1(EmpData.resData.reportingId);
+        console.log(EmpData.resData.reportingId);
+      }
+
+      if (EmpData.resData.reportingId2 != null) {
+        GetReporting2(EmpData.resData.reportingId2);
+        console.log(EmpData.resData.reportingId2);
+      }
+
+      SubVerticalList(EmpData.resData.verticalId);
+
+      console.log(Vertical);
+
   }
 
   console.log(JoiningDate);
@@ -257,9 +277,9 @@ export default function EditEmployee(props) {
     FormData1.append("Pan", PAN);
     FormData1.append("Group", Groupname);
     FormData1.append("Branch", BranchName);
-    FormData1.append("VerticalId",Vertical);
+    FormData1.append("VerticalId",(Vertical === undefined) ? 0 : Vertical);
 
-    FormData1.append("SubVerticalid",SubVertical);
+    FormData1.append("SubVerticalid",(SubVertical === undefined) ? 0 : SubVertical);
 
     FormData1.append("DesignationId", FilterDesignation);
     FormData1.append("OfficialEmail", OfficialEmail);
@@ -460,8 +480,7 @@ export default function EditEmployee(props) {
   const LastWorking = (date) => {
     setLastDate(date);
   }
-
-
+  console.log(Vertical);
   //#endregion
 
 
@@ -474,7 +493,7 @@ export default function EditEmployee(props) {
           <div class="row pt-1 pb-1">
             <div class="col-md-6">
               <nav aria-label="breadcrumb">
-                <h2> Employee</h2>
+                <h2> Employee </h2>
               </nav>
             </div>
             <div class="col-md-6">
@@ -610,7 +629,7 @@ export default function EditEmployee(props) {
                               </select>
                               :
                               <select
-                              
+                                value={ReportingtoSecond}
                                 style={{ width: "100%" }}
                                 onChange={(e) => { setReportingtoSecond(e.target.value); console.log(e.target.value); GetReporting2(e.target.value); }}
 
@@ -637,6 +656,7 @@ export default function EditEmployee(props) {
                               </select>
                               :
                               <select
+                              value={ReportingtoThird}
                                 style={{ width: "100%" }}
                                 onChange={(e) => { setReportingtoThird(e.target.value); console.log(e.target.value); }}
 
@@ -765,17 +785,18 @@ export default function EditEmployee(props) {
                           <label class="col-md-5 mt-1 mb-0">Vertical<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                           <div class="col-md-7">
                             <select
+                              value={Vertical}
                               onChange={(e) => { console.log(e.target.value); setVertical(e.target.value); SubVerticalList(e.target.value) }}
                               style={{ width: "100%" }}
                               required
                             >
                               <option value={"null"}>Select</option>
-                              <option value={1}>ASG</option>
-                              <option value={2}>ISG</option>
-                              <option value={3}>PSG</option>
-                              <option value={4}>Corporate</option>
-                              <option value={5}>Support Staff</option>
-                              <option value={6}>ESG</option>
+                              <option value={"1"}>ASG</option>
+                              <option value={"2"}>ISG</option>
+                              <option value={"3"}>PSG</option>
+                              <option value={"4"}>Corporate</option>
+                              <option value={"5"}>Support Staff</option>
+                              <option value={"6"}>ESG</option>
                             </select>
                           </div>
                         </div>
@@ -784,7 +805,8 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0">SubVertical<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
                           <div class="col-md-7">
-                            <select value={SubVertical}
+                            <select 
+                              value={SubVertical}
                               onChange={(e) => { console.log(e.target.value); setSubVertical(e.target.value) }}
                               style={{ width: "100%" }}
                               required
