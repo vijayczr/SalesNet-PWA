@@ -78,8 +78,8 @@ export default function EditEmployee(props) {
   const [PAN, setPAN] = useState(null);
   const [Groupname, setGroupname] = useState(null);
   const [BranchName, setBranchName] = useState(null);
-  const [Vertical, setVertical] = useState(null);
-  const [SubVertical, setSubVertical] = useState(null);
+  const [Vertical, setVertical] = useState("null");
+  const [SubVertical, setSubVertical] = useState("null");
   const [FilterDesignation, setFilterDesignation] = useState(999);
   const [OfficialEmail, setOfficialEmail] = useState(null);
   const [RefferedBy, setRefferedBy] = useState(null);
@@ -168,8 +168,8 @@ export default function EditEmployee(props) {
       setPAN(data.pan);
       setGroupname(data.group);
       setBranchName(data.branch);
-      setVertical(data.VerticalId);
-      setSubVertical(data.subVerticalId);
+      setVertical((data.VerticalId === undefined) ? "null":data.VerticalId);
+      setSubVertical((data.subVerticalId === undefined) ? "null":data.subVerticalId);
       setFilterDesignation(data.designationId);
       setOfficialEmail(data.officialEmail);
       setRefferedBy(data.referredby);
@@ -257,8 +257,10 @@ export default function EditEmployee(props) {
     FormData1.append("Pan", PAN);
     FormData1.append("Group", Groupname);
     FormData1.append("Branch", BranchName);
-    FormData1.append("VerticalId", Vertical);
-    FormData1.append("SubVerticalid", SubVertical);
+    FormData1.append("VerticalId",Vertical);
+
+    FormData1.append("SubVerticalid",SubVertical);
+
     FormData1.append("DesignationId", FilterDesignation);
     FormData1.append("OfficialEmail", OfficialEmail);
     FormData1.append("Referredby", RefferedBy);
@@ -319,6 +321,8 @@ export default function EditEmployee(props) {
     FormData1.append("Reason", ResignReason);
 
     console.log(FormData1);
+    console.log(Vertical);
+    console.log(SubVertical);
     for (var pair of FormData1.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
