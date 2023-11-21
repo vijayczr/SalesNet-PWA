@@ -86,3 +86,29 @@
 .viewbutton:hover {
     box-shadow: 0 0 2px 2px rgb(107, 107, 211);
 }
+
+.viewbutton1 {
+    margin-left: 10px;
+ padding: 0%;
+    height: 32px;
+    width: 32px;
+    border-radius: 20%;
+    border: none;
+    background-color: hsl(143, 63%, 76%);
+}
+.viewbutton1:hover {
+    box-shadow: 0 0 2px 2px rgb(107, 107, 211);
+}
+
+.viewbutton2 {
+    margin-left: 10px;
+ padding: 0%;
+    height: 32px;
+    width: 32px;
+    border-radius: 20%;
+    border: none;
+    background-color: hsl(349, 97%, 47%)
+}
+.viewbutton2:hover {
+    box-shadow: 0 0 2px 2px rgb(107, 107, 211);
+}

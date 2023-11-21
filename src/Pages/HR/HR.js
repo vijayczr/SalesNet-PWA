@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
-import { useNavigate , Link,createSearchParams  } from "react-router-dom";
+import { useNavigate, Link, createSearchParams } from "react-router-dom";
 import { ConfigProvider, Space, Table, Tag } from 'antd';
-import { EyeOutlined,EditOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled } from '@ant-design/icons';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 
 export default function HR() {
@@ -72,24 +72,61 @@ export default function HR() {
       title: 'Action',
       dataIndex: 'stActionatus',
       key: 'Action',
-      render:(_,record) =>(
+      render: (_, record) => (
         <Space size="middle">
-          <button type="button" class="viewbutton" style={{marginRight:"0px"}} onClick={()=> EditEmpPage(record.userId)}><EditOutlined /> </button>
-          <button type="button" class="viewbutton" style={{marginLeft:"0px"}} onClick={()=> ViewEmpPage(record.userId)}><EditOutlined /> </button>
+          <button type="button" class="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditEmpPage(record.userId)}><EditOutlined /> </button>
+          <button type="button" class="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => ViewEmpPage(record.userId)}><FolderViewOutlined /> </button>
+          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
+
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h5>Do you really want to delete user {record.name}</h5>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" onClick={() => DelEmp(record.userId)}>Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </Space>
       ),
       width: '15%',
     }
   ];
 
+  async function DelEmp(e){
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/HrManual/delEmp?EmpId=${e}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    );
+    const Response = await res.json();
+    if(Response.resCode === 200) {
+      window.location.reload();
+    }
+
+  };
+
 
   const EditEmpPage = (e) => {
-    // navigate("/EditEmployee", { replace: true });
     navigate(
       {
-        pathname:"/EditEmployee",
-        search : createSearchParams({
-          id : e
+        pathname: "/EditEmployee",
+        search: createSearchParams({
+          id: e
         }).toString()
       }
     );
@@ -99,9 +136,9 @@ export default function HR() {
     // navigate("/EditEmployee", { replace: true });
     navigate(
       {
-        pathname:"/ViewEmployee",
-        search : createSearchParams({
-          id : e
+        pathname: "/ViewEmployee",
+        search: createSearchParams({
+          id: e
         }).toString()
       }
     );
@@ -117,7 +154,7 @@ export default function HR() {
   async function getProfiledata() {
 
     const res = await fetch(
-      "https://localhost:44388/Authentication/ProfileData",
+      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
       {
         method: "GET",
         headers: {
@@ -145,25 +182,25 @@ export default function HR() {
     navigate(-1);
   }
 
-  const NavAddEmployee =()=> {
+  const NavAddEmployee = () => {
     navigate("/AddEmployee", { replace: true });
   }
 
 
   async function HrEmpList() {
     let PageData = {
-      IsActive : (FilterStatus === "true")? true : false,
-      GroupName: (Groupname === "null")? null : Groupname,
-      Branch : (BranchName === "null")? null : BranchName,
-      Name : (FilterName === "null")? true : FilterName,
-      Vertical : (FilterVertical === "null")? parseInt("7") : parseInt(FilterVertical),
-      Designation : (FilterDesignation === "null")? parseInt("999") : parseInt(FilterDesignation),
+      IsActive: (FilterStatus === "true") ? true : false,
+      GroupName: (Groupname === "null") ? null : Groupname,
+      Branch: (BranchName === "null") ? null : BranchName,
+      Name: (FilterName === "null") ? true : FilterName,
+      Vertical: (FilterVertical === "null") ? parseInt("7") : parseInt(FilterVertical),
+      Designation: (FilterDesignation === "null") ? parseInt("999") : parseInt(FilterDesignation),
       pageNumber: tableParams.pagination.current,
       pageSize: tableParams.pagination.pageSize,
     };
     console.log(PageData);
     const res = await fetch(
-      "https://localhost:44388/HrManual/HrEmpList",
+      `${localStorage.getItem("BaseUrl")}/HrManual/HrEmpList`,
       {
         method: "POST",
         headers: {
@@ -209,7 +246,7 @@ export default function HR() {
 
 
   return (
-    <div style={{height:"100vh", overflow: "auto"}}>
+    <div style={{ height: "100vh", overflow: "auto" }}>
       <AppHeader data={ProfileData} />
 
       <div class="breadcrumb-area">
@@ -230,7 +267,7 @@ export default function HR() {
         </div>
       </div>
 
-      <div className='containner p-4' style={{ height:"80vh",overflow: "auto",  backgroundColor: "#f3f5f9" }} >
+      <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
         <div class="row">
           <div class="col-lg-12">
             <div class="bg-boxshadow">
@@ -241,8 +278,8 @@ export default function HR() {
                       <label for="inputEmail3" class="col-md-5">Group Name<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                       <div class="col-md-7">
                         <select value={Groupname}
-                          onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value)   }}
-                           style={{ width: "15vw" }}
+                          onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
+                          style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
                           <option value={"Corporate"}>Corporate</option>
@@ -252,30 +289,30 @@ export default function HR() {
                     </div>
                   </div>
                   <div class="col-md-4 mt-3">
-                  <div class="d-flex">
+                    <div class="d-flex">
                       <label for="inputEmail3" class="col-md-5">Branch<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
                       <div class="col-md-7">
                         <select value={BranchName}
                           onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
-                           style={{ width: "15vw" }}
+                          style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
                           {
                             (Groupname === "null")
-                            ? <></>
-                            :
-                            (
-                            (Groupname === "Branch"  )
-                            ? <> 
-                              <option value={"Delhi"}>Delhi</option>
-                              <option value={"Dehradun"}>Dehradun</option>
-                              <option value={"Bangalore"}>Bangalore</option>
-                              <option value={"Chennai"}>Chennai</option>
-                              <option value={"Hydrabad"}>Hydrabad</option>
-                              <option value={"Kolkata"}>Kolkata</option>
-                              <option value={"Pune"}>Pune</option>
-                              </>
-                            : <option value={"Corporate"}>Corporate</option>)
+                              ? <></>
+                              :
+                              (
+                                (Groupname === "Branch")
+                                  ? <>
+                                    <option value={"Delhi"}>Delhi</option>
+                                    <option value={"Dehradun"}>Dehradun</option>
+                                    <option value={"Bangalore"}>Bangalore</option>
+                                    <option value={"Chennai"}>Chennai</option>
+                                    <option value={"Hydrabad"}>Hydrabad</option>
+                                    <option value={"Kolkata"}>Kolkata</option>
+                                    <option value={"Pune"}>Pune</option>
+                                  </>
+                                  : <option value={"Corporate"}>Corporate</option>)
                           }
                         </select>
                       </div>
@@ -284,8 +321,8 @@ export default function HR() {
                   </div>
                   <div class="col-md-4 mt-3">
                     <div class="d-flex">
-                    <label for="inputEmail3" class="col-md-5">Name<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                    <div class="col-md-7" style={{paddingLeft:"10px"}}>
+                      <label for="inputEmail3" class="col-md-5">Name<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                      <div class="col-md-7" style={{ paddingLeft: "10px" }}>
                         <input
                           type='text'
                           value={FilterName}
@@ -299,8 +336,8 @@ export default function HR() {
                       <label for="inputEmail3" class="col-md-5">Status<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                       <div class="col-md-7">
                         <select value={FilterStatus}
-                          onChange={(e) => { console.log(e.target.value); setFilterStatus(e.target.value)   }}
-                           style={{ width: "15vw" }}
+                          onChange={(e) => { console.log(e.target.value); setFilterStatus(e.target.value) }}
+                          style={{ width: "15vw" }}
                         >
                           <option value={"true"}>Active</option>
                           <option value={"false"}>Inactive</option>
@@ -313,8 +350,8 @@ export default function HR() {
                       <label for="inputEmail3" class="col-md-5">Vertical<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
                       <div class="col-md-7">
                         <select value={FilterVertical}
-                          onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value)   }}
-                           style={{ width: "15vw" }}
+                          onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value) }}
+                          style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
                           <option value={1}>ASG</option>
@@ -332,11 +369,11 @@ export default function HR() {
                       <label for="inputEmail3" class="col-md-5">Designation<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                       <div class="col-md-7">
                         <select value={FilterDesignation}
-                          onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value)   }}
-                           style={{ width: "15vw" }}
+                          onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
+                          style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
-                          <EmpListDropdown/>
+                          <EmpListDropdown />
                         </select>
                       </div>
                     </div>
