@@ -11,6 +11,7 @@ import HR from './Pages/HR/HR';
 import AddEmployee from './Pages/AddEmployee/AddEmployee';
 import EditEmployee from './Pages/EditEmployee/EditEmployee';
 import ViewEmployee from './Pages/ViewEmployee/ViewEmployee';
+import EmpProduct from './Pages/EmpProduct/EmpProduct';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/AddEmployee" element={<AddEmployee/>} />
         <Route path="/EditEmployee" element={<EditEmployee/>} />
         <Route path="/ViewEmployee" element={<ViewEmployee/>} />
+        <Route path="/EmpProduct" element={<EmpProduct/>} />
       </Routes>
     </BrowserRouter>
   );

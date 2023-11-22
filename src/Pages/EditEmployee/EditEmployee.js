@@ -1116,7 +1116,7 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                           <Space >
                               <ConfigProvider locale={locale}>
-                              <DatePicker value={dayjs(EmpStatFromDate)} style={{ width: "100%" }} onChange={onEmpStatFromDate} />
+                              <DatePicker value={dayjs((EmpStatFromDate === null)? '2000-01-01':EmpStatFromDate)} style={{ width: "100%" }} onChange={onEmpStatFromDate} />
                               </ConfigProvider>
                             </Space>
                             {/* <Space >
@@ -1131,7 +1131,7 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                           <Space >
                               <ConfigProvider locale={locale}>
-                              <DatePicker value={dayjs(EmpStatToDate)} style={{ width: "100%" }} onChange={onEmpStatToDate} />
+                              <DatePicker value={dayjs((EmpStatToDate === null)? '2000-01-01':EmpStatToDate)} style={{ width: "100%" }} onChange={onEmpStatToDate} />
                               </ConfigProvider>
                             </Space>
                             {/* <Space >
@@ -1196,7 +1196,7 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                           <Space >
                               <ConfigProvider locale={locale}>
-                              <DatePicker value={dayjs(Origindob)} style={{ width: "100%" }} onChange={OriginDOB} />
+                              <DatePicker value={dayjs((Origindob === null)? '2000-01-01':Origindob)} style={{ width: "100%" }} onChange={OriginDOB} />
                               </ConfigProvider>
                             </Space>
                             {/* <Space >
@@ -1243,7 +1243,7 @@ export default function EditEmployee(props) {
                               (MaritalStatus === "true") ?
                               <Space >
                               <ConfigProvider locale={locale}>
-                              <DatePicker value={dayjs(AniversaryDate)} style={{ width: "100%" }} onChange={AnniversaryDate} />
+                              <DatePicker value={dayjs((AniversaryDate === null)? '2000-01-01':AniversaryDate)} style={{ width: "100%" }} onChange={AnniversaryDate} />
                               </ConfigProvider>
                             </Space>
                                 // <Space >

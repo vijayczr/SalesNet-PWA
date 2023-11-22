@@ -3,7 +3,7 @@ import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
 import { useNavigate, Link, createSearchParams } from "react-router-dom";
 import { ConfigProvider, Space, Table, Tag } from 'antd';
-import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled ,FileAddOutlined} from '@ant-design/icons';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 
 export default function HR() {
@@ -77,6 +77,8 @@ export default function HR() {
           <button type="button" class="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditEmpPage(record.userId)}><EditOutlined /> </button>
           <button type="button" class="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => ViewEmpPage(record.userId)}><FolderViewOutlined /> </button>
           <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
+          <button type="button" class="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Empprdct(record.userId)}><FileAddOutlined /></button>
+
 
           <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -102,6 +104,17 @@ export default function HR() {
       width: '15%',
     }
   ];
+
+  const Empprdct = (e) => {
+    navigate(
+      {
+        pathname: "/EmpProduct",
+        search: createSearchParams({
+          id: e
+        }).toString()
+      }
+    );
+  };
 
   async function DelEmp(e){
     const res = await fetch(

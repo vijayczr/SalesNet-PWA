@@ -107,8 +107,21 @@
     width: 32px;
     border-radius: 20%;
     border: none;
-    background-color: hsl(349, 97%, 47%)
+    background-color: hsl(349, 88%, 62%)
 }
 .viewbutton2:hover {
+    box-shadow: 0 0 2px 2px rgb(107, 107, 211);
+}
+
+.viewbutton3 {
+    margin-left: 10px;
+ padding: 0%;
+    height: 32px;
+    width: 32px;
+    border-radius: 20%;
+    border: none;
+    background-color: hsl(227, 73%, 62%)
+}
+.viewbutton3:hover {
     box-shadow: 0 0 2px 2px rgb(107, 107, 211);
 }

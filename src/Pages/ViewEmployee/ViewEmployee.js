@@ -8,22 +8,60 @@ import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import locale from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
+import {Table} from 'antd';
 
 export default function ViewEmployee(props) {
     const navigate = useNavigate();
 
     const [profileData, setProfileData] = useState("");
     const [Hierarchy1, setHierarchy1] = useState(null);
+    const [data, setData] = useState();
     const [Reportingto1, setReportingto1] = useState(null);
     const [Reportingto2, setReportingto2] = useState(null);
     const [Vertic1, setVertic1] = useState("null");
     const [Subverticallist, setSubverticallist] = useState(null);
     const [searchparams] = useSearchParams();
+
+    const columns = [
+        {
+            title: 'Year',
+            dataIndex: 'year',
+            key: 'year',
+            width: '10%',
+        },
+        {
+            title: 'Grade',
+            dataIndex: 'grade',
+            key: 'grade',
+            width: '15%',
+        },
+        {
+            title: 'Vertical Name',
+            dataIndex: 'verticalName',
+            key: 'verticalName',
+            width: '25%',
+        },
+        {
+            title: 'Designation',
+            dataIndex: 'designation',
+            key: 'designation',
+            width: '30%',
+        },
+        {
+            title: 'Fixed Package',
+            dataIndex: 'fixedPackage',
+            key: 'fixedPackage',
+            width: '20%',
+        }
+    ];
+
+
+
     console.log(searchparams.get("id"));
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata(); EditEmployee();
+        if (!ignore) getProfiledata(); EditEmployee(); EmpHistory();
         return () => { ignore = true; }
     }, []);
 
@@ -54,13 +92,38 @@ export default function ViewEmployee(props) {
         // }
     }
 
+
+    async function EmpHistory(){
+        try {
+            const res = await fetch(
+                `${localStorage.getItem("BaseUrl")}/HrManual/EmpHistory?EmpId=${searchparams.get("id")}`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                    },
+                }
+            )
+            const profileData = await res.json();
+            if (profileData.resCode === 200) {
+                console.log(profileData.resData);
+                setData(profileData.resData);
+            }
+        } catch (e) {
+            console.log("ok");
+            navigate("/", { replace: true });
+        }
+    }
+
+
+
     const NavBack = () => {
         navigate("/HR", { replace: true });
     }
 
     async function handleSubmit(e) {
-      console.log(e.target.value);
-      e.preventDefault();
+        console.log(e.target.value);
+        e.preventDefault();
     }
     const cancelCourse = () => {
         document.getElementById("clearForm").reset();
@@ -1061,7 +1124,7 @@ export default function ViewEmployee(props) {
                                                     <div class="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
-                                                                <DatePicker value={dayjs(EmpStatToDate)} style={{ width: "100%" }} onChange={onEmpStatToDate} disabled/>
+                                                                <DatePicker value={dayjs(EmpStatToDate)} style={{ width: "100%" }} onChange={onEmpStatToDate} disabled />
                                                             </ConfigProvider>
                                                         </Space>
                                                         {/* <Space >
@@ -1129,7 +1192,7 @@ export default function ViewEmployee(props) {
                                                     <div class="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
-                                                                <DatePicker value={dayjs(Origindob)} style={{ width: "100%" }} onChange={OriginDOB} disabled/>
+                                                                <DatePicker value={dayjs(Origindob)} style={{ width: "100%" }} onChange={OriginDOB} disabled />
                                                             </ConfigProvider>
                                                         </Space>
                                                         {/* <Space >
@@ -1178,7 +1241,7 @@ export default function ViewEmployee(props) {
                                                             (MaritalStatus === "true") ?
                                                                 <Space >
                                                                     <ConfigProvider locale={locale}>
-                                                                        <DatePicker value={dayjs(AniversaryDate)} style={{ width: "100%" }} onChange={AnniversaryDate} disabled/>
+                                                                        <DatePicker value={dayjs(AniversaryDate)} style={{ width: "100%" }} onChange={AnniversaryDate} disabled />
                                                                     </ConfigProvider>
                                                                 </Space>
                                                                 // <Space >
@@ -1716,6 +1779,36 @@ export default function ViewEmployee(props) {
                             <button class="FunctionButton1" style={{ backgroundColor: "#183985" }} type="submit" >Submit</button>
                           </center>
                         </div> */}
+                                            <div class="col-lg-12">
+                                                <div class="form-group d-flex">
+                                                    <h3>Employee History</h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 ">
+                                                <ConfigProvider
+                                                    theme={{
+                                                        components: {
+                                                            Table: {
+                                                                borderColor: '#000000',
+                                                                headerBg: '#da251c',
+                                                                headerColor: 'white',
+                                                                cellFontSizeMD: 14,
+                                                                rowHoverBg: '#abc4af',
+                                                                fontSize: 16,
+                                                                cellPaddingBlock: 0
+                                                            },
+                                                        },
+                                                    }}
+                                                >
+                                                    <Table
+
+                                                        columns={columns}
+                                                        dataSource={data}
+                                                        style={{ overflowX: "auto" }}
+                                                    />
+                                                </ConfigProvider>
+
+                                            </div>
 
                                         </div>
                                     </form>
