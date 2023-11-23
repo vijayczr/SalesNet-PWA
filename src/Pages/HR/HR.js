@@ -401,7 +401,18 @@ export default function HR() {
                   </center>
                 </div>
               </div>
-
+              <div class="col-md-4 mt-3">
+                    <div class="d-flex">
+                      <label for="inputEmail3" class="col-md-5">Name<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                      <div class="col-md-7" style={{ paddingLeft: "10px" }}>
+                        <input
+                          type='text'
+                          value={FilterName}
+                          onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value) ;DocumentSearch() }}
+                        />
+                      </div>
+                    </div>
+                  </div>
               <br></br>
 
 

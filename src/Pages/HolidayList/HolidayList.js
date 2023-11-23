@@ -58,7 +58,7 @@ export default function HolidayList() {
   async function getProfiledata() {
 
     const res = await fetch(
-      "https://localhost:44388/Authentication/ProfileData",
+      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
       {
         method: "GET",
         headers: {
@@ -92,7 +92,7 @@ export default function HolidayList() {
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
     const res = await fetch(
-      "https://localhost:44388/Holidays/HolidayList",
+      `${localStorage.getItem("BaseUrl")}/Holidays/HolidayList`,
       {
         method: "POST",
         headers: {
