@@ -403,7 +403,7 @@ export default function HR() {
               </div>
               <div class="col-md-4 mt-3">
                     <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Name<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                      <label for="inputEmail3" class="col-md-5">Search<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
                       <div class="col-md-7" style={{ paddingLeft: "10px" }}>
                         <input
                           type='text'

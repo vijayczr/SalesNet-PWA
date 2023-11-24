@@ -135,6 +135,9 @@ export default function AddEmployee() {
   const [LastDate, setLastDate] = useState(null);
   const [ResignReason, setResignReason] = useState(null);
 
+  const [Attachment, setAttachment] = useState(null);
+  const [Image, setImage] = useState(null);
+
   async function AddEmployee() {
     let FormData1 = new FormData();
     FormData1.append("Name", Name);
@@ -183,6 +186,10 @@ export default function AddEmployee() {
     FormData1.append("EmergencyContact", EmerContact);
     FormData1.append("realtionwithContact", RelationWcontact);
     FormData1.append("LandlineNumber", LandlineNo);
+
+    FormData1.append("uploadImage", Image);
+    FormData1.append("Attachments", Attachment);
+
     FormData1.append("PAddress", PAddress);
     FormData1.append("PCity", PCity);
     FormData1.append("PState", PState);
@@ -210,6 +217,9 @@ export default function AddEmployee() {
     FormData1.append("LastDate", LastDate);
     FormData1.append("Reason", ResignReason);
     
+    // console.log(document.querySelector('input[type="file"]').files[0]);
+    console.log(Image);
+    console.log(Attachment);
     console.log(FormData1);
     for (var pair of FormData1.entries()) {
       console.log(pair[0]+ ', ' + pair[1]); 
@@ -351,6 +361,20 @@ export default function AddEmployee() {
 
 
   //#endregion
+
+  // const handleFileChange1 = (e: ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) {
+  //     setFile(e.target.files[0]);
+  //   }
+  // };
+
+  const uploadImage = (event) => {
+    setImage(event.target.files[0]);
+  }
+
+  const AttachmentUpload = (event) =>{
+    setAttachment(event.target.files[0])
+  }
 
 
   return (
@@ -813,7 +837,7 @@ export default function AddEmployee() {
                           <div class="col-md-7">
                             <input
                               type='file'
-                              name='filename'
+                              onChange={AttachmentUpload}
                                />
                           </div>
                         </div>
@@ -1165,7 +1189,9 @@ export default function AddEmployee() {
                           <div class="col-md-7">
                             <input
                               type='file'
-                              name='filename'
+                              name='filename1'
+                              onChange={uploadImage}
+                              accept="image/*" 
                                />
                           </div>
                         </div>
