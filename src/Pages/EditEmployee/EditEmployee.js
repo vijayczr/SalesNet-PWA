@@ -19,18 +19,40 @@ export default function EditEmployee(props) {
   const [Vertic1 , setVertic1] = useState("null");
   const [Subverticallist, setSubverticallist] = useState(null);
   const [searchparams] = useSearchParams();
+  const [UserImagestring, setUserImagestring] = useState(null);
+
+
   console.log(searchparams.get("id"));
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata();EditEmployee();
+    if (!ignore) getProfiledata();EditEmployee();UserImage();
     return () => { ignore = true; }
   }, []);
+
+  async function UserImage() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Authentication/USerImage?EmpId=${searchparams.get("id")}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    )
+    const profileData = await res.json();
+            if (profileData.resCode === 200) {
+                console.log(profileData.resData);
+                setUserImagestring(profileData.resData);
+            }
+  }
+
+  const base64Image = `data:image/png;base64, ${UserImagestring}`;
 
   async function getProfiledata() {
     try {
       const res = await fetch(
-        "https://localhost:44388/Authentication/ProfileData",
+        `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
         {
           method: "GET",
           headers: {
@@ -364,12 +386,20 @@ export default function EditEmployee(props) {
 
     }
   }
+  const [Image, setImage] = useState(null);
+  const uploadImage = (event) => {
+    setImage(event.target.files[0]);
+  }
 
+  const [Attachment, setAttachment] = useState(null);
+  const AttachmentUpload = (event) =>{
+    setAttachment(event.target.files[0])
+  }
 
   //#region setHierarchy
   async function GetHeirarchy(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/ReportingListbyHId?HierarchyId=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyHId?HierarchyId=${e}`,
       {
         method: "POST",
         headers: {
@@ -386,7 +416,7 @@ export default function EditEmployee(props) {
 
   async function GetHeirarchy1(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
       {
         method: 'POST',
         headers: {
@@ -403,7 +433,7 @@ export default function EditEmployee(props) {
 
   async function GetReporting2(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
       {
         method: 'POST',
         headers: {
@@ -420,7 +450,7 @@ export default function EditEmployee(props) {
 
   async function SubVerticalList(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/SubverticalList?VerticalId=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/SubverticalList?VerticalId=${e}`,
       {
         method: 'POST',
         headers: {
@@ -956,7 +986,7 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                             <input
                               type='file'
-                              name='filename'
+                              onChange={AttachmentUpload}
                             />
                           </div>
                         </div>
@@ -1335,7 +1365,9 @@ export default function EditEmployee(props) {
                           <div class="col-md-7">
                             <input
                               type='file'
-                              name='filename'
+                              name='filename1'
+                              onChange={uploadImage}
+                              accept="image/*" 
                             />
                           </div>
                         </div>
@@ -1344,7 +1376,8 @@ export default function EditEmployee(props) {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0"></label>
                           <div class="col-md-7">
-                            <p>ok</p>
+                          <img src={base64Image} style={{ width:"100px" , height:"100px"}} class="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
+
                           </div>
                         </div>
                       </div>

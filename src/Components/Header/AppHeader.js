@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import logo2 from '../../assets/logo.png';
@@ -15,6 +15,7 @@ export default function AppHeader(props) {
     const [ConfirmPassword, setConfirmPassword] = useState("");
     const [loginErrorMssg, SetLoginErrorMssg] = useState("");
     const [resCOlor, SetresCOlor] = useState("");
+    const base64Image = `data:image/png;base64, ${props.data.image}`;
 
     const Reset = () => {
         setOldPassword("");
@@ -75,7 +76,7 @@ export default function AppHeader(props) {
                             <div class="profile-option p-3" >
                                 <div class="mt-2 row">
                                     <div class="col-sm-1">
-                                        <img src={defaultpfp} class="defaultpfp2" alt="" />
+                                        <img src={base64Image} style={{ borderRadius:"50%"}} class="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
                                     </div>
                                     <div class="userDataa">
                                         <h6>{props.data.userName}</h6>
@@ -101,7 +102,7 @@ export default function AppHeader(props) {
                             </a>
                         </div>}>
                         <Button shape="circle" size="large" >
-                            <img src={defaultpfp} class="defaultpfp3" alt="" />
+                            <img src={base64Image} class="defaultpfp3" style={{ borderRadius:"50%"}} alt="../../assets/Default_pfp.svg.png" />
                         </Button>
                     </Popover>
                 </div>

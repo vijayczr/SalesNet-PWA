@@ -46,6 +46,9 @@ export default function HeaderDashboard() {
             }
     }
 
+    const base64Image = `data:image/png;base64, ${profileData.image}`;
+
+
     async function ChangePassword() {
         let formData = {
             OldPassword: OldPassword,
@@ -89,7 +92,7 @@ export default function HeaderDashboard() {
                             <div class="profile-option p-3" >
                                 <div class="mt-2 row">
                                     <div class="col-sm-1">
-                                        <img src={defaultpfp} class="defaultpfp2" alt="" />
+                                        <img src={base64Image} style={{ borderRadius:"50%"}} class="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
                                     </div>
                                     <div class="userDataa">
                                         <h6>{profileData.userName}</h6>
@@ -115,7 +118,7 @@ export default function HeaderDashboard() {
                             </a>
                         </div>}>
                         <Button shape="circle" size="large" style={{ border: "none" }} >
-                            <img src={defaultpfp} class="defaultpfp3" alt="" />
+                            <img src={base64Image} style={{ borderRadius:"50%"}} class="defaultpfp3" alt="../../assets/Default_pfp.svg.png" />
                         </Button>
                     </Popover>
                 </div>

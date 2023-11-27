@@ -5,7 +5,7 @@ import AppHeader from "../../Components/Header/AppHeader";
 import '../HumanResource/HumanResource.css'
 import { ConfigProvider, Space, Table, Tag } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,createSearchParams } from "react-router-dom";
 import HrNavbar from '../../Components/Navbars/HrNavbar';
 
 export default function HumanResource() {
@@ -32,7 +32,7 @@ export default function HumanResource() {
   async function getProfiledata() {
     try{
     const res = await fetch(
-      "https://localhost:44388/Authentication/ProfileData",
+      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
       {
         method: "GET",
         headers: {
@@ -64,6 +64,8 @@ export default function HumanResource() {
   //   // HrManual();
   // };
   const [manualInfo, setmanualInfo] = useState("");
+
+
 
   const columns = [
     {
@@ -291,6 +293,18 @@ export default function HumanResource() {
     }
   };
 
+  const ViewEmpPage = () => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate(
+      {
+        pathname: "/ViewEmployee",
+        search: createSearchParams({
+          id: profileData.loginId
+        }).toString()
+      }
+    );
+  };
+
 
   return (
     <div>
@@ -340,7 +354,8 @@ export default function HumanResource() {
                   <center style={{ padding: "10px" }}>
                     <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
-                    <input type="button" value="VIEW PROFILE" class="btn btn-info pull-center" onclick="ViewEmployee()" style={{ marginRight: "10px", backgroundColor: "#183985" }} />
+                    {/* <input type="button" value="VIEW PROFILE" class="btn btn-info pull-center" onclick={ViewEmpPage} style={{ marginRight: "10px", backgroundColor: "#183985" }} /> */}
+                    <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" ,width:"150px" }} onClick={ViewEmpPage}>VIEW PROFILE</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
 
                   </center>

@@ -5,7 +5,7 @@ import AppHeader from "../../Components/Header/AppHeader";
 import '../AddEmployee/AddEmployee.css';
 import { DatePicker, Space } from 'antd';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,createSearchParams } from "react-router-dom";
 
 export default function AddEmployee() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function AddEmployee() {
   async function getProfiledata() {
     try {
       const res = await fetch(
-        "https://localhost:44388/Authentication/ProfileData",
+        `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
         {
           method: "GET",
           headers: {
@@ -52,6 +52,18 @@ export default function AddEmployee() {
 
   const NavBack = () => {
     navigate("/HR", { replace: true });
+  }
+
+  const ToAddproduct=()=>{
+    AddEmployee()
+    navigate(
+      {
+        pathname: "/EmpProduct",
+        search: createSearchParams({
+          id: LoginId
+        }).toString()
+      }
+    );
   }
 
   async function handleSubmit(e) {
@@ -238,7 +250,6 @@ export default function AddEmployee() {
     if (loginData.resCode === 200) {
       console.log(loginData.resData);
 
-      cancelCourse();
 
     }
   }
@@ -247,7 +258,7 @@ export default function AddEmployee() {
   //#region setHierarchy
   async function GetHeirarchy(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/ReportingListbyHId?HierarchyId=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyHId?HierarchyId=${e}`,
       {
         method: "POST",
         headers: {
@@ -264,7 +275,7 @@ export default function AddEmployee() {
 
   async function GetHeirarchy1(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
       {
         method: 'POST',
         headers: {
@@ -281,7 +292,7 @@ export default function AddEmployee() {
 
   async function GetReporting2(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
       {
         method: 'POST',
         headers: {
@@ -298,7 +309,7 @@ export default function AddEmployee() {
 
   async function SubVerticalList(e) {
     const res = await fetch(
-      `https://localhost:44388/HrManual/SubverticalList?VerticalId=${e}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/SubverticalList?VerticalId=${e}`,
       {
         method: 'POST',
         headers: {
@@ -375,6 +386,7 @@ export default function AddEmployee() {
   const AttachmentUpload = (event) =>{
     setAttachment(event.target.files[0])
   }
+
 
 
   return (
@@ -1200,7 +1212,7 @@ export default function AddEmployee() {
                         <div class="form-group d-flex">
                           <label class="col-md-5 mt-1 mb-0"></label>
                           <div class="col-md-7">
-                            <p>ok</p>
+                            <p></p>
                           </div>
                         </div>
                       </div>
@@ -1588,6 +1600,7 @@ export default function AddEmployee() {
                       <div class="box-footer mt-3">
                         <center style={{ padding: "10px" }}>
                           <button class="FunctionButton1" style={{ backgroundColor: "#183985" }} type="submit" >Submit</button>
+                          <button class="FunctionButton1" style={{ backgroundColor: "#183985" ,width:"200px" }}  onClick={ToAddproduct} >Submit & AddProduct</button>
                         </center>
                       </div>
                    

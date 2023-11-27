@@ -61,14 +61,14 @@ export default function ViewEmployee(props) {
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata(); EditEmployee(); EmpHistory();
+        if (!ignore) getProfiledata(); EditEmployee(); EmpHistory();UserImage()
         return () => { ignore = true; }
     }, []);
 
     async function getProfiledata() {
         try {
             const res = await fetch(
-                "https://localhost:44388/Authentication/ProfileData",
+                `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
                 {
                     method: "GET",
                     headers: {
@@ -85,12 +85,27 @@ export default function ViewEmployee(props) {
             console.log("ok");
             navigate("/", { replace: true });
         }
-        // const profileData = await res.json();
-        // if (profileData.resCode === 200) {
-        //   console.log(profileData.resData);
-        //   setProfileData(profileData.resData);
-        // }
     }
+
+    const [UserImagestring, setUserImagestring] = useState(null);
+    async function UserImage() {
+        const res = await fetch(
+          `${localStorage.getItem("BaseUrl")}/Authentication/USerImage?EmpId=${searchparams.get("id")}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+            },
+          }
+        )
+        const profileData = await res.json();
+                if (profileData.resCode === 200) {
+                    console.log(profileData.resData);
+                    setUserImagestring(profileData.resData);
+                }
+      }
+    
+      const base64Image = `data:image/png;base64, ${UserImagestring}`;
 
 
     async function EmpHistory(){
@@ -118,7 +133,7 @@ export default function ViewEmployee(props) {
 
 
     const NavBack = () => {
-        navigate("/HR", { replace: true });
+        navigate(-1);
     }
 
     async function handleSubmit(e) {
@@ -1348,7 +1363,8 @@ export default function ViewEmployee(props) {
                                                 <div class="form-group d-flex">
                                                     <label class="col-md-5 mt-1 mb-0"></label>
                                                     <div class="col-md-7">
-                                                        <p>ok</p>
+                                                    <img src={base64Image} style={{ width:"100px" , height:"100px"}} class="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
+
                                                     </div>
                                                 </div>
                                             </div>
