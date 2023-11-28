@@ -31,7 +31,7 @@ export default function HeaderDashboard() {
     async function getProfiledata() {
 
         const res = await fetch(
-            "https://localhost:44388/Authentication/ProfileData",
+            `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
             {
                 method: "GET",
                 headers: {
@@ -57,7 +57,7 @@ export default function HeaderDashboard() {
         }
         console.log(formData);
         const res = await fetch(
-            "https://localhost:44388/Authentication/changepassword",
+            `${localStorage.getItem("BaseUrl")}/Authentication/changepassword`,
             {
                 method: "POST",
                 headers: {

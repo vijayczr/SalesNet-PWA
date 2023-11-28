@@ -13,7 +13,7 @@ COPY . ./
 
 
 # CMD [ "NODE_OPTIONS="--max-old-space-size=10096" npm run build"]
-RUN npx rub build
+RUN npm run build 
 
 #nginx block
 

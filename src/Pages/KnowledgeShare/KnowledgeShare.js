@@ -95,7 +95,7 @@ export default function KnowledgeShare() {
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <a href={`https://localhost:44388/KnowledgeShare/KnowledgeDownload?KnowledgeId=${manualInfo.knowledgeId}`} ><button type="button" class="btn btn-primary">Download</button></a>
+                  <a href={`${localStorage.getItem("BaseUrl")}/KnowledgeShare/KnowledgeDownload?KnowledgeId=${manualInfo.knowledgeId}`} ><button type="button" class="btn btn-primary">Download</button></a>
                 </div>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function KnowledgeShare() {
   async function manualPopup(a) {
     console.log(a);
     const res = await fetch(
-      `https://localhost:44388/KnowledgeShare/knowledge-info?KnowledgeId=${a}`,
+      `${localStorage.getItem("BaseUrl")}/KnowledgeShare/knowledge-info?KnowledgeId=${a}`,
       {
         method: "GET",
         headers: {
@@ -151,7 +151,7 @@ const DocSearchReser = () => {
   async function getProfiledata() {
 
     const res = await fetch(
-      "https://localhost:44388/Authentication/ProfileData",
+      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
       {
         method: "GET",
         headers: {
@@ -180,7 +180,7 @@ const DocSearchReser = () => {
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
     const res = await fetch(
-      "https://localhost:44388/KnowledgeShare/knowledge-list",
+      `${localStorage.getItem("BaseUrl")}/KnowledgeShare/knowledge-list`,
       {
         method: "POST",
         headers: {

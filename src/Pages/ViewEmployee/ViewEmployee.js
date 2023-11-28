@@ -346,7 +346,7 @@ export default function ViewEmployee(props) {
     //#region setHierarchy
     async function GetHeirarchy(e) {
         const res = await fetch(
-            `https://localhost:44388/HrManual/ReportingListbyHId?HierarchyId=${e}`,
+            `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyHId?HierarchyId=${e}`,
             {
                 method: "POST",
                 headers: {
@@ -363,7 +363,7 @@ export default function ViewEmployee(props) {
 
     async function GetHeirarchy1(e) {
         const res = await fetch(
-            `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+            `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
             {
                 method: 'POST',
                 headers: {
@@ -380,7 +380,7 @@ export default function ViewEmployee(props) {
 
     async function GetReporting2(e) {
         const res = await fetch(
-            `https://localhost:44388/HrManual/ReportingListbyName?EmpID=${e}`,
+            `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
             {
                 method: 'POST',
                 headers: {
@@ -397,7 +397,7 @@ export default function ViewEmployee(props) {
 
     async function SubVerticalList(e) {
         const res = await fetch(
-            `https://localhost:44388/HrManual/SubverticalList?VerticalId=${e}`,
+            `${localStorage.getItem("BaseUrl")}/HrManual/SubverticalList?VerticalId=${e}`,
             {
                 method: 'POST',
                 headers: {

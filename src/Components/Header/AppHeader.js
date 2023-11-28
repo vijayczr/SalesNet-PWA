@@ -32,7 +32,7 @@ export default function AppHeader(props) {
         }
         console.log(formData);
         const res = await fetch(
-            "https://localhost:44388/Authentication/changepassword",
+            `${localStorage.getItem("BaseUrl")}/Authentication/changepassword`,
             {
                 method: "POST",
                 headers: {

@@ -149,7 +149,7 @@ export default function HumanResource() {
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${manualInfo.document}`} ><button type="button" class="btn btn-primary">Download</button></a>
+                  <a href={`${localStorage.getItem("BaseUrl")}/HrManual/ManualDownload?DocumentType=${manualInfo.document}`} ><button type="button" class="btn btn-primary">Download</button></a>
                 </div>
               </div>
             </div>
@@ -165,7 +165,7 @@ export default function HumanResource() {
   async function manualPopup(a) {
     console.log(a);
     const res = await fetch(
-      `https://localhost:44388/HrManual/ManualInfo?DocumentType=${a}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ManualInfo?DocumentType=${a}`,
       {
         method: "GET",
         headers: {
@@ -184,7 +184,7 @@ export default function HumanResource() {
   const FileDownload = (a) => {
     console.log(a);
     fetch(
-      `https://localhost:44388/HrManual/ManualDownload?DocumentType=${a}`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/ManualDownload?DocumentType=${a}`,
       {
         method: "GET",
         headers: {
@@ -241,7 +241,7 @@ export default function HumanResource() {
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
     const res = await fetch(
-      "https://localhost:44388/HrManual/ManualList",
+      `${localStorage.getItem("BaseUrl")}/HrManual/ManualList`,
       {
         method: "POST",
         headers: {

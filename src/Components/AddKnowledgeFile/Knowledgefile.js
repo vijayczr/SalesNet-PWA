@@ -22,7 +22,7 @@ export default function Knowledgefile() {
       formData.append("File", Filedata);
       console.log(formData);
       const res = await fetch(
-        "https://localhost:44388/KnowledgeShare/KFUpload",
+        `${localStorage.getItem("BaseUrl")}/KnowledgeShare/KFUpload`,
         {
             method: "POST",
             body: formData,
