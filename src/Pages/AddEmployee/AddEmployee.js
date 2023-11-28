@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppHeader from "../../Components/Header/AppHeader";
 import '../AddEmployee/AddEmployee.css';
-import { DatePicker, Space } from 'antd';
+import { DatePicker, Space ,Button, Modal } from 'antd';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 import { useNavigate,createSearchParams } from "react-router-dom";
 
@@ -249,11 +249,69 @@ export default function AddEmployee() {
     const loginData = await res.json();
     if (loginData.resCode === 200) {
       console.log(loginData.resData);
-
-
+      onClick1();
+      cancelCourse();
     }
   }
+  // const handleOk = () => {
+  //   onpreviouspage();
+  // };
+  const onClick1 = () => {
+    // Modal.confirm({
+    //   // onOk : {onpreviouspage},
+    //   // onOk:{handleOk},
+    //   title: 'Success',
+    //   content: 'EMPLOYEE ADDED SUCCESSFULLY',
+    //   footer: (_, { OkBtn }) => (
+    //     <>
+    //       {/* <Button>Custom Button</Button>
+    //       <CancelBtn /> */}
+    //       <OkBtn />
+    //     </>
+    //   ),
+    // });
 
+    Modal.confirm({
+      title: 'Success',
+      content: 'EMPLOYEE ADDED SUCCESSFULLY',
+      footer: (_, { OkBtn }) => (
+        <>
+          <OkBtn  class="FunctionButton" style={{ color: "white" }} onClick={onpreviouspage}/>
+        </>
+      ),
+    });
+    
+
+  //   <Modal
+  //   // open={open}
+  //   title="Title"
+  //   // onOk={handleOk}
+  //   // onCancel={handleCancel}
+  //   footer={(_, { OkBtn }) => (
+  //     <>
+  //       {/* <Button>Custom Button</Button>
+  //       <CancelBtn /> */}
+  //       <OkBtn />
+  //     </>
+  //   )}
+  // >
+  //   <p>Some contents...</p>
+  //   <p>Some contents...</p>
+  //   <p>Some contents...</p>
+  //   <p>Some contents...</p>
+  //   <p>Some contents...</p>
+  // </Modal>
+
+
+  }
+
+  const onpreviouspage =() =>{
+    navigate("/HR", { replace: true });
+  }
+
+  const handleUploadImage = () =>  {
+    alert("Employee Added Successfully!");
+};
 
   //#region setHierarchy
   async function GetHeirarchy(e) {
@@ -480,7 +538,7 @@ export default function AddEmployee() {
                               onChange={(e) => { setHierarchy(e.target.value); console.log(e.target.tex); GetHeirarchy(e.target.value); }}
                               required
                             >
-                              {(TeamType === "Sales Team") ?
+                              {(TeamType !== null) ?
                                 <>
                                   <option value={0}>Select</option>
                                   <option value={1}>DIRECTOR</option>
