@@ -16,8 +16,8 @@ import EmpProduct from './Pages/EmpProduct/EmpProduct';
 
 function App() {
 
-  // localStorage.setItem("BaseUrl", "https://localhost:44388");
-  localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
+  localStorage.setItem("BaseUrl", "https://localhost:44388");
+  // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
   return (
     <BrowserRouter>
 
