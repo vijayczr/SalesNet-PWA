@@ -20,7 +20,6 @@ function App() {
   // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
   return (
     <BrowserRouter>
-
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Dashboard" element={ <Dashboard />} />
