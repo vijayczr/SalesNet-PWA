@@ -12,7 +12,7 @@ import AddEmployee from './Pages/AddEmployee/AddEmployee';
 import EditEmployee from './Pages/EditEmployee/EditEmployee';
 import ViewEmployee from './Pages/ViewEmployee/ViewEmployee';
 import EmpProduct from './Pages/EmpProduct/EmpProduct';
-
+import HrEmpDesig from './Pages/HRNavBar/HrEmpDesig/HrEmpDesig';
 
 function App() {
 
@@ -32,6 +32,7 @@ function App() {
         <Route path="/EditEmployee" element={<EditEmployee/>} />
         <Route path="/ViewEmployee" element={<ViewEmployee/>} />
         <Route path="/EmpProduct" element={<EmpProduct/>} />
+        <Route path="/HrEmpDesig" element={<HrEmpDesig/>} />
       </Routes>
     </BrowserRouter>
   );

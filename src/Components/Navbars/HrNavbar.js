@@ -17,7 +17,7 @@ export default function HrNavbar() {
         },
         {
             label: 'Employee Design',
-            key: 'Dashboard',
+            key: 'HrEmpDesig',
         },
         {
             label: 'Employee Dept',
