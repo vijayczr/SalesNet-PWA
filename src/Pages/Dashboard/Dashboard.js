@@ -47,6 +47,7 @@ export default function Dashboard() {
                             <a
                                 // onClick={
                                 //     navigate("/HumanResource", { replace: true })}
+                                // href="#"
                                 href="/HumanResource"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
@@ -57,6 +58,9 @@ export default function Dashboard() {
                         <div class="col-md-2">
                             <a
                                 href="/KnowledgeShare"
+                                // onClick={
+                                //     navigate("/KnowledgeShare", { replace: true })}
+                                // href="#"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={KnowledgeSharinglogo} class="img-fluid" />
@@ -66,6 +70,9 @@ export default function Dashboard() {
                         <div class="col-md-2">
                             <a
                                 href="/HR"
+                                // onClick={
+                                //     navigate("/HR", { replace: true })}
+                                // href="#"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HRlogo} class="img-fluid" />
@@ -81,6 +88,9 @@ export default function Dashboard() {
                         <div class="col-md-2">
                             <a
                                 href="/HolidayList"
+                                // onClick={
+                                //     navigate("/HolidayList", { replace: true })}
+                                // href="#"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HolidayListLogo} class="img-fluid" />
