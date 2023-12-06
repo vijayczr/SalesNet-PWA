@@ -21,11 +21,11 @@ export default function HrNavbar() {
         },
         {
             label: 'Employee Dept',
-            key: 'Dashboard',
+            key: 'HREmpDept',
         },
         {
             label: 'Manage Holiday',
-            key: 'Dashboard',
+            key: 'ManageHoliday',
         },
         {
             label: 'Employee Target',

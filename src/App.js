@@ -13,6 +13,8 @@ import EditEmployee from './Pages/EditEmployee/EditEmployee';
 import ViewEmployee from './Pages/ViewEmployee/ViewEmployee';
 import EmpProduct from './Pages/EmpProduct/EmpProduct';
 import HrEmpDesig from './Pages/HRNavBar/HrEmpDesig/HrEmpDesig';
+import HrEmpDepart from './Pages/HRNavBar/HrEmpDepart/HrEmpDepart';
+import ManageHoliday from './Pages/HRNavBar/HrManageHoliday/ManageHoliday';
 
 function App() {
 
@@ -33,6 +35,8 @@ function App() {
         <Route path="/ViewEmployee" element={<ViewEmployee/>} />
         <Route path="/EmpProduct" element={<EmpProduct/>} />
         <Route path="/HrEmpDesig" element={<HrEmpDesig/>} />
+        <Route path="/HREmpDept" element={<HrEmpDepart/>} />
+        <Route path="/ManageHoliday" element={<ManageHoliday/>} />
       </Routes>
     </BrowserRouter>
   );
