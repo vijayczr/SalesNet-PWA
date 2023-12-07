@@ -15,11 +15,12 @@ export default function HrEmpDesig() {
     const [DesignName, setDesignName] = useState();
     const [parentId, setparentId] = useState();
     const [teamType, setteamType] = useState();
-    const [isActive, setisActive] = useState();
+    const [isActive, setisActive] = useState("Active");
     const [DesignName1, setDesignName1] = useState();
     const [parentId1, setparentId1] = useState();
     const [teamType1, setteamType1] = useState();
-    const [isActive1, setisActive1] = useState();
+    const [isActive1, setisActive1] = useState("Active");
+    const [FilterName, setFilterName] = useState(null);
 
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -180,7 +181,8 @@ export default function HrEmpDesig() {
                                         <div class="form-group d-flex">
                                             <label for="inputEmail3" class="col-md-5 mt-1">Parent<span class="pull-right">:</span></label>
                                             <div class="col-md-7">
-                                                <select value={parentId}
+                                                <select 
+                                                value={parentId}
                                                     onChange={(e) => { setparentId(e.target.value) }}
                                                     style={{ width: "15vw" }}
                                                 >
@@ -235,7 +237,7 @@ export default function HrEmpDesig() {
             window.location.reload();
         }
 
-    };    
+    };
 
     async function ViewEmpPage(e) {
         const res = await fetch(
@@ -287,9 +289,13 @@ export default function HrEmpDesig() {
 
     const AddDesignation = () => {
         AddDesignation1();
+    }
+
+    const DocumentSearch = () => {
+        ManageDesignation();
       }
 
-      async function AddDesignation1() {
+    async function AddDesignation1() {
         let PageData = {
             Designation: DesignName1,
             TeamType: teamType1,
@@ -316,10 +322,10 @@ export default function HrEmpDesig() {
 
     };
 
-    
+
     const ResetDesignation = () => {
         window.location.reload();
-      }
+    }
 
 
     useEffect(() => {
@@ -351,6 +357,7 @@ export default function HrEmpDesig() {
 
     async function ManageDesignation() {
         let PageData = {
+            search: FilterName,
             pageNumber: tableParams.pagination.current,
             pageSize: tableParams.pagination.pageSize,
         };
@@ -435,7 +442,7 @@ export default function HrEmpDesig() {
                                         <div class="d-flex">
                                             <label for="inputEmail3" class="col-md-5 mt-1">Designation<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                                             <div class="col-md-7">
-                                            <input
+                                                <input
                                                     onChange={(e) => { setDesignName1(e.target.value); }}
                                                     value={DesignName1} class="form-control" />
                                             </div>
@@ -445,7 +452,7 @@ export default function HrEmpDesig() {
                                         <div class="d-flex">
                                             <label for="inputEmail3" class="col-md-5 mt-1">Team Type<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                                             <div class="col-md-7">
-                                            <input
+                                                <input
                                                     onChange={(e) => { setteamType1(e.target.value); }}
                                                     value={teamType1} class="form-control" />
                                             </div>
@@ -455,7 +462,7 @@ export default function HrEmpDesig() {
                                         <div class="d-flex">
                                             <label for="inputEmail3" class="col-md-5 mt-1">Parent Designation<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                                             <div class="col-md-7">
-                                            <select value={parentId1}
+                                                <select value={parentId1}
                                                     onChange={(e) => { setparentId1(e.target.value) }}
                                                     style={{ width: "15vw" }}
                                                 >
@@ -469,7 +476,7 @@ export default function HrEmpDesig() {
                                         <div class="d-flex">
                                             <label for="inputEmail3" class="col-md-5 mt-1">Status<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                                             <div class="col-md-7">
-                                            <select value={isActive1}
+                                                <select value={isActive1}
                                                     onChange={(e) => { setisActive1(e.target.value) }}
                                                     style={{ width: "100%" }}
                                                 >
@@ -489,6 +496,19 @@ export default function HrEmpDesig() {
                                     </center>
                                 </div>
 
+                            </div>
+
+                            <div class="col-md-4 mt-3">
+                                <div class="d-flex">
+                                    <label for="inputEmail3" class="col-md-5">Search<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                                    <div class="col-md-7" style={{ paddingLeft: "10px" }}>
+                                        <input
+                                            type='text'
+                                            value={FilterName}
+                                            onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value); DocumentSearch() }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <hr></hr>

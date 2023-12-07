@@ -13,7 +13,7 @@ export default function HrNavbar() {
     const items = [
         {
             label: 'Employee Master',
-            key: 'Dashboard',
+            key: 'HR',
         },
         {
             label: 'Employee Design',
