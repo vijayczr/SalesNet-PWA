@@ -5,6 +5,7 @@ import '../Header/Header.css';
 import logo2 from '../../assets/logo.png';
 import defaultpfp from '../../assets/Default_pfp.svg.png'
 import '../../Pages/Dashboard/Dashboard.css'
+import '../../assets/Default_pfp.svg.png'
 import { Button, Popover } from "antd";
 import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 export default function HeaderDashboard() {
