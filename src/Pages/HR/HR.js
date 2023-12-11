@@ -22,6 +22,7 @@ export default function HR() {
     pagination: {
       current: 1,
       pageSize: 10,
+      position: ["topRight"]
     },
   });
 
@@ -260,6 +261,7 @@ export default function HR() {
 
   return (
     <div style={{ height: "100vh", overflow: "auto" }}>
+      
       <AppHeader data={ProfileData} />
 
       <div class="breadcrumb-area">

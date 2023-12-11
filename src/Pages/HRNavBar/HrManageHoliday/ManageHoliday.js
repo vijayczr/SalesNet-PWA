@@ -5,6 +5,7 @@ import { ConfigProvider, DatePicker, Space, Table, Tag } from 'antd';
 import {  EditOutlined, DeleteFilled } from '@ant-design/icons';
 import locale from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
+import { positions } from '@mui/system';
 
 export default function ManageHoliday() {
     const navigate = useNavigate();
@@ -30,7 +31,9 @@ export default function ManageHoliday() {
         pagination: {
             current: 1,
             pageSize: 10,
+            position: ["topRight"]
         },
+        
     });
 
     const columns = [
@@ -538,6 +541,10 @@ export default function ManageHoliday() {
                                     columns={columns}
                                     dataSource={data}
                                     pagination={tableParams.pagination}
+                                    // pagination={{
+                                    //     position: ["topLeft"],
+                                    //   }}
+                                    // pagination={{pageSize:tableParams.pagination.pageSize ,current: tableParams.pagination.current , position:["topLeft"]}}
                                     loading={loading}
                                     onChange={handleTableChange}
                                     style={{ overflowX: "auto" }}

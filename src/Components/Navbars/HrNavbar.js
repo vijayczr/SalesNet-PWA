@@ -29,7 +29,7 @@ export default function HrNavbar() {
         },
         {
             label: 'Employee Target',
-            key: 'Dashboard',
+            key: 'HrEmpTargetList',
         },
         {
             label: 'Human Resources',

@@ -15,6 +15,8 @@ import EmpProduct from './Pages/EmpProduct/EmpProduct';
 import HrEmpDesig from './Pages/HRNavBar/HrEmpDesig/HrEmpDesig';
 import HrEmpDepart from './Pages/HRNavBar/HrEmpDepart/HrEmpDepart';
 import ManageHoliday from './Pages/HRNavBar/HrManageHoliday/ManageHoliday';
+import EmpTarget from './Pages/HRNavBar/EmpTarget/EmpTarget';
+import TargetEdit from './Pages/HRNavBar/TargetEdit/TargetEdit';
 
 function App() {
 
@@ -37,6 +39,8 @@ function App() {
         <Route path="/HrEmpDesig" element={<HrEmpDesig/>} />
         <Route path="/HREmpDept" element={<HrEmpDepart/>} />
         <Route path="/ManageHoliday" element={<ManageHoliday/>} />
+        <Route path="/HrEmpTargetList" element={<EmpTarget/>} />
+        <Route path="/HrEmpTarget" element={<TargetEdit/>} />
       </Routes>
     </BrowserRouter>
   );
