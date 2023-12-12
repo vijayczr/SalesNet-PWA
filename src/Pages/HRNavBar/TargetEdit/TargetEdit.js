@@ -13,6 +13,15 @@ export default function TargetEdit(props) {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
 
+    const [PrincipalList, setPrincipalList] = useState(null);
+    const [FinancialYear, setFinancialYear] = useState("2023-2024");
+    const [Principal, setPrincipal] = useState(null);
+    const [Vertical, setVertical] = useState(null);
+    const [AMJAmount, setAMJAmount] = useState(0);
+    const [JASAmount, setJASAmount] = useState(0);
+    const [ONDAmount, setONDAmount] = useState(0);
+    const [JFMAmount, setJFMAmount] = useState(0);
+
     const [SearchValue, setSearchValue] = useState("");
 
     const [tableParams, setTableParams] = useState({
@@ -85,7 +94,7 @@ export default function TargetEdit(props) {
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary">Delete</button>
+                                    <button type="button" class="btn btn-primary" onClick={() => DelTarget(record.empTargetDetailId)}>Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +108,7 @@ export default function TargetEdit(props) {
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata()
+        if (!ignore) getProfiledata(); PrincipalListdata()
         return () => { ignore = true; }
     }, []);
 
@@ -121,6 +130,71 @@ export default function TargetEdit(props) {
             console.log(ProfileData.branch);
             setBranch(profileData.resData.branch)
         }
+    }
+    
+    async function DelTarget(e){
+        const res = await fetch(
+          `${localStorage.getItem("BaseUrl")}/HrManual/DelTarget?TargetDetailId=${e}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+            },
+          }
+        );
+        const Response = await res.json();
+        if(Response.resCode === 200) {
+          window.location.reload();
+        }
+    
+      };
+
+    async function PrincipalListdata() {
+
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/HrManual/PrincipalList`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+            }
+        );
+        const PrincipalData = await res.json();
+        if (PrincipalData.resCode === 200) {
+            console.log(PrincipalData.resData);
+            setPrincipalList(PrincipalData.resData);
+        }
+    }
+
+    async function UploadTarget() {
+        let PageData = {
+            EmpId: searchparams.get("id"),
+            FinancialYear: FinancialYear,
+            Principal: Principal,
+            Vertical: Vertical,
+            TargetJFM: JFMAmount,
+            TargetAMJ: AMJAmount,
+            TargetJAS: JASAmount,
+            TargetOND: ONDAmount
+        };
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/HrManual/AddTarget`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+                body: JSON.stringify(PageData),
+            }
+        );
+        const PrincipalData = await res.json();
+        if (PrincipalData.resCode === 200) {
+            window.location.reload();
+        }
+
+        
     }
 
 
@@ -177,6 +251,17 @@ export default function TargetEdit(props) {
 
     const DocumentSearch = () => {
         TargetList();
+    }
+
+    const DocSearchReser = () => {
+        window.location.reload();
+    }
+    const NavBack = () => {
+        navigate(-1);
+    }
+
+    const AddTarget = () => {
+        UploadTarget();
       }
 
 
@@ -208,32 +293,172 @@ export default function TargetEdit(props) {
                     <div class="col-lg-12">
                         <div class="bg-boxshadow">
 
-                            {/* <div class="ibox-content">
+                            <div class="ibox-content">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="d-flex">
-                                            <label for="inputEmail3" class="col-md-5 mt-1">Department<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
+                                            <label for="inputEmail3" class="col-md-5 mt-1">Financial Year<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
                                             <div class="col-md-7">
                                                 <input
-                                                    class="docinput"
                                                     type='text'
-                                                    value={Department}
-                                                    onChange={(e) => { console.log(e.target.value); setDepartment(e.target.value) }}
+                                                    value={FinancialYear}
+                                                    onChange={(e) => { console.log(e.target.value); setFinancialYear(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <label for="inputEmail3" class="col-md-5 mt-1">Principal<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
+                                            <div class="col-md-7">
+                                                <select
+                                                    style={{ width: "100%" }}
+                                                    onChange={(e) => { setPrincipal(e.target.value) }}
+                                                >
+                                                    <option value={"null"}>Select</option>
+                                                    {PrincipalList ?
+                                                        PrincipalList.map((e) => (
+                                                            <option key={e.principalId} value={e.principalId} >{e.principalName}</option>
+                                                        )) : null}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <label for="inputEmail3" class="col-md-5 mt-1">Financial Year<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
+                                            <div class="col-md-7">
+                                                <select
+                                                    onChange={(e) => { console.log(e.target.value); setVertical(e.target.value) }}
+                                                    style={{ width: "100%" }}
+                                                    required
+                                                >
+                                                    <option value={null}>Select</option>
+                                                    <option value={1}>ASG</option>
+                                                    <option value={2}>ISG</option>
+                                                    <option value={3}>PSG</option>
+                                                    <option value={4}>Corporate</option>
+                                                    <option value={5}>Support Staff</option>
+                                                    <option value={6}>ESG</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-lg-4">
+                                        <div class="d-flex mt-3" >
+                                            <label for="inputEmail3" class="col-md-5 mt-1" style={{ paddingLeft: "150px", fontWeight: "bold" }}>Quarter</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex mt-3">
+                                            <label for="inputEmail3" class="col-md-5 mt-1" style={{ paddingLeft: "50px", fontWeight: "bold" }}>Target</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <label for="inputEmail3" class="col-md-5 mt-1" style={{ paddingLeft: "150px" }}>AMJ</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <div class="col-md-7">
+                                                <input
+                                                    type='text'
+                                                    style={{ paddingLeft: "50px" }}
+                                                    value={AMJAmount}
+                                                    onChange={(e) => { console.log(e.target.value); setAMJAmount(e.target.value) }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <label for="inputEmail3" class="col-md-5 mt-1" style={{ paddingLeft: "150px" }}>JAS</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <div class="col-md-7">
+                                                <input
+                                                    type='text' style={{ paddingLeft: "50px" }}
+                                                    value={JASAmount}
+                                                    onChange={(e) => { console.log(e.target.value); setJASAmount(e.target.value) }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <label for="inputEmail3" class="col-md-5 mt-1" style={{ paddingLeft: "150px" }}>OND</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <div class="col-md-7">
+                                                <input
+                                                    type='text' style={{ paddingLeft: "50px" }}
+                                                    value={ONDAmount}
+                                                    onChange={(e) => { console.log(e.target.value); setONDAmount(e.target.value) }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <label for="inputEmail3" class="col-md-5 mt-1" style={{ paddingLeft: "150px" }}>JFM</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex">
+                                            <div class="col-md-7">
+                                                <input
+                                                    type='text' style={{ paddingLeft: "50px" }}
+                                                    value={JFMAmount}
+                                                    onChange={(e) => { console.log(e.target.value); setJFMAmount(e.target.value) }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+
+
+
+
+
+
+
+
                                 </div>
 
                                 <div class="box-footer">
                                     <center style={{ padding: "10px" }}>
                                         <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                                        <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={AddDepartment}>Submit</button>
+                                        <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={AddTarget} >Submit</button>
                                         <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                                     </center>
                                 </div>
 
-                            </div> */}
+                            </div>
+
+
+
+                            <br></br>
                             <div class="col-md-4 mt-3">
                                 <div class="d-flex">
                                     <label for="inputEmail3" class="col-md-5">Search<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
@@ -241,7 +466,7 @@ export default function TargetEdit(props) {
                                         <input
                                             type='text'
                                             value={SearchValue}
-                                            onChange={(e) => { console.log(e.target.value); setSearchValue(e.target.value); DocumentSearch()}}
+                                            onChange={(e) => { console.log(e.target.value); setSearchValue(e.target.value); DocumentSearch() }}
                                         />
                                     </div>
                                 </div>
@@ -272,6 +497,11 @@ export default function TargetEdit(props) {
                                     style={{ overflowX: "auto" }}
                                 />
                             </ConfigProvider>
+
+
+
+
+
                         </div>
                     </div>
                 </div>
