@@ -35,6 +35,7 @@ export default function Login() {
         if (loginData.resCode === 200) {
             console.log(loginData.resData);
             localStorage.setItem("JwtToken", loginData.resData.token);
+            localStorage.setItem("EmpId", loginData.resData.employeeId);
             navigate("/Dashboard", { replace: true });
         }
         else {

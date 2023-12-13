@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import HeaderDashboard from "../../Components/Header/DashHeader";
@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
     const navigate = useNavigate();
 
+    const data1 = localStorage.getItem('EmpId');
+    console.log(data1);
 
     return (
         <div>
@@ -68,6 +70,16 @@ export default function Dashboard() {
                             </a>
                         </div>
                         <div class="col-md-2">
+                            {(`${localStorage.getItem('EmpId')}` === '1068')?<a
+                                href="/DarSummary"
+                                // onClick={
+                                //     navigate("/HR", { replace: true })}
+                                // href="#"
+                                style={{ color: "black", textDecoration: "none" }}
+                            >
+                                <img src={HRlogo} class="img-fluid" />
+                                <h5 class="text-center title W100">DAR Activity</h5>
+                            </a>:
                             <a
                                 href="/HR"
                                 // onClick={
@@ -77,7 +89,7 @@ export default function Dashboard() {
                             >
                                 <img src={HRlogo} class="img-fluid" />
                                 <h5 class="text-center title W100">HR</h5>
-                            </a>
+                            </a>}
                         </div>
                         <div class="col-md-2">
                             <a>

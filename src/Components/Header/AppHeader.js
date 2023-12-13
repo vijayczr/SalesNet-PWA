@@ -7,6 +7,7 @@ import { Button, Popover } from "antd";
 import '../../Pages/Dashboard/Dashboard.css'
 import { LogoutOutlined,SettingOutlined } from '@ant-design/icons';
 import HrNavbar from '../Navbars/HrNavbar.js';
+import DarNavbar from '../Navbars/DarNavbar.js';
 
 export default function AppHeader(props) {
 
@@ -108,7 +109,13 @@ export default function AppHeader(props) {
                 </div>
             </nav>
             <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" style={{backgroundColor:"#f3f5f9"}}>
+                {
+                (`${localStorage.getItem('EmpId')}` === '1068') ? 
+                <DarNavbar />:
+
                 <HrNavbar />
+                
+                }
             </nav>
             <div class="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
