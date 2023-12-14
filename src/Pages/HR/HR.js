@@ -336,10 +336,11 @@ export default function HR() {
                   </div>
                   <div class="col-md-4 mt-3">
                     <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Name<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                      <label for="inputEmail3" class="col-md-5">Name<span class="float-right">:</span></label>
                       <div class="col-md-7" style={{ paddingLeft: "10px" }}>
                         <input
                           type='text'
+                          style={{ width: "100%" }}
                           value={FilterName}
                           onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value) }}
                         />

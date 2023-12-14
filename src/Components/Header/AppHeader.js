@@ -16,7 +16,7 @@ export default function AppHeader(props) {
     const [ConfirmPassword, setConfirmPassword] = useState("");
     const [loginErrorMssg, SetLoginErrorMssg] = useState("");
     const [resCOlor, SetresCOlor] = useState("");
-    const base64Image = `data:image/png;base64, ${props.data.image}`;
+    const base64Image = `data:image/png;base64, ${localStorage.getItem("userImage")}`;
 
     const Reset = () => {
         setOldPassword("");

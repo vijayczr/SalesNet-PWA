@@ -46,7 +46,7 @@ export default function HeaderDashboard() {
                 setProfileData(profileData.resData);
             }
     }
-
+    localStorage.setItem('userImage', profileData.image);
     const base64Image = `data:image/png;base64, ${profileData.image}`;
 
 

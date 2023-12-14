@@ -70,7 +70,7 @@ export default function Dashboard() {
                             </a>
                         </div>
                         <div class="col-md-2">
-                            {(`${localStorage.getItem('EmpId')}` === '1068')?<a
+                            {(`${localStorage.getItem('EmpId')}` === '297')?<a
                                 href="/DarSummary"
                                 // onClick={
                                 //     navigate("/HR", { replace: true })}
