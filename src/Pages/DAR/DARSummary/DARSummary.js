@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AppHeader from "../../../Components/Header/AppHeader";
-import { ConfigProvider, Table,Space } from 'antd';
-import {  EditOutlined, FolderViewOutlined, DeleteFilled ,FileAddOutlined} from '@ant-design/icons';
+import { ConfigProvider, Table, Space } from 'antd';
+import { EditOutlined, FolderViewOutlined, DeleteFilled, FileAddOutlined } from '@ant-design/icons';
 
 
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ export default function DARSummary() {
   const [loading, setLoading] = useState(false);
   const [ProfileData, setProfileData] = useState("");
   const [data, setData] = useState();
+  const [FilterName, setFilterName] = useState(null);
+
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -116,7 +118,7 @@ export default function DARSummary() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
         },
-        
+
       }
     );
     const profileData = await res.json();
@@ -129,7 +131,7 @@ export default function DARSummary() {
 
   async function DarList() {
     let PageData = {
-      // branchName: Branch,
+      Search: FilterName,
       pageNumber: tableParams.pagination.current,
       pageSize: tableParams.pagination.pageSize,
     };
@@ -186,6 +188,11 @@ export default function DARSummary() {
     window.location.reload();
   }
 
+  const DocumentSearch = () => {
+    DarList();
+  }
+
+
   return (
     <div>
       <AppHeader data={ProfileData} />
@@ -210,66 +217,99 @@ export default function DARSummary() {
 
       <div className='containner p-4' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="bg-boxshadow">
-      <div class="ibox-content">
-        
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="bg-boxshadow">
+              <div class="ibox-content">
 
-        <div class="box-footer">
-          <center style={{ padding: "10px" }}>
-            <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-            <button class="FunctionButton" style={{ backgroundColor: "#183985" }}>Search</button>
-            <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
-          </center>
+
+                <div class="box-footer">
+                  <center style={{ padding: "10px" }}>
+                    <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
+                    <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                    <button class="FunctionButton" type="button"  data-toggle="modal" data-target="#exampleModalCenter1" style={{ backgroundColor: "#183985", width: "150px" }}>Incentive Rule</button>
+
+                    <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Incentive Rule</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p class="pt-0">1. Achievement {'>'}= 75 and Achievement {'<'} 76 <br></br> Achievement = 40%  <br></br>2. Achievement {'>'}= 76 and Achievement {'<'} 86 <br></br>Achievement = 50% <br></br>3. Achievement {'>'}= 86 and Achievement {'<'} 91 <br></br> Achievement = 70% <br></br>4. Achievement {'>'}= 91 <br></br>same as Achievement  </p>
+                            {/* <p class="pt-0">Achievement = 40% </p>
+                            <p class="pt-0">2. Achievement {'>'}= 76 and Achievement {'<'} 86 </p>
+                            <p class="pt-0">Achievement = 50% </p>
+                            <p class="pt-0">3. Achievement {'>'}= 86 and Achievement {'<'} 91 </p>
+                            <p class="pt-0">Achievement = 70% </p>
+                            <p class="pt-0">4. Achievement {'>'}= 91</p>
+                            <p class="pt-0">same as Achievement </p> */}
+                          </div>
+                          {/* <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div> */}
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </center>
+                </div>
+
+
+
+              </div>
+
+
+
+              <hr></hr>
+
+
+              <div class="col-md-4 mt-3">
+                <div class="d-flex">
+                  <label for="inputEmail3" class="col-md-5">Customer Search<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
+                  <div class="col-md-7" style={{ paddingLeft: "10px" }}>
+                    <input
+                      type='text'
+                      value={FilterName}
+                      onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value); DocumentSearch() }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Table: {
+                      borderColor: '#000000',
+                      headerBg: '#da251c',
+                      headerColor: 'white',
+                      cellFontSizeSM: 6,
+                      rowHoverBg: '#abc4af',
+                      // cellPaddingBlock: 0,
+                      cellPaddingInlineSM: 2
+                    },
+                  },
+                }}
+              >
+                <Table
+
+                  columns={columns}
+                  dataSource={data}
+                  pagination={tableParams.pagination}
+                  loading={loading}
+                  onChange={handleTableChange}
+                  style={{ overflowX: "auto" }}
+                />
+              </ConfigProvider>
+            </div>
+          </div>
         </div>
-
       </div>
-
-      <hr></hr>
-
-      {/* <div class="row">
-        <p style={{paddingLeft:"20px"}}>Show</p>
-        <div style={{paddingLeft:"20px"}} >
-          <select value={value} onChange={handleChange}>
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
-        </div>
-        <p style={{paddingLeft:"20px"}}>entries.</p>
-      </div> */}
-
-      <ConfigProvider
-        theme={{
-          components: {
-            Table: {
-              borderColor: '#000000',
-              headerBg: '#da251c',
-              headerColor: 'white',
-              cellFontSizeSM :6,
-              rowHoverBg: '#abc4af',
-              // cellPaddingBlock: 0,
-              cellPaddingInlineSM : 2
-            },
-          },
-        }}
-      >
-        <Table
-
-          columns={columns}
-          dataSource={data}
-          pagination={tableParams.pagination}
-          loading={loading}
-          onChange={handleTableChange}
-          style={{ overflowX: "auto" }}
-        />
-      </ConfigProvider>
-    </div>
-  </div>
-</div>
-</div>
 
     </div>
   )
