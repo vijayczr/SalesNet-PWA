@@ -18,6 +18,7 @@ import ManageHoliday from './Pages/HRNavBar/HrManageHoliday/ManageHoliday';
 import EmpTarget from './Pages/HRNavBar/EmpTarget/EmpTarget';
 import TargetEdit from './Pages/HRNavBar/TargetEdit/TargetEdit';
 import DARSummary from './Pages/DAR/DARSummary/DARSummary';
+import AddDar from './Pages/DAR/AddDar/AddDar';
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/HrEmpTargetList" element={<EmpTarget/>} />
         <Route path="/HrEmpTarget" element={<TargetEdit/>} />
         <Route path="/DarSummary" element={<DARSummary/>} />
+        <Route path="/AddDar" element={<AddDar/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -192,6 +192,10 @@ export default function DARSummary() {
     DarList();
   }
 
+  const AddDarPage = () => {
+    navigate("/AddDar", { replace: true });
+  }
+
 
   return (
     <div>
@@ -225,6 +229,7 @@ export default function DARSummary() {
 
                 <div class="box-footer">
                   <center style={{ padding: "10px" }}>
+                    <button class="FunctionButton" style={{ backgroundColor: "#06960b" ,width: "150px" }} onClick={AddDarPage}>ADD DAR</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
                     <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                     <button class="FunctionButton" type="button"  data-toggle="modal" data-target="#exampleModalCenter1" style={{ backgroundColor: "#183985", width: "150px" }}>Incentive Rule</button>
