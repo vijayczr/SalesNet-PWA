@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate } from "react-router-dom";
 import { ConfigProvider, DatePicker, Space, Select } from 'antd';
+import dayjs from 'dayjs';
 
 export default function AddDar() {
   const navigate = useNavigate();
@@ -153,7 +154,7 @@ export default function AddDar() {
 
                   <div class="col-lg-4 ">
                     <div class="form-group d-flex">
-                      <label class="col-md-5 mt-1 mb-0">Reporting To<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
+                      <label class="col-md-5 mt-1 mb-0">Application Engineer<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
                       <div class="col-md-7">
                         <select
                           style={{ width: "100%" }}
@@ -210,7 +211,9 @@ export default function AddDar() {
                                                 </Space> */}
                         <Space >
                           <ConfigProvider>
-                            <DatePicker style={{ width: "100%" }} onChange={Date2} />
+                            <DatePicker
+                               defaultValue={dayjs(Date.now())}
+                               style={{ width: "100%" }} onChange={Date2} />
                           </ConfigProvider>
                         </Space>
                       </div>
@@ -239,8 +242,9 @@ export default function AddDar() {
                           showSearch
                           style={{ width: 400 }}
                           placeholder="Search to Select"
+                          onChange={(e)=> {console.log(e);}}
                           optionFilterProp="children"
-                          filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                          filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
                           filterSort={(optionA, optionB) =>
                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                           }
