@@ -22,8 +22,8 @@ import AddDar from './Pages/DAR/AddDar/AddDar';
 
 function App() {
 
-  localStorage.setItem("BaseUrl", "https://localhost:44388");
-  // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
+  // localStorage.setItem("BaseUrl", "https://localhost:44388");
+  localStorage.setItem("BaseUrl", "http://localhost:5193");
   // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
   return (
     <BrowserRouter>
