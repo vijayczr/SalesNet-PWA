@@ -148,18 +148,18 @@ export default function HolidayList() {
     <div>
       <AppHeader data={ProfileData} />
 
-      <div class="breadcrumb-area">
-        <div class="container-fluid">
-          <div class="row pt-1 pb-1">
-            <div class="col-md-6">
+      <div className="breadcrumb-area">
+        <div className="container-fluid">
+          <div className="row pt-1 pb-1">
+            <div className="col-md-6">
               <nav aria-label="breadcrumb">
                 <h2>Holiday Lists</h2>
               </nav>
             </div>
-            <div class="col-md-6">
-              <ol class="breadcrumb d-flex justify-content-end bg-transparent">
-                <li class="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Holiday Lists</li>
+            <div className="col-md-6">
+              <ol className="breadcrumb d-flex justify-content-end bg-transparent">
+                <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
+                <li className="breadcrumb-item active" aria-current="page">Holiday Lists</li>
               </ol>
             </div>
           </div>
@@ -168,17 +168,17 @@ export default function HolidayList() {
 
       <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="bg-boxshadow">
-              <div class="ibox-content">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5 mt-1">YEAR<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="bg-boxshadow">
+              <div className="ibox-content">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5 mt-1">YEAR<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         {/* <input
-                          class="docinput"
+                          className="docinput"
                           type='number'
                           value={Date}
                           onChange={(e) => { console.log(e.target.value); setDate(e.target.value) }}
@@ -199,12 +199,12 @@ export default function HolidayList() {
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-6">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5 mt-1">Branch<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-lg-6">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5 mt-1">Branch<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         {/* <input
-                          class="docinput"
+                          className="docinput"
                           type='text'
                           value={Branch}
                           onChange={(e) => { console.log(e.target.value); setBranch(e.target.value) }}
@@ -228,11 +228,11 @@ export default function HolidayList() {
                   </div>
                 </div>
 
-                <div class="box-footer">
+                <div className="box-footer">
                   <center style={{ padding: "10px" }}>
-                    <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                   </center>
                 </div>
 
@@ -240,7 +240,7 @@ export default function HolidayList() {
 
               <hr></hr>
 
-              {/* <div class="row">
+              {/* <div className="row">
                 <p style={{paddingLeft:"20px"}}>Show</p>
                 <div style={{paddingLeft:"20px"}} >
                   <select value={value} onChange={handleChange}>

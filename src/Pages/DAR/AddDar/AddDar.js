@@ -29,7 +29,7 @@ export default function AddDar() {
   async function getProfiledata() {
 
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
+      `${process.env.BaseURL}/Authentication/ProfileData`,
       {
         method: "GET",
         headers: {
@@ -97,18 +97,18 @@ export default function AddDar() {
 
       <AppHeader data={ProfileData} />
 
-      <div class="breadcrumb-area">
-        <div class="container-fluid">
-          <div class="row pt-1 pb-1">
-            <div class="col-md-6">
+      <div className="breadcrumb-area">
+        <div className="container-fluid">
+          <div className="row pt-1 pb-1">
+            <div className="col-md-6">
               <nav aria-label="breadcrumb">
                 <h2>DAR Entry</h2>
               </nav>
             </div>
-            <div class="col-md-6">
-              <ol class="breadcrumb d-flex justify-content-end bg-transparent">
-                <li class="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">DAR Entry</li>
+            <div className="col-md-6">
+              <ol className="breadcrumb d-flex justify-content-end bg-transparent">
+                <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
+                <li className="breadcrumb-item active" aria-current="page">DAR Entry</li>
               </ol>
             </div>
           </div>
@@ -117,31 +117,31 @@ export default function AddDar() {
 
       <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="bg-boxshadow">
-              <div class="ibox-content">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="bg-boxshadow">
+              <div className="ibox-content">
                 <center >
-                  {/* <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button> */}
-                  <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                  {/* <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button> */}
+                  <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                 </center>
 
 
-                {/* <div class="box-footer">
+                {/* <div className="box-footer">
                   <center style={{ padding: "10px" }}>
-                    <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                   </center>
                 </div> */}
 
-                <div class="row mt-3">
+                <div className="row mt-3">
 
-                  <div class="col-lg-4 ">
-                    <div class="form-group d-flex">
-                      <label class="col-md-5 mt-1 mb-0">Employee Name<span class="float-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-lg-4 ">
+                    <div className="form-group d-flex">
+                      <label className="col-md-5 mt-1 mb-0">Employee Name<span className="float-right">:</span></label>
+                      <div className="col-md-7">
                         <input
                           style={{ width: "100%" }}
                           type='text'
@@ -152,10 +152,10 @@ export default function AddDar() {
                     </div>
                   </div>
 
-                  <div class="col-lg-4 ">
-                    <div class="form-group d-flex">
-                      <label class="col-md-5 mt-1 mb-0">Application Engineer<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-lg-4 ">
+                    <div className="form-group d-flex">
+                      <label className="col-md-5 mt-1 mb-0">Application Engineer<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                      <div className="col-md-7">
                         <select
                           style={{ width: "100%" }}
                           onChange={(e) => { setAppeng(e.target.value) }}
@@ -170,10 +170,10 @@ export default function AddDar() {
                     </div>
                   </div>
 
-                  <div class="col-lg-4 ">
-                    <div class="form-group d-flex">
-                      <label class="col-md-5 mt-1 mb-0">Lead Type<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-lg-4 ">
+                    <div className="form-group d-flex">
+                      <label className="col-md-5 mt-1 mb-0">Lead Type<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                      <div className="col-md-7">
                         <select
                           style={{ width: "100%" }}
                           onChange={(e) => { setLeadType(e.target.value) }}
@@ -187,10 +187,10 @@ export default function AddDar() {
                     </div>
                   </div>
 
-                  <div class="col-lg-4 ">
-                    <div class="form-group d-flex">
-                      <label class="col-md-5 mt-1 mb-0">Lead No<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-lg-4 ">
+                    <div className="form-group d-flex">
+                      <label className="col-md-5 mt-1 mb-0">Lead No<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                      <div className="col-md-7">
                         <select
                           style={{ width: "100%" }}
                         // onChange={(e) => { setLeadType(e.target.value) }}
@@ -202,10 +202,10 @@ export default function AddDar() {
                     </div>
                   </div>
 
-                  <div class="col-lg-4">
-                    <div class="form-group d-flex">
-                      <label for="inputEmail3" class="col-md-5 mt-1">Date<span class="pull-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-lg-4">
+                    <div className="form-group d-flex">
+                      <label for="inputEmail3" className="col-md-5 mt-1">Date<span className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         {/* <Space >
                                                     <DatePicker style={{ width: "100%" }} onChange={Date2} />
                                                 </Space> */}
@@ -220,10 +220,10 @@ export default function AddDar() {
                     </div>
                   </div>
 
-                  <div class="col-lg-4 ">
-                    <div class="form-group d-flex">
-                      <label class="col-md-5 mt-1 mb-0">Visit Time<span class="float-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-lg-4 ">
+                    <div className="form-group d-flex">
+                      <label className="col-md-5 mt-1 mb-0">Visit Time<span className="float-right">:</span></label>
+                      <div className="col-md-7">
                         <input
                           style={{ width: "100%" }}
                           type='text'
@@ -234,10 +234,10 @@ export default function AddDar() {
                     </div>
                   </div>
 
-                  <div class="col-lg-8 ">
-                    <div class="form-group d-flex">
-                      <label class="col-md-3 mt-1 mb-0">Customer<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                      <div class="col-md-9">
+                  <div className="col-lg-8 ">
+                    <div className="form-group d-flex">
+                      <label className="col-md-3 mt-1 mb-0">Customer<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                      <div className="col-md-9">
                         <Select
                           showSearch
                           style={{ width: 400 }}

@@ -75,27 +75,27 @@ export default function HR() {
       key: 'Action',
       render: (_, record) => (
         <Space size="middle">
-          <button type="button" class="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditEmpPage(record.userId)}><EditOutlined /> </button>
-          <button type="button" class="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => ViewEmpPage(record.userId)}><FolderViewOutlined /> </button>
-          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
-          <button type="button" class="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Empprdct(record.userId)}><FileAddOutlined /></button>
+          <button type="button" className="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditEmpPage(record.userId)}><EditOutlined /> </button>
+          <button type="button" className="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => ViewEmpPage(record.userId)}><FolderViewOutlined /> </button>
+          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
+          <button type="button" className="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Empprdct(record.userId)}><FileAddOutlined /></button>
 
 
-          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle"></h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLongTitle"></h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                   <h5>Do you really want to delete user {record.name}</h5>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary" onClick={() => DelEmp(record.userId)}>Delete</button>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="button" className="btn btn-primary" onClick={() => DelEmp(record.userId)}>Delete</button>
                 </div>
               </div>
             </div>
@@ -264,18 +264,18 @@ export default function HR() {
       
       <AppHeader data={ProfileData} />
 
-      <div class="breadcrumb-area">
-        <div class="container-fluid">
-          <div class="row pt-1 pb-1">
-            <div class="col-md-6">
+      <div className="breadcrumb-area">
+        <div className="container-fluid">
+          <div className="row pt-1 pb-1">
+            <div className="col-md-6">
               <nav aria-label="breadcrumb">
                 <h2>Employee Lists</h2>
               </nav>
             </div>
-            <div class="col-md-6">
-              <ol class="breadcrumb d-flex justify-content-end bg-transparent">
-                <li class="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Employee Lists</li>
+            <div className="col-md-6">
+              <ol className="breadcrumb d-flex justify-content-end bg-transparent">
+                <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
+                <li className="breadcrumb-item active" aria-current="page">Employee Lists</li>
               </ol>
             </div>
           </div>
@@ -283,15 +283,15 @@ export default function HR() {
       </div>
 
       <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="bg-boxshadow">
-              <div class="ibox-content">
-                <div class="row">
-                  <div class="col-md-4 mt-3">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Group Name<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="bg-boxshadow">
+              <div className="ibox-content">
+                <div className="row">
+                  <div className="col-md-4 mt-3">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5">Group Name<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         <select value={Groupname}
                           onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
                           style={{ width: "15vw" }}
@@ -303,10 +303,10 @@ export default function HR() {
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 mt-3">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Branch<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-md-4 mt-3">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5">Branch<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         <select value={BranchName}
                           onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
                           style={{ width: "15vw" }}
@@ -334,10 +334,10 @@ export default function HR() {
                     </div>
 
                   </div>
-                  <div class="col-md-4 mt-3">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Name<span class="float-right">:</span></label>
-                      <div class="col-md-7" style={{ paddingLeft: "10px" }}>
+                  <div className="col-md-4 mt-3">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5">Name<span className="float-right">:</span></label>
+                      <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                         <input
                           type='text'
                           style={{ width: "100%" }}
@@ -347,10 +347,10 @@ export default function HR() {
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 mt-3">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Status<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-md-4 mt-3">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5">Status<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         <select value={FilterStatus}
                           onChange={(e) => { console.log(e.target.value); setFilterStatus(e.target.value) }}
                           style={{ width: "15vw" }}
@@ -361,10 +361,10 @@ export default function HR() {
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 mt-3">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Vertical<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-md-4 mt-3">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5">Vertical<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         <select value={FilterVertical}
                           onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value) }}
                           style={{ width: "15vw" }}
@@ -380,10 +380,10 @@ export default function HR() {
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 mt-3">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Designation<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7">
+                  <div className="col-md-4 mt-3">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5">Designation<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7">
                         <select value={FilterDesignation}
                           onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
                           style={{ width: "15vw" }}
@@ -395,19 +395,19 @@ export default function HR() {
                     </div>
                   </div>
                 </div>
-                <div class="box-footer mt-3">
+                <div className="box-footer mt-3">
                   <center style={{ padding: "10px" }}>
-                    <button class="FunctionButton1" style={{ backgroundColor: "#183985" }} onClick={NavAddEmployee}>+ ADD EMPLOYEE</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#1b8532" }} onClick={DocumentSearch}>Search</button>
-                    <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                    <button className="FunctionButton1" style={{ backgroundColor: "#183985" }} onClick={NavAddEmployee}>+ ADD EMPLOYEE</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#1b8532" }} onClick={DocumentSearch}>Search</button>
+                    <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                   </center>
                 </div>
               </div>
-              <div class="col-md-4 mt-3">
-                    <div class="d-flex">
-                      <label for="inputEmail3" class="col-md-5">Search<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                      <div class="col-md-7" style={{ paddingLeft: "10px" }}>
+              <div className="col-md-4 mt-3">
+                    <div className="d-flex">
+                      <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                      <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                         <input
                           type='text'
                           value={FilterName}

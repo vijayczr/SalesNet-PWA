@@ -46,56 +46,56 @@ export default function Login() {
     }
 
     return (
-        <div class='container-fluid logon'>
-            <div class="col-lg-6 login-box">
-                <div class="ibox bg-boxshadow">
-                    <div><img src={logo2} class="img-fluid logo" /></div>
+        <div className='container-fluid logon'>
+            <div className="col-lg-6 login-box">
+                <div className="ibox bg-boxshadow">
+                    <div><img src={logo2} className="img-fluid logo" /></div>
 
-                    <div class="ibox-title basic-form mb-30 bg-transparent ">
+                    <div className="ibox-title basic-form mb-30 bg-transparent ">
                         <h5>Sign In Here</h5>
                     </div>
-                    <div class="ibox-content ">
+                    <div className="ibox-content ">
                         {
                             <form onSubmit={handleSubmit} >
-                                <div class="form-group row ">
-                                    <label class="col-lg-3 col-form-label">Login Id</label>
-                                    <div class="col-lg-9">
+                                <div className="form-group row ">
+                                    <label className="col-lg-3 col-form-label">Login Id</label>
+                                    <div className="col-lg-9">
                                         <input
                                             type="text"
                                             value={UserId}
                                             onChange={(e) => setUserId(e.target.value)}
                                             placeholder="UserId"
-                                            class="form-control"
+                                            className="form-control"
                                             required
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">Password</label>
+                                <div className="form-group row">
+                                    <label className="col-lg-3 col-form-label">Password</label>
 
-                                    <div class="col-lg-9">
+                                    <div className="col-lg-9">
                                         <input
                                             type="password"
                                             placeholder="Password"
                                             value={password}
                                             onChange={(e) => setpassword(e.target.value)}
-                                            class="form-control"
+                                            className="form-control"
                                             required
                                         />
                                     </div>
                                 </div>
                                 {loginErrorMssg ?
                                     <div>
-                                        <p class="text-danger">{loginErrorMssg}</p>
+                                        <p className="text-danger">{loginErrorMssg}</p>
                                     </div>
                                     : null
                                 }
-                                <div class="form-group row">
-                                    <div class="col-lg-offset-2 col-lg-7">
-                                        <div class="i-checks txt1"><a href="#"> Forgot Password !</a></div>
+                                <div className="form-group row">
+                                    <div className="col-lg-offset-2 col-lg-7">
+                                        <div className="i-checks txt1"><a href="#"> Forgot Password !</a></div>
                                     </div>
-                                    <div class="col-lg-offset-2 col-lg-5">
-                                        <button class="btn rounded-0 btn-sm btn-danger btn-block" type="submit">Sign in</button>
+                                    <div className="col-lg-offset-2 col-lg-5">
+                                        <button className="btn rounded-0 btn-sm btn-danger btn-block" type="submit">Sign in</button>
                                     </div>
                                 </div>
                             </form>
