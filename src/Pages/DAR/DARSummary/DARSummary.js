@@ -4,7 +4,7 @@ import { ConfigProvider, Table, Space } from 'antd';
 import { EditOutlined, FolderViewOutlined, DeleteFilled, FileAddOutlined } from '@ant-design/icons';
 
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate,createSearchParams } from "react-router-dom";
 
 export default function DARSummary() {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ export default function DARSummary() {
       render: (_, record) => (
         <Space size="middle">
           <button type="button" className="viewbutton" style={{ marginRight: "0px" }} ><EditOutlined /> </button>
-          <button type="button" className="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} ><FolderViewOutlined /> </button>
+          <button type="button" className="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Viewdar(record.darId)}><FolderViewOutlined /> </button>
           <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
           <button type="button" className="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} ><FileAddOutlined /></button>
 
@@ -100,6 +100,18 @@ export default function DARSummary() {
       width: '15%',
     }
   ];
+
+  const Viewdar = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate(
+      {
+        pathname: "/ViewDar",
+        search: createSearchParams({
+          id: e
+        }).toString()
+      }
+    );
+  };
 
 
   useEffect(() => {

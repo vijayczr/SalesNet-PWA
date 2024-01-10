@@ -4,95 +4,96 @@ import { useNavigate } from "react-router-dom";
 import { ConfigProvider, DatePicker, Space, Select } from 'antd';
 import dayjs from 'dayjs';
 
-export default function AddDar() {
-  const navigate = useNavigate();
-  const [ProfileData, setProfileData] = useState("");
-  const [Branch, setBranch] = useState("");
-  const [AppEngList, setAppEngList] = useState(null);
-  const [Appeng, setAppeng] = useState(null);
-  const [LeadType, setLeadType] = useState(null);
-  const [JoiningDate1, setJoiningDate1] = useState(null);
-  const [TodayTime, setTodayTime] = useState("01:00 PM");
+export default function ViewDar() {
 
-  const [CustomerList, setCustomerList] = useState(null);
+    const navigate = useNavigate();
+    const [ProfileData, setProfileData] = useState("");
+    const [Branch, setBranch] = useState("");
+    const [AppEngList, setAppEngList] = useState(null);
+    const [Appeng, setAppeng] = useState(null);
+    const [LeadType, setLeadType] = useState(null);
+    const [JoiningDate1, setJoiningDate1] = useState(null);
+    const [TodayTime, setTodayTime] = useState("01:00 PM");
+  
+    const [CustomerList, setCustomerList] = useState(null);
+  
+    // setJoiningDate1(new Date().toLocaleDateString());
+    useEffect(() => {
+        let ignore = false;
 
-  // setJoiningDate1(new Date().toLocaleDateString());
-  useEffect(() => {
-    let ignore = false;
-
-    if (!ignore) getProfiledata(); GetAppEnggList() ;SearchCustomer()
-    return () => { ignore = true; }
-  }, []);
-
-  var newDate = new Date().toLocaleDateString();
-
-  async function getProfiledata() {
-    try {
-        const res = await fetch(
-            `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-                },
-            }
-        )
-        const profileData = await res.json();
-        if (profileData.resCode === 200) {
-            console.log(profileData.resData);
-            setProfileData(profileData.resData);
-        }
-    } catch (e) {
-        console.log("ok");
-        navigate("/", { replace: true });
-    }
-}
-
-  const NavBack = () => {
-    navigate("/DarSummary", { replace: true });
-  }
-
-
-  async function GetAppEnggList() {
-    const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Dar/AppEngineer`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-        },
+        if (!ignore)  getProfiledata();GetAppEnggList() ;SearchCustomer()
+        return () => { ignore = true; }
+    }, []);
+  
+    var newDate = new Date().toLocaleDateString();
+  
+    async function getProfiledata() {
+      try {
+          const res = await fetch(
+              `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
+              {
+                  method: "GET",
+                  headers: {
+                      Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                  },
+              }
+          )
+          const profileData = await res.json();
+          if (profileData.resCode === 200) {
+              console.log(profileData.resData);
+              setProfileData(profileData.resData);
+          }
+      } catch (e) {
+          console.log("ok");
+          navigate("/", { replace: true });
       }
-    )
-    const Response = await res.json();
-    if (Response.resCode === 200) {
-      console.log(Response.resData);
-      setAppEngList(Response.resData)
-    }
   }
-
-  const Date2 = (date) => {
-    console.log(date);
-    setJoiningDate1(date);
-  };
-
-  async function SearchCustomer() {
-    const res = await fetch(
-        `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-            },
-        }
-    );
-    const Response = await res.json();
-    if (Response.resCode === 200) {
-      setCustomerList(Response.resData);
+  
+    const NavBack = () => {
+      navigate("/DarSummary", { replace: true });
     }
-
-};
-
-
+  
+  
+    async function GetAppEnggList() {
+      const res = await fetch(
+        `${localStorage.getItem("BaseUrl")}/Dar/AppEngineer`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          },
+        }
+      )
+      const Response = await res.json();
+      if (Response.resCode === 200) {
+        console.log(Response.resData);
+        setAppEngList(Response.resData)
+      }
+    }
+  
+    const Date2 = (date) => {
+      console.log(date);
+      setJoiningDate1(date);
+    };
+  
+    async function SearchCustomer() {
+      const res = await fetch(
+          `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
+          {
+              method: "GET",
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+              },
+          }
+      );
+      const Response = await res.json();
+      if (Response.resCode === 200) {
+        setCustomerList(Response.resData);
+        console.log(Response.resData);
+      }
+  
+  };
+  
   return (
     <div>
 
@@ -103,13 +104,13 @@ export default function AddDar() {
           <div className="row pt-1 pb-1">
             <div className="col-md-6">
               <nav aria-label="breadcrumb">
-                <h2>DAR Entry</h2>
+                <h2>View DAR</h2>
               </nav>
             </div>
             <div className="col-md-6">
               <ol className="breadcrumb d-flex justify-content-end bg-transparent">
                 <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                <li className="breadcrumb-item active" aria-current="page">DAR Entry</li>
+                <li className="breadcrumb-item active" aria-current="page">View DAR</li>
               </ol>
             </div>
           </div>

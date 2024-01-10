@@ -19,10 +19,11 @@ import EmpTarget from './Pages/HRNavBar/EmpTarget/EmpTarget';
 import TargetEdit from './Pages/HRNavBar/TargetEdit/TargetEdit';
 import DARSummary from './Pages/DAR/DARSummary/DARSummary';
 import AddDar from './Pages/DAR/AddDar/AddDar';
+import ViewDar from './Pages/DAR/ViewDar/ViewDar';
 
 function App() {
 
-  // localStorage.setItem("BaseUrl", "http://localhost:5193");
+  localStorage.setItem("BaseUrl", "http://localhost:5193");
   // localStorage.setItem("BaseUrl", "https://33f7-103-77-43-90.ngrok-free.app");
   // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/HrEmpTarget" element={<TargetEdit/>} />
         <Route path="/DarSummary" element={<DARSummary/>} />
         <Route path="/AddDar" element={<AddDar/>} />
+        <Route path="/ViewDar" element={<ViewDar/>} />
       </Routes>
     </BrowserRouter>
   );
