@@ -462,21 +462,21 @@ export default function ViewEmployee(props) {
 
 
     return (
-        <div class="containner">
+        <div className="containner">
             <AppHeader data={profileData} />
 
-            <div class="breadcrumb-area">
-                <div class="container-fluid">
-                    <div class="row pt-1 pb-1">
-                        <div class="col-md-6">
+            <div className="breadcrumb-area">
+                <div className="container-fluid">
+                    <div className="row pt-1 pb-1">
+                        <div className="col-md-6">
                             <nav aria-label="breadcrumb">
                                 <h2> Employee </h2>
                             </nav>
                         </div>
-                        <div class="col-md-6">
-                            <ol class="breadcrumb d-flex justify-content-end bg-transparent">
-                                <li class="breadcrumb-item"><a href="/HR">HR</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Edit EMPLOYEE</li>
+                        <div className="col-md-6">
+                            <ol className="breadcrumb d-flex justify-content-end bg-transparent">
+                                <li className="breadcrumb-item"><a href="/HR">HR</a></li>
+                                <li className="breadcrumb-item active" aria-current="page">Edit EMPLOYEE</li>
                             </ol>
                         </div>
                     </div>
@@ -485,35 +485,35 @@ export default function ViewEmployee(props) {
 
             <div className='containner p-2' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="bg-boxshadow">
-                            <div class="ibox-content">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="bg-boxshadow">
+                            <div className="ibox-content">
 
-                                <div class="col-lg-12">
-                                    <div class="form-group d-flex">
-                                        <span class="pull-right">
-                                            <button class="FunctionButton" style={{ color: "white" }} onClick={NavBack}>Back</button>
+                                <div className="col-lg-12">
+                                    <div className="form-group d-flex">
+                                        <span className="pull-right">
+                                            <button className="FunctionButton" style={{ color: "white" }} onClick={NavBack}>Back</button>
 
                                         </span>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
-                                    <div class="form-group d-flex">
+                                <div className="col-lg-12">
+                                    <div className="form-group d-flex">
                                         <h4>Professional Details:-</h4>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
+                                <div className="col-lg-12">
 
                                     <form id='clearForm' onSubmit={handleSubmit} >
-                                        <div class="row">
+                                        <div className="row">
 
-                                            <div class="col-lg-6">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Name <span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Name <span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -526,10 +526,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">TeamType <span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">TeamType <span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             style={{ width: "100%" }}
                                                             value={TeamType}
@@ -544,10 +544,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Hierarchy<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Hierarchy<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             style={{ width: "100%" }}
                                                             value={Hierarchy}
@@ -578,10 +578,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Reporting To<span style={{ color: "red" }}>*</span> <span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Reporting To<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             style={{ width: "100%" }}
                                                             value={Reportingto}
@@ -598,10 +598,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Reporting To (Second)<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Reporting To (Second)<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         {(Reportingto === "null") ?
                                                             <select
                                                                 disabled
@@ -627,10 +627,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Reporting To (Third)<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Reporting To (Third)<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         {(ReportingtoSecond === "null") ?
                                                             <select
                                                                 disabled
@@ -656,10 +656,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Joining Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Joining Date<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker value={dayjs(JoiningDate)} style={{ width: "100%" }} onChange={JoinDate} disabled />
@@ -668,10 +668,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Aadhar<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Aadhar<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             disabled
@@ -684,10 +684,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Gender<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Gender<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             style={{ width: "100%" }}
                                                             value={Gender}
@@ -704,10 +704,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">PAN<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">PAN<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -720,10 +720,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Group<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Group<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select value={Groupname}
                                                             onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
                                                             style={{ width: "100%" }}
@@ -737,10 +737,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Branch<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Branch<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             value={BranchName}
                                                             onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
@@ -770,10 +770,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Vertical<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Vertical<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             value={Vertical}
                                                             onChange={(e) => { console.log(e.target.value); setVertical(e.target.value); SubVerticalList(e.target.value) }}
@@ -792,10 +792,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">SubVertical<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">SubVertical<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             value={SubVertical}
                                                             onChange={(e) => { console.log(e.target.value); setSubVertical(e.target.value) }}
@@ -812,10 +812,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Designation<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Designation<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select value={FilterDesignation}
                                                             onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
                                                             style={{ width: "100%" }}
@@ -828,10 +828,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Official E-mail<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Official E-mail<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -844,10 +844,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Referred-By<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Referred-By<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -859,10 +859,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Status<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Status<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             style={{ width: "100%" }}
                                                             value={EmpStatus}
@@ -877,10 +877,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Login Id<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Login Id<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -893,10 +893,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Login Password<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Login Password<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -909,12 +909,12 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Verification Details<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
-                                                        <div class="form-outline">
-                                                            <textarea class="form-control" id="textArea1" rows="1" placeholder='messege'
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Verification Details<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
+                                                        <div className="form-outline">
+                                                            <textarea className="form-control" id="textArea1" rows="1" placeholder='messege'
                                                                 value={VerificationDetails}
                                                                 disabled
                                                                 onChange={(e) => { setVerificationDetails(e.target.value); console.log(VerificationDetails); }}
@@ -924,10 +924,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Grade<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Grade<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             style={{ width: "100%" }}
                                                             required
@@ -949,10 +949,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Attachments<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Attachments<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             type='file'
                                                             name='filename'
@@ -961,11 +961,11 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">IsSalesnetUser<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
-                                                        <input class="form-check-input ml-3"
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">IsSalesnetUser<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
+                                                        <input className="form-check-input ml-3"
                                                             type="checkbox"
                                                             id="checkboxNoLabel"
                                                             value=""
@@ -975,10 +975,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Certificate Date of Birth<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Certificate Date of Birth<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker value={dayjs(CertificateDOB)} style={{ width: "100%" }} onChange={CerDOB} disabled />
@@ -990,10 +990,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Employee Id<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Employee Id<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1005,10 +1005,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">UAN No.<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">UAN No.<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1020,10 +1020,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Present Location<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Present Location<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1036,10 +1036,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Fixed CTC<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Fixed CTC<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1052,10 +1052,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Annual CTC<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Annual CTC<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1068,10 +1068,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Incentive (%)<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Incentive (%)<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1083,10 +1083,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Incentive Amount<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Incentive Amount<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1098,10 +1098,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Employee Status<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Employee Status<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             style={{ width: "100%" }}
                                                             required
@@ -1118,10 +1118,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">From Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">From Date<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker value={dayjs(EmpStatFromDate)} style={{ width: "100%" }} onChange={onEmpStatFromDate} disabled />
@@ -1133,10 +1133,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">To Date<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">To Date<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker value={dayjs(EmpStatToDate)} style={{ width: "100%" }} onChange={onEmpStatToDate} disabled />
@@ -1148,10 +1148,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Total number of Experience<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Total number of Experience<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1163,16 +1163,16 @@ export default function ViewEmployee(props) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-12">
-                                                <div class="form-group d-flex">
+                                            <div className="col-lg-12">
+                                                <div className="form-group d-flex">
                                                     <h4>Personal Details:-</h4>
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Father's Name<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Father's Name<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1185,10 +1185,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Mother's Name<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Mother's Name<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1201,10 +1201,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Original Date of Birth<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Original Date of Birth<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker value={dayjs(Origindob)} style={{ width: "100%" }} onChange={OriginDOB} disabled />
@@ -1216,10 +1216,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Personal Contact No.<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Personal Contact No.<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1231,10 +1231,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Marital Status<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Marital Status<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <select
                                                             value={MaritalStatus}
                                                             onChange={(e) => { console.log(e.target.value); setMaritalStatus(e.target.value) }}
@@ -1248,10 +1248,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Anniversary<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Anniversary<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         {
                                                             (MaritalStatus === "true") ?
                                                                 <Space >
@@ -1271,10 +1271,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Blood Group<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Blood Group<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1286,10 +1286,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Personal E-mail<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Personal E-mail<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1302,10 +1302,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Emergency Contact Number<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Emergency Contact Number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1317,10 +1317,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">relation with that number<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">relation with that number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1333,10 +1333,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">landline Number<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">landline Number<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1347,10 +1347,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Upload image<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Upload image<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             type='file'
                                                             name='filename'
@@ -1359,32 +1359,32 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0"></label>
-                                                    <div class="col-md-7">
-                                                    <img src={base64Image} style={{ width:"100px" , height:"100px"}} class="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0"></label>
+                                                    <div className="col-md-7">
+                                                    <img src={base64Image} style={{ width:"100px" , height:"100px"}} className="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
 
                                                     </div>
                                                 </div>
                                             </div>
 
 
-                                            <div class="col-lg-12">
-                                                <div class="form-group d-flex">
+                                            <div className="col-lg-12">
+                                                <div className="form-group d-flex">
                                                     <h4>Contact Information-</h4>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 mt-0 mb-0">
-                                                <div class="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                                                    <p class="mt-0 mb-0">Permanent Address</p>
+                                            <div className="col-lg-12 mt-0 mb-0">
+                                                <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
+                                                    <p className="mt-0 mb-0">Permanent Address</p>
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Address<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Address<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1396,10 +1396,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">City<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">City<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1411,10 +1411,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">State<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">State<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1426,10 +1426,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Country<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Country<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1441,10 +1441,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">PinCode<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">PinCode<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1456,10 +1456,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Phone<span style={{ color: "red" }}>*</span><span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Phone<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1472,15 +1472,15 @@ export default function ViewEmployee(props) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-12 mt-0 mb-0">
-                                                <div class="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                                                    <p class="mt-0 mb-0">Correspondence Address</p>
+                                            <div className="col-lg-12 mt-0 mb-0">
+                                                <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
+                                                    <p className="mt-0 mb-0">Correspondence Address</p>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Address<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Address<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1491,10 +1491,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">City<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">City<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1505,10 +1505,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">State<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">State<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1519,10 +1519,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Country<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Country<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1533,10 +1533,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">PinCode<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">PinCode<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1547,10 +1547,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Phone<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Phone<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1564,21 +1564,21 @@ export default function ViewEmployee(props) {
 
 
 
-                                            <div class="col-lg-12">
-                                                <div class="form-group d-flex">
+                                            <div className="col-lg-12">
+                                                <div className="form-group d-flex">
                                                     <h4>Mediclaim and LIC-</h4>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 mt-0 mb-0">
-                                                <div class="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                                                    <p class="mt-0 mb-0">Mediclaim Information</p>
+                                            <div className="col-lg-12 mt-0 mb-0">
+                                                <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
+                                                    <p className="mt-0 mb-0">Mediclaim Information</p>
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Policy Name<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Policy Name<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1589,10 +1589,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Policy Detail<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Policy Detail<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1603,10 +1603,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Assured Amount<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Assured Amount<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1617,10 +1617,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Expiry Date<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Expiry Date<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker disabled value={dayjs((MediExpiry === null) ? '2000-01-01' : MediExpiry)} style={{ width: "100%" }} onChange={MediExpDate} />
@@ -1632,10 +1632,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Nominee Name<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Nominee Name<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1648,16 +1648,16 @@ export default function ViewEmployee(props) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-12 mt-0 mb-0">
-                                                <div class="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                                                    <p class="mt-0 mb-0">LIC Information</p>
+                                            <div className="col-lg-12 mt-0 mb-0">
+                                                <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
+                                                    <p className="mt-0 mb-0">LIC Information</p>
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Policy Name<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Policy Name<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1668,10 +1668,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Policy Detail<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Policy Detail<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1682,10 +1682,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Assured Amount<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Assured Amount<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1696,10 +1696,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Expiry Date<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Expiry Date<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker disabled value={dayjs((LicExpiry === null) ? '2000-01-01' : LicExpiry)} style={{ width: "100%" }} onChange={LexpDate} />
@@ -1711,10 +1711,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Nominee Name<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Nominee Name<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1726,16 +1726,16 @@ export default function ViewEmployee(props) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-12">
-                                                <div class="form-group d-flex">
+                                            <div className="col-lg-12">
+                                                <div className="form-group d-flex">
                                                     <h4>Resignation</h4>
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Resignation Date<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Resignation Date<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker disabled value={dayjs((ResignDate === null) ? '2000-01-01' : ResignDate)} style={{ width: "100%" }} onChange={Resignationdate} />
@@ -1747,10 +1747,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Accepted By<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Accepted By<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1761,10 +1761,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Last Working Date<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Last Working Date<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <Space >
                                                             <ConfigProvider locale={locale}>
                                                                 <DatePicker disabled value={dayjs((LastDate === null) ? '2000-01-01' : LastDate)} style={{ width: "100%" }} onChange={LastWorking} />
@@ -1776,10 +1776,10 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group d-flex">
-                                                    <label class="col-md-5 mt-1 mb-0">Reason<span class="float-right">:</span></label>
-                                                    <div class="col-md-7">
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Reason<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
@@ -1790,17 +1790,17 @@ export default function ViewEmployee(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {/* <div class="box-footer mt-3">
+                                            {/* <div className="box-footer mt-3">
                           <center style={{ padding: "10px" }}>
-                            <button class="FunctionButton1" style={{ backgroundColor: "#183985" }} type="submit" >Submit</button>
+                            <button className="FunctionButton1" style={{ backgroundColor: "#183985" }} type="submit" >Submit</button>
                           </center>
                         </div> */}
-                                            <div class="col-lg-12">
-                                                <div class="form-group d-flex">
+                                            <div className="col-lg-12">
+                                                <div className="form-group d-flex">
                                                     <h3>Employee History</h3>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-8 ">
+                                            <div className="col-lg-8 ">
                                                 <ConfigProvider
                                                     theme={{
                                                         components: {

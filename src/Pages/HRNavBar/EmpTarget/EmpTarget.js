@@ -75,7 +75,7 @@ export default function EmpTarget() {
         key: 'Action',
         render: (_, record) => (
           <Space size="middle">
-            <button type="button" class="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditTarget(record.userId)}><EditOutlined /> </button>
+            <button type="button" className="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditTarget(record.userId)}><EditOutlined /> </button>
            
           </Space>
         ),
@@ -197,18 +197,18 @@ export default function EmpTarget() {
       <div style={{ height: "100vh", overflow: "auto" }}>
         <AppHeader data={ProfileData} />
   
-        <div class="breadcrumb-area">
-          <div class="container-fluid">
-            <div class="row pt-1 pb-1">
-              <div class="col-md-6">
+        <div className="breadcrumb-area">
+          <div className="container-fluid">
+            <div className="row pt-1 pb-1">
+              <div className="col-md-6">
                 <nav aria-label="breadcrumb">
                   <h2>Employee Target Lists</h2>
                 </nav>
               </div>
-              <div class="col-md-6">
-                <ol class="breadcrumb d-flex justify-content-end bg-transparent">
-                  <li class="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Employee Target Lists</li>
+              <div className="col-md-6">
+                <ol className="breadcrumb d-flex justify-content-end bg-transparent">
+                  <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
+                  <li className="breadcrumb-item active" aria-current="page">Employee Target Lists</li>
                 </ol>
               </div>
             </div>
@@ -216,15 +216,15 @@ export default function EmpTarget() {
         </div>
   
         <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="bg-boxshadow">
-                <div class="ibox-content">
-                  <div class="row">
-                    <div class="col-md-4 mt-3">
-                      <div class="d-flex">
-                        <label for="inputEmail3" class="col-md-5">Group Name<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                        <div class="col-md-7">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="bg-boxshadow">
+                <div className="ibox-content">
+                  <div className="row">
+                    <div className="col-md-4 mt-3">
+                      <div className="d-flex">
+                        <label for="inputEmail3" className="col-md-5">Group Name<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                        <div className="col-md-7">
                           <select value={Groupname}
                             onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
                             style={{ width: "15vw" }}
@@ -236,10 +236,10 @@ export default function EmpTarget() {
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4 mt-3">
-                      <div class="d-flex">
-                        <label for="inputEmail3" class="col-md-5">Branch<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                        <div class="col-md-7">
+                    <div className="col-md-4 mt-3">
+                      <div className="d-flex">
+                        <label for="inputEmail3" className="col-md-5">Branch<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                        <div className="col-md-7">
                           <select value={BranchName}
                             onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
                             style={{ width: "15vw" }}
@@ -267,10 +267,10 @@ export default function EmpTarget() {
                       </div>
   
                     </div>
-                    <div class="col-md-4 mt-3">
-                      <div class="d-flex">
-                        <label for="inputEmail3" class="col-md-5">Name<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                        <div class="col-md-7" style={{ paddingLeft: "10px" }}>
+                    <div className="col-md-4 mt-3">
+                      <div className="d-flex">
+                        <label for="inputEmail3" className="col-md-5">Name<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                        <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                           <input
                             type='text'
                             value={FilterName}
@@ -279,10 +279,10 @@ export default function EmpTarget() {
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4 mt-3">
-                      <div class="d-flex">
-                        <label for="inputEmail3" class="col-md-5">Status<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                        <div class="col-md-7">
+                    <div className="col-md-4 mt-3">
+                      <div className="d-flex">
+                        <label for="inputEmail3" className="col-md-5">Status<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                        <div className="col-md-7">
                           <select value={FilterStatus}
                             onChange={(e) => { console.log(e.target.value); setFilterStatus(e.target.value) }}
                             style={{ width: "15vw" }}
@@ -293,10 +293,10 @@ export default function EmpTarget() {
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4 mt-3">
-                      <div class="d-flex">
-                        <label for="inputEmail3" class="col-md-5">Vertical<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                        <div class="col-md-7">
+                    <div className="col-md-4 mt-3">
+                      <div className="d-flex">
+                        <label for="inputEmail3" className="col-md-5">Vertical<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                        <div className="col-md-7">
                           <select value={FilterVertical}
                             onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value) }}
                             style={{ width: "15vw" }}
@@ -312,10 +312,10 @@ export default function EmpTarget() {
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4 mt-3">
-                      <div class="d-flex">
-                        <label for="inputEmail3" class="col-md-5">Designation<span style={{ paddingLeft: "50px" }} class="pull-right">:</span></label>
-                        <div class="col-md-7">
+                    <div className="col-md-4 mt-3">
+                      <div className="d-flex">
+                        <label for="inputEmail3" className="col-md-5">Designation<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                        <div className="col-md-7">
                           <select value={FilterDesignation}
                             onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
                             style={{ width: "15vw" }}
@@ -327,18 +327,18 @@ export default function EmpTarget() {
                       </div>
                     </div>
                   </div>
-                  <div class="box-footer mt-3">
+                  <div className="box-footer mt-3">
                     <center style={{ padding: "10px" }}>
-                      <button class="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                      <button class="FunctionButton" style={{ backgroundColor: "#1b8532" }} onClick={DocumentSearch}>Search</button>
-                      <button class="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                      <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
+                      <button className="FunctionButton" style={{ backgroundColor: "#1b8532" }} onClick={DocumentSearch}>Search</button>
+                      <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                     </center>
                   </div>
                 </div>
-                <div class="col-md-4 mt-3">
-                      <div class="d-flex">
-                        <label for="inputEmail3" class="col-md-5">Search<span style={{ paddingLeft: "30px" }} class="pull-right">:</span></label>
-                        <div class="col-md-7" style={{ paddingLeft: "10px" }}>
+                <div className="col-md-4 mt-3">
+                      <div className="d-flex">
+                        <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                        <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                           <input
                             type='text'
                             value={FilterName}

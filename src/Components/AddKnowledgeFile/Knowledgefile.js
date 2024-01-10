@@ -51,62 +51,62 @@ export default function Knowledgefile() {
 
   return (
     <>
-      <button class="FunctionButton" data-toggle="modal" data-placement="top" data-target=".bd-example-modal2-lg" style={{ backgroundColor: "#05870c" , border:"none" }} >+ADD</button>
-      <div class="modal fade bd-example-modal2-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header" >
+      <button className="FunctionButton" data-toggle="modal" data-placement="top" data-target=".bd-example-modal2-lg" style={{ backgroundColor: "#05870c" , border:"none" }} >+ADD</button>
+      <div className="modal fade bd-example-modal2-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header" >
 
-              <button type="button" class="close" data-dismiss="modal" onClick={reset} aria-label="Close">
+              <button type="button" className="close" data-dismiss="modal" onClick={reset} aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
-            <div class="modal-body">
+            <div className="modal-body">
               <form onSubmit={handleSubmit} >
-                <div class="col-lg-12">
-                  <div class="form-group d-flex">
-                    <label for="inputEmail3" class="col-md-5 mt-1">Document Type <span class="pull-right">:</span></label>
-                    <div class="col-md-7">
+                <div className="col-lg-12">
+                  <div className="form-group d-flex">
+                    <label for="inputEmail3" className="col-md-5 mt-1">Document Type <span className="pull-right">:</span></label>
+                    <div className="col-md-7">
                       <input 
                           placeholder={"DocumentType"} 
                           value={DocumentType}
                           onChange={(e) => setDocumentType(e.target.value)}
-                          class="form-control" 
+                          className="form-control" 
                           required/>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-12">
-                  <div class="form-group d-flex">
-                    <label for="inputEmail3" class="col-md-5 mt-1">Subject <span class="pull-right">:</span></label>
-                    <div class="col-md-7">
+                <div className="col-lg-12">
+                  <div className="form-group d-flex">
+                    <label for="inputEmail3" className="col-md-5 mt-1">Subject <span className="pull-right">:</span></label>
+                    <div className="col-md-7">
                       <input 
                             placeholder={"Subject"} 
                             value={Subject}
                             onChange={(e) => setSubject(e.target.value)}
-                            class="form-control"
+                            className="form-control"
                             required/>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-12">
-                  <div class="form-group d-flex">
-                    <label for="inputEmail3" class="col-md-5 mt-1">Description <span class="pull-right">:</span></label>
-                    <div class="col-md-7">
+                <div className="col-lg-12">
+                  <div className="form-group d-flex">
+                    <label for="inputEmail3" className="col-md-5 mt-1">Description <span className="pull-right">:</span></label>
+                    <div className="col-md-7">
                       <input 
                             placeholder={"Description"} 
                             value={Description}
                             onChange={(e) => setDescription(e.target.value)}
-                            class="form-control" 
+                            className="form-control" 
                             required/>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-12">
-                  <div class="form-group d-flex">
-                    <label for="inputEmail3" class="col-md-5 mt-1">File <span class="pull-right">:</span></label>
-                    <div class="col-md-7">
+                <div className="col-lg-12">
+                  <div className="form-group d-flex">
+                    <label for="inputEmail3" className="col-md-5 mt-1">File <span className="pull-right">:</span></label>
+                    <div className="col-md-7">
                       <input 
                             type='file'
                             name='filename'
@@ -116,8 +116,8 @@ export default function Knowledgefile() {
                 </div>
 
 
-                <button type="button" style={{marginRight:"10px"}} class="btn btn-secondary" data-dismiss="modal" onClick={reset}>Close</button>
-              <a  ><button type="submit" style={{border:"none"}} class="btn btn-primary">Upload</button></a>
+                <button type="button" style={{marginRight:"10px"}} className="btn btn-secondary" data-dismiss="modal" onClick={reset}>Close</button>
+              <a  ><button type="submit" style={{border:"none"}} className="btn btn-primary">Upload</button></a>
               </form>
             </div>
           </div>
