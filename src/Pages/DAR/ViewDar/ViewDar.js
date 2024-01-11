@@ -1,62 +1,127 @@
 import React, { useEffect, useState } from 'react'
 import AppHeader from "../../../Components/Header/AppHeader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ConfigProvider, DatePicker, Space, Select } from 'antd';
 import dayjs from 'dayjs';
 
-export default function ViewDar() {
+export default function ViewDar(props) {
 
-    const navigate = useNavigate();
-    const [ProfileData, setProfileData] = useState("");
-    const [Branch, setBranch] = useState("");
-    const [AppEngList, setAppEngList] = useState(null);
-    const [Appeng, setAppeng] = useState(null);
-    const [LeadType, setLeadType] = useState(null);
-    const [JoiningDate1, setJoiningDate1] = useState(null);
-    const [TodayTime, setTodayTime] = useState("01:00 PM");
-  
-    const [CustomerList, setCustomerList] = useState(null);
-  
-    // setJoiningDate1(new Date().toLocaleDateString());
-    useEffect(() => {
-        let ignore = false;
+  const navigate = useNavigate();
+  const [ProfileData, setProfileData] = useState("");
+  const [Branch, setBranch] = useState("");
+  const [AppEngList, setAppEngList] = useState(null);
+  const [Appeng, setAppeng] = useState(null);
+  const [LeadType, setLeadType] = useState(null);
+  const [JoiningDate1, setJoiningDate1] = useState(null);
+  const [TodayTime, setTodayTime] = useState("01:00 PM");
+  const [searchparams] = useSearchParams();
 
-        if (!ignore)  getProfiledata();GetAppEnggList() ;SearchCustomer()
-        return () => { ignore = true; }
-    }, []);
-  
-    var newDate = new Date().toLocaleDateString();
-  
-    async function getProfiledata() {
-      try {
-          const res = await fetch(
-              `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
-              {
-                  method: "GET",
-                  headers: {
-                      Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-                  },
-              }
-          )
-          const profileData = await res.json();
-          if (profileData.resCode === 200) {
-              console.log(profileData.resData);
-              setProfileData(profileData.resData);
-          }
-      } catch (e) {
-          console.log("ok");
-          navigate("/", { replace: true });
+  const [CustomerList, setCustomerList] = useState(null);
+
+  const [CustomerId, setCustomerId] = useState(null);
+  const [CustContactList, setCustContactList] = useState(null);
+  const [CustContactId, setCustContactId] = useState(null);
+  const [CustPhone, setCustPhone] = useState(null);
+  const [CustMobile, setCustMobile] = useState(null);
+  const [CustDesig, setCustDesig] = useState(null);
+  const [CustDept, setCustDept] = useState(null);
+  const [CustEmail, setCustEmail] = useState(null);
+  const [PrincipalList, setPrincipalList] = useState(null);
+  const [PrincipalId, setPrincipalId] = useState(null);
+  const [ProductName, setProductName] = useState(null);
+  const [DarProductPrice, setDarProductPrice] = useState(null);
+  const [QuotedPrice, setQuotedPrice] = useState(null);
+  const [productValue, setproductValue] = useState(null);
+
+
+  // setJoiningDate1(new Date().toLocaleDateString());
+  useEffect(() => {
+    let ignore = false;
+
+    if (!ignore) getProfiledata(); GetAppEnggList(); SearchCustomer(); DarData();
+    return () => { ignore = true; }
+  }, []);
+
+  var newDate = new Date().toLocaleDateString();
+
+  async function DarData() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/ViewDar?DarId=${searchparams.get("id")}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
       }
-  }
-  
-    const NavBack = () => {
-      navigate("/DarSummary", { replace: true });
+    )
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setAppeng(Response.resData.appEngId);
+      setLeadType(Response.resData.callTypeId);
+      setJoiningDate1(Response.resData.visitDate);
+      setTodayTime(Response.resData.visitTime);
+      setCustomerId(Response.resData.customerId);
+
+
+
+      setCustContactId(Response.resData.contactPersonId);
+      setCustPhone(Response.resData.phoneNo);
+      setCustMobile(Response.resData.mobileNo);
+      setCustDesig(Response.resData.custDesgn);
+      setCustDept(Response.resData.custDepartment);
+      setCustEmail(Response.resData.email);
+
+      GetCustContactList(Response.resData.customerId);
+      GetPrincipalList();
+
+      setPrincipalId(Response.resData.principalId);
+      setProductName(Response.resData.productName);
+      setDarProductPrice(Response.resData.darProductPrice);
+      setQuotedPrice(Response.resData.quotedPrice);
+      setproductValue(Response.resData.productValue);
+
+      console.log(Response.resData);
     }
-  
-  
-    async function GetAppEnggList() {
+  }
+
+  async function GetCustContactList(e) {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/CustpersonList?CustId=${e}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    )
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      console.log(Response.resData);
+      setCustContactList(Response.resData);
+    }
+  }
+
+  async function GetPrincipalList() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/PrincipalList`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    )
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      console.log(Response.resData);
+      setPrincipalList(Response.resData);
+    }
+  }
+
+  async function getProfiledata() {
+    try {
       const res = await fetch(
-        `${localStorage.getItem("BaseUrl")}/Dar/AppEngineer`,
+        `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
         {
           method: "GET",
           headers: {
@@ -64,36 +129,62 @@ export default function ViewDar() {
           },
         }
       )
-      const Response = await res.json();
-      if (Response.resCode === 200) {
-        console.log(Response.resData);
-        setAppEngList(Response.resData)
+      const profileData = await res.json();
+      if (profileData.resCode === 200) {
+        console.log(profileData.resData);
+        setProfileData(profileData.resData);
       }
+    } catch (e) {
+      console.log("ok");
+      navigate("/", { replace: true });
     }
-  
-    const Date2 = (date) => {
-      console.log(date);
-      setJoiningDate1(date);
-    };
-  
-    async function SearchCustomer() {
-      const res = await fetch(
-          `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
-          {
-              method: "GET",
-              headers: {
-                  Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-              },
-          }
-      );
-      const Response = await res.json();
-      if (Response.resCode === 200) {
-        setCustomerList(Response.resData);
-        console.log(Response.resData);
+  }
+
+  const NavBack = () => {
+    navigate("/DarSummary", { replace: true });
+  }
+
+
+  async function GetAppEnggList() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/AppEngineer`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
       }
-  
+    )
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      console.log(Response.resData);
+      setAppEngList(Response.resData)
+    }
+  }
+
+  const Date2 = (date) => {
+    console.log(date);
+    setJoiningDate1(date);
   };
-  
+
+  async function SearchCustomer() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    );
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setCustomerList(Response.resData);
+      console.log(Response.resData);
+    }
+
+  };
+
   return (
     <div>
 
@@ -128,16 +219,6 @@ export default function ViewDar() {
                     <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button> */}
                   <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
                 </center>
-
-
-                {/* <div className="box-footer">
-                  <center style={{ padding: "10px" }}>
-                    <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
-                  </center>
-                </div> */}
-
                 <div className="row mt-3">
 
                   <div className="col-lg-4 ">
@@ -161,8 +242,10 @@ export default function ViewDar() {
                         <select
                           style={{ width: "100%" }}
                           onChange={(e) => { setAppeng(e.target.value) }}
+                          disabled
+                          value={Appeng}
                         >
-                          <option value={"null"}>Select</option>
+                          <option value={0}>Select</option>
                           {AppEngList ?
                             AppEngList.map((e) => (
                               <option key={e.empId} value={e.empId} >{e.empName}</option>
@@ -179,6 +262,8 @@ export default function ViewDar() {
                         <select
                           style={{ width: "100%" }}
                           onChange={(e) => { setLeadType(e.target.value) }}
+                          value={LeadType}
+                          disabled
                         >
                           <option value={null}>Select</option>
                           <option value={1}>Self</option>
@@ -214,8 +299,10 @@ export default function ViewDar() {
                         <Space >
                           <ConfigProvider>
                             <DatePicker
-                               defaultValue={dayjs(Date.now())}
-                               style={{ width: "100%" }} onChange={Date2} />
+                              defaultValue={dayjs(Date.now())}
+                              value={dayjs(JoiningDate1)}
+                              disabled
+                              style={{ width: "100%" }} onChange={Date2} />
                           </ConfigProvider>
                         </Space>
                       </div>
@@ -231,6 +318,7 @@ export default function ViewDar() {
                           type='text'
                           onChange={(e) => { setTodayTime(e.target.value); }}
                           value={TodayTime}
+                          disabled
                         />
                       </div>
                     </div>
@@ -244,7 +332,9 @@ export default function ViewDar() {
                           showSearch
                           style={{ width: 400 }}
                           placeholder="Search to Select"
-                          onChange={(e)=> {console.log(e);}}
+                          onChange={(e) => { console.log(e); }}
+                          value={CustomerId}
+                          disabled
                           optionFilterProp="children"
                           filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
                           filterSort={(optionA, optionB) =>
@@ -255,6 +345,174 @@ export default function ViewDar() {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="box bg-boxshadow" style={{ width: "43vw", boxShadow: "10px" }}>
+                  <label class="col-md-12">Person Contacted</label>
+                  <div className="col-md-12">
+                    <select
+                      style={{ width: "100%" }}
+                      onChange={(e) => { setCustContactId(e.target.value) }}
+                      disabled
+                      value={CustContactId}
+                    >
+                      <option value={0}>Select</option>
+                      {CustContactList ?
+                        CustContactList.map((e) => (
+                          <option key={e.custId} value={e.custId} >{e.contactPerson}</option>
+                        )) : null}
+                    </select>
+                  </div>
+                  <label class="col-md-12 mt-2">Designation</label>
+                  <div className="col-md-12">
+                    <input
+                      style={{ width: "100%" }}
+                      type='text'
+                      disabled
+                      onChange={(e) => { setCustDesig(e.target.value); }}
+                      value={CustDesig}
+                    />
+                  </div>
+                  <label class="col-md-12 mt-2">Department</label>
+                  <div className="col-md-12">
+                    <input
+                      style={{ width: "100%" }}
+                      type='text'
+                      disabled
+                      onChange={(e) => { setCustDept(e.target.value); }}
+                      value={CustDept}
+                    />
+                  </div>
+                  <label class="col-md-12 mt-2">Mobile</label>
+                  <div className="col-md-12">
+                    <input
+                      style={{ width: "100%" }}
+                      type='text'
+                      disabled
+                      onChange={(e) => { setCustMobile(e.target.value); }}
+                      value={CustMobile}
+                    />
+                  </div>
+                  <label class="col-md-12 mt-2">Phone</label>
+                  <div className="col-md-12">
+                    <input
+                      style={{ width: "100%" }}
+                      type='text'
+                      disabled
+                      onChange={(e) => { setCustPhone(e.target.value); }}
+                      value={CustPhone}
+                    />
+                  </div>
+                  <label class="col-md-12 mt-2">E-mail</label>
+                  <div className="col-md-12">
+                    <input
+                      style={{ width: "100%" }}
+                      type='text'
+                      disabled
+                      onChange={(e) => { setCustEmail(e.target.value); }}
+                      value={CustEmail}
+                    />
+                  </div>
+                  <label class="col-md-12 mt-2">Principal</label>
+                  <div className="col-md-12">
+                    <div className="form-group d-flex">
+                      <div className="col-md-8">
+                        <select
+                          style={{ width: "100%" }}
+                          onChange={(e) => { setPrincipalId(e.target.value) }}
+                          disabled
+                          value={PrincipalId}
+                        >
+                          <option value={0}>Select</option>
+                          {PrincipalList ?
+                            PrincipalList.map((e) => (
+                              <option key={e.principalId} value={e.principalId} >{e.principalName}</option>
+                            )) : null}
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                        <button className="FunctionButton5" style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }} >Add Product</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="box" style={{ border: "solid" }}>
+                    <div class="col-md-12">
+                      <div className="form-group d-flex">
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1" >
+                            <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Product</label>
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1">
+                            <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Techlab MRP</label>
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1">
+                            <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Product Value</label>
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1">
+                            <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Quoted Price</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div className="form-group d-flex">
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1" >
+                            {/* <label  className="col-md-12 m-0" style={{ fontWeight: "bold",padding:"0px" }}>Product</label> */}
+                            <input
+                              className="col-md-12 m-0"
+                              style={{ width: "100%" }}
+                              type='text'
+                              value={ProductName}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1">
+                            <input
+                              className="col-md-12 m-0"
+                              style={{ width: "100%" }}
+                              type='text'
+                              value={DarProductPrice}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1">
+                            <input
+                              className="col-md-12 m-0"
+                              style={{ width: "100%" }}
+                              type='text'
+                              value={QuotedPrice}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="d-flex mt-1">
+                            <input
+                              className="col-md-12 m-0"
+                              style={{ width: "100%" }}
+                              type='text'
+                              value={productValue}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
 
                 </div>
               </div>
