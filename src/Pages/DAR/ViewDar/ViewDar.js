@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ConfigProvider, DatePicker, Space, Select , Checkbox  } from 'antd';
+import { ConfigProvider, DatePicker, Space, Select , Checkbox ,Radio  } from 'antd';
 import dayjs from 'dayjs';
 
 export default function ViewDar(props) {
@@ -45,6 +45,7 @@ export default function ViewDar(props) {
   const [IsFundAvailAble, setIsFundAvailAble] = useState(null);
   const [OrderValue, setOrderValue] = useState(null);
   const [Advance, setAdvance] = useState(null);
+  const [GstValue, setGstValue] = useState(5);
 
 
 
@@ -108,6 +109,7 @@ export default function ViewDar(props) {
       setIsFundAvailAble(Response.resData.isFundAvailable);
       setOrderValue(Response.resData.orderValue);
       setAdvance(Response.resData.advancePay);
+      setGstValue(Response.resData.gstPerc);
 
       console.log(Response.resData);
     }
@@ -148,7 +150,6 @@ export default function ViewDar(props) {
   }
 
   async function getProfiledata() {
-    try {
       const res = await fetch(
         `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
         {
@@ -163,10 +164,6 @@ export default function ViewDar(props) {
         console.log(profileData.resData);
         setProfileData(profileData.resData);
       }
-    } catch (e) {
-      console.log("ok");
-      navigate("/", { replace: true });
-    }
   }
 
   const NavBack = () => {
@@ -207,8 +204,9 @@ export default function ViewDar(props) {
     console.log(date);
     setClosingDate(date);
   };
-  const GstvalueChange = (checkedValues) => {
-    console.log('checked = ', checkedValues);
+  const GstvalueChange = ({ target: { value } }) => {
+    setGstValue(value);
+    console.log(GstValue);
   };
 
 
@@ -751,8 +749,9 @@ export default function ViewDar(props) {
                             value={Advance}
                           />
                         </div>
-                        <div className="col-md-12 mt-3">
-                        <Checkbox.Group options={plainOptions} defaultValue={[5]} onChange={GstvalueChange} />
+                        <label class="col-md-12 mt-2">GST</label>
+                        <div className="col-md-12">
+                        <Radio.Group options={plainOptions}  defaultValue={GstValue} onChange={GstvalueChange}/>
                         </div>
                         
                       </div>
