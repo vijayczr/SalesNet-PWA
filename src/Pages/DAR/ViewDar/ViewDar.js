@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ConfigProvider, DatePicker, Space, Select , Checkbox  } from 'antd';
+import { ConfigProvider, DatePicker, Space, Select, Checkbox, Radio } from 'antd';
 import dayjs from 'dayjs';
 
 export default function ViewDar(props) {
@@ -45,18 +45,31 @@ export default function ViewDar(props) {
   const [IsFundAvailAble, setIsFundAvailAble] = useState(null);
   const [OrderValue, setOrderValue] = useState(null);
   const [Advance, setAdvance] = useState(null);
+  const [GstPerc, setGstPerc] = useState();
+  const [TaxPrice, setTaxPrice] = useState(null);
+  const [Delivery, setDelivery] = useState(null);
+  const [Training, setTraining] = useState(null);
+  const [Actualvalue, setActualvalue] = useState(null);
+  const [Remark, setRemark] = useState(null);
+  const [DocumentName, setDocumentName] = useState(null);
+  
 
 
 
 
   const plainOptions = [5, 18, 28];
   // setJoiningDate1(new Date().toLocaleDateString());
+  // useEffect(() => {
+  //   getProfiledata(); GetAppEnggList(); SearchCustomer();
+  // }, []);
+
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata(); GetAppEnggList(); SearchCustomer(); DarData();
+    if (!ignore) DarData();getProfiledata(); GetAppEnggList(); SearchCustomer();
     return () => { ignore = true; }
   }, []);
+
 
   var newDate = new Date().toLocaleDateString();
 
@@ -88,7 +101,8 @@ export default function ViewDar(props) {
       setCustEmail(Response.resData.email);
 
       GetCustContactList(Response.resData.customerId);
-      GetPrincipalList();
+
+      // GetPrincipalList();
 
       setPrincipalId(Response.resData.principalId);
       setProductName(Response.resData.productName);
@@ -108,6 +122,13 @@ export default function ViewDar(props) {
       setIsFundAvailAble(Response.resData.isFundAvailable);
       setOrderValue(Response.resData.orderValue);
       setAdvance(Response.resData.advancePay);
+      setGstPerc(Response.resData.gstPerc);
+      setTaxPrice(Response.resData.gst);
+      setDelivery(Response.resData.deliveryPay);
+      setTraining(Response.resData.trainingPay);
+      setActualvalue(Response.resData.actualValue);
+      setRemark(Response.resData.darRemark);
+      setDocumentName(Response.resData.filename);
 
       console.log(Response.resData);
     }
@@ -148,24 +169,19 @@ export default function ViewDar(props) {
   }
 
   async function getProfiledata() {
-    try {
-      const res = await fetch(
-        `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-          },
-        }
-      )
-      const profileData = await res.json();
-      if (profileData.resCode === 200) {
-        console.log(profileData.resData);
-        setProfileData(profileData.resData);
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
       }
-    } catch (e) {
-      console.log("ok");
-      navigate("/", { replace: true });
+    )
+    const profileData = await res.json();
+    if (profileData.resCode === 200) {
+      console.log(profileData.resData);
+      setProfileData(profileData.resData);
     }
   }
 
@@ -207,8 +223,18 @@ export default function ViewDar(props) {
     console.log(date);
     setClosingDate(date);
   };
-  const GstvalueChange = (checkedValues) => {
-    console.log('checked = ', checkedValues);
+  // const GstvalueChange = (checkedValues) => {
+  //   console.log('checked = ', checkedValues);
+  //   GstPerc
+  // };
+  const GstvalueChange = ({ target: { value } }) => {
+    setGstPerc(value);
+  };
+
+  function DgstValCal() {
+    var x = OrderValue * (GstPerc / 100);
+    setTaxPrice(x);
+    console.log(x);
   };
 
 
@@ -698,7 +724,7 @@ export default function ViewDar(props) {
                         style={{ width: "100%" }}
                         onChange={(e) => { setOpportunityStatus(e.target.value) }}
                         value={OpportunityStatus}
-                      // disabled
+                      disabled
                       >
                         <option value={null}>Select</option>
                         <option value={1}>Introduction Call (10%)</option>
@@ -729,7 +755,7 @@ export default function ViewDar(props) {
                           </select>
                         </div></div> : null
                     }
-                    {(OpportunityStatus > 5) ?
+                    {OpportunityStatus > 5 ?
                       <div>
                         <label class="col-md-12 mt-2">Order Value</label>
                         <div className="col-md-12">
@@ -737,7 +763,7 @@ export default function ViewDar(props) {
                             style={{ width: "100%" }}
                             type='text'
                             disabled
-                            onChange={(e) => { setOrderValue(e.target.value); }}
+                            onChange={(e) => { setOrderValue(e.target.value); console.log(TaxPrice); }}
                             value={OrderValue}
                           />
                         </div>
@@ -751,13 +777,94 @@ export default function ViewDar(props) {
                             value={Advance}
                           />
                         </div>
-                        <div className="col-md-12 mt-3">
-                        <Checkbox.Group options={plainOptions} defaultValue={[5]} onChange={GstvalueChange} />
+                        <label class="col-md-12 mt-2">GST</label>
+                        <div className="col-md-12 ">
+                          {/* <Checkbox.Group options={plainOptions} defaultValue={[5]} onChange={GstvalueChange} /> */}
+                          <Radio.Group options={plainOptions} onChange={GstvalueChange} disabled defaultValue={GstPerc} />
                         </div>
-                        
+                        <div className="col-md-12 mt-3">
+                          <input
+                            style={{ width: "100%" }}
+                            type='text'
+                            disabled
+                            onChange={(e) => { setTaxPrice(e.target.value); }}
+                            value={TaxPrice}
+                          />
+                        </div>
+                        <div className="col-md-12 mt-3">
+                          <button className="FunctionButton5" style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }} onClick={DgstValCal} >Calculate1</button>
+                        </div>
+                        <label class="col-md-12 mt-2">Delivery %</label>
+                        <div className="col-md-12">
+                          <input
+                            style={{ width: "100%" }}
+                            type='text'
+                            disabled
+                            onChange={(e) => { setDelivery(e.target.value); }}
+                            value={Delivery}
+                          />
+                        </div>
+                        <label class="col-md-12 mt-2">Training %</label>
+                        <div className="col-md-12">
+                          <input
+                            style={{ width: "100%" }}
+                            type='text'
+                            disabled
+                            onChange={(e) => { setTraining(e.target.value); }}
+                            value={Training}
+                          />
+                        </div>
+                        <label class="col-md-12 mt-2">Actual Value</label>
+                        <div className="col-md-12">
+                          <input
+                            style={{ width: "100%" }}
+                            type='text'
+                            disabled
+                            onChange={(e) => { setActualvalue(e.target.value); console.log(TaxPrice); }}
+                            value={Actualvalue}
+                          />
+                        </div>
+
                       </div>
                       : null
                     }
+                    <label class="col-md-12 mt-2">Remark</label>
+                    <div className="col-md-12">
+                      <input
+                        style={{ width: "100%" }}
+                        type='text'
+                        disabled
+                        onChange={(e) => { setRemark(e.target.value); }}
+                        value={Remark}
+                      />
+                    </div>
+                    <label class="col-md-12 mt-2">Documents (if any)</label>
+                    <div className="col-md-12">
+                      <input
+                        type='file'
+                        disabled
+                      // onChange={AttachmentUpload}
+                      />
+                    </div>
+                    <label class="col-md-12 mt-2">Uploaded Document</label>
+                    <div className="col-md-12">
+                      <div className="form-group d-flex">
+                        <div className="col-md-8">
+                        <input
+                            style={{ width: "100%" }}
+                            type='text'
+                            disabled
+                            onChange={(e) => { setDocumentName(e.target.value); console.log(TaxPrice); }}
+                            value={DocumentName}
+                          />
+                        </div>
+                        {DocumentName != null ?
+                        <div class="col-md-4">
+                        <a href={`${localStorage.getItem("BaseUrl")}/Dar/DarDownloadFile?DarId=${searchparams.get("id")}`} ><button className="FunctionButton5" style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }} >Download</button></a>
+                        </div>:null}
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>

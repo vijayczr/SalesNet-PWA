@@ -24,7 +24,7 @@ import ViewDar from './Pages/DAR/ViewDar/ViewDar';
 function App() {
 
   localStorage.setItem("BaseUrl", "http://localhost:5193");
-  // localStorage.setItem("BaseUrl", "https://33f7-103-77-43-90.ngrok-free.app");
+  // localStorage.setItem("BaseUrl", "https://5b56-103-8-43-34.ngrok-free.app");
   // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
   return (
     <BrowserRouter>

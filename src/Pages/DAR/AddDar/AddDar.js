@@ -27,7 +27,6 @@ export default function AddDar() {
   var newDate = new Date().toLocaleDateString();
 
   async function getProfiledata() {
-    try {
         const res = await fetch(
             `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
             {
@@ -42,10 +41,6 @@ export default function AddDar() {
             console.log(profileData.resData);
             setProfileData(profileData.resData);
         }
-    } catch (e) {
-        console.log("ok");
-        navigate("/", { replace: true });
-    }
 }
 
   const NavBack = () => {
