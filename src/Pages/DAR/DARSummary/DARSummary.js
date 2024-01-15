@@ -231,7 +231,7 @@ export default function DARSummary() {
         </div>
       </div>
 
-      <div className='containner p-4' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
+      <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
         <div className="row">
           <div className="col-lg-12">
