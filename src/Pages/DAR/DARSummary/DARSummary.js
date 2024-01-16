@@ -70,7 +70,7 @@ export default function DARSummary() {
       key: 'Action',
       render: (_, record) => (
         <Space size="middle">
-          <button type="button" className="viewbutton" style={{ marginRight: "0px" }} ><EditOutlined /> </button>
+          <button type="button" className="viewbutton" style={{ marginRight: "0px" }} onClick={() => Editdar(record.darId)}><EditOutlined /> </button>
           <button type="button" className="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Viewdar(record.darId)}><FolderViewOutlined /> </button>
           <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
           <button type="button" className="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} ><FileAddOutlined /></button>
@@ -112,6 +112,20 @@ export default function DARSummary() {
       }
     );
   };
+
+  const Editdar = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate(
+      {
+        pathname: "/EditDar",
+        search: createSearchParams({
+          id: e
+        }).toString()
+      }
+    );
+  };
+
+
 
 
   useEffect(() => {
