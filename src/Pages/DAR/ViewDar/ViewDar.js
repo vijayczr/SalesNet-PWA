@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ConfigProvider, DatePicker, Space, Select, Checkbox, Radio } from 'antd';
+import { ConfigProvider, DatePicker, Space, Select, Checkbox, Radio, Table } from 'antd';
 import dayjs from 'dayjs';
 
 export default function ViewDar(props) {
@@ -52,12 +52,71 @@ export default function ViewDar(props) {
   const [Actualvalue, setActualvalue] = useState(null);
   const [Remark, setRemark] = useState(null);
   const [DocumentName, setDocumentName] = useState(null);
-  
+  const [ProductList, setProductList] = useState(null);
 
+  const [tableParams, setTableParams] = useState({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      position: ["topRight"]
+    },
+  });
+  const handleTableChange = (pagination, filters, sorter) => {
+    setTableParams({
+      pagination,
+      filters,
+      ...sorter,
+    });
+  }
 
+  const [CheckboxData, setCheckboxData] = useState(0);
 
 
   const plainOptions = [5, 18, 28];
+  const columns = [
+    {
+      title: 'Add',
+      key: 'employee',
+      width: '7%',
+      render: (_,record) =>(
+        <input 
+        type='checkbox'
+        checked = {CheckboxData.productId === record.productId}
+        onChange={()=>setCheckboxData(record)}
+        />
+      )
+    },
+    {
+      title: 'Product',
+      dataIndex: 'productName',
+      key: 'productName',
+      width: '16%',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'techlabPrice',
+      key: 'techlabPrice',
+      width: '8%',
+    },
+    {
+      title: 'Quoted Price',
+      dataIndex: 'quotedPrice',
+      key: 'quotedPrice',
+      width: '12%',
+    },
+    {
+      title: 'Product Value',
+      dataIndex: 'productValue',
+      key: 'productValue',
+      width: '12%',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+      width: '45%',
+    }
+  ]
   // setJoiningDate1(new Date().toLocaleDateString());
   // useEffect(() => {
   //   getProfiledata(); GetAppEnggList(); SearchCustomer();
@@ -66,7 +125,7 @@ export default function ViewDar(props) {
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) DarData();getProfiledata(); GetAppEnggList(); SearchCustomer();
+    if (!ignore) DarData(); getProfiledata(); GetAppEnggList(); SearchCustomer(); GetPrincipalList();
     return () => { ignore = true; }
   }, []);
 
@@ -129,6 +188,8 @@ export default function ViewDar(props) {
       setActualvalue(Response.resData.actualValue);
       setRemark(Response.resData.darRemark);
       setDocumentName(Response.resData.filename);
+
+      ProductLists(Response.resData.principalId);
 
       console.log(Response.resData);
     }
@@ -258,6 +319,32 @@ export default function ViewDar(props) {
   const DarStatusfun = (e) => {
     // console.log(e);
     setDarStatus(e);
+  }
+
+  async function ProductLists(e) {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/ProductListByPrincipalId?PrincipalId=${e}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+        },
+      }
+    );
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      // setCustomerList(Response.resData);
+      setProductList(Response.resData);
+      console.log(Response.resData);
+    }
+  }
+
+  function  ProductSelection() {
+    console.log(CheckboxData);
+    setProductName(CheckboxData.productName);
+    setDarProductPrice(CheckboxData.techlabPrice);
+    setQuotedPrice(CheckboxData.quotedPrice);
+    setproductValue(CheckboxData.productValue);
   }
 
 
@@ -497,7 +584,7 @@ export default function ViewDar(props) {
                         <div className="col-md-8">
                           <select
                             style={{ width: "100%" }}
-                            onChange={(e) => { setPrincipalId(e.target.value) }}
+                            onChange={(e) => { setPrincipalId(e.target.value); ProductLists(e.target.value); }}
                             disabled
                             value={PrincipalId}
                           >
@@ -509,7 +596,55 @@ export default function ViewDar(props) {
                           </select>
                         </div>
                         <div class="col-md-4">
-                          <button className="FunctionButton5" style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }} >Add Product</button>
+                          <button
+                            data-toggle="modal" data-target=".bd-example-modal-lg"
+                            className="FunctionButton5"
+                            disabled
+                            style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }}
+                          >Add Product
+                          </button>
+                          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                              <div class="modal-content">
+                                <div className="modal-header">
+                                  <h3>Product List</h3>
+                                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div className="modal-body">
+                                  <ConfigProvider
+                                    theme={{
+                                      components: {
+                                        Table: {
+                                          borderColor: '#000000',
+                                          headerBg: '#da251c',
+                                          headerColor: 'white',
+                                          cellFontSizeSM: 6,
+                                          rowHoverBg: '#abc4af',
+                                          // cellPaddingBlock: 0,
+                                          cellPaddingInlineSM: 2
+                                        },
+                                      },
+                                    }}
+                                  >
+                                    <Table
+
+                                      columns={columns}
+                                      dataSource={ProductList}
+                                      pagination={tableParams.pagination}
+                                      onChange={handleTableChange}
+                                      style={{ overflowX: "auto" }}
+                                    />
+                                  </ConfigProvider>
+                                </div>
+                                <div className="modal-footer">
+                                  <button type="button" className="btn btn-primary" onClick={ProductSelection} data-dismiss="modal" >Add Product</button>
+                                  {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button> */}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -718,13 +853,13 @@ export default function ViewDar(props) {
                     }
 
 
-                    <label class="col-md-12 mt-2">Opprtunity Status<span style={{ color: "red" }}>*</span></label>
+                    <label class="col-md-12 mt-2">Opportunity Status<span style={{ color: "red" }}>*</span></label>
                     <div className="col-md-12">
                       <select
                         style={{ width: "100%" }}
                         onChange={(e) => { setOpportunityStatus(e.target.value) }}
                         value={OpportunityStatus}
-                      disabled
+                        disabled
                       >
                         <option value={null}>Select</option>
                         <option value={1}>Introduction Call (10%)</option>
@@ -850,7 +985,7 @@ export default function ViewDar(props) {
                     <div className="col-md-12">
                       <div className="form-group d-flex">
                         <div className="col-md-8">
-                        <input
+                          <input
                             style={{ width: "100%" }}
                             type='text'
                             disabled
@@ -859,9 +994,9 @@ export default function ViewDar(props) {
                           />
                         </div>
                         {DocumentName != null ?
-                        <div class="col-md-4">
-                        <a href={`${localStorage.getItem("BaseUrl")}/Dar/DarDownloadFile?DarId=${searchparams.get("id")}`} ><button className="FunctionButton5" style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }} >Download</button></a>
-                        </div>:null}
+                          <div class="col-md-4">
+                            <a href={`${localStorage.getItem("BaseUrl")}/Dar/DarDownloadFile?DarId=${searchparams.get("id")}`} ><button className="FunctionButton5" style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }} >Download</button></a>
+                          </div> : null}
                       </div>
                     </div>
 
