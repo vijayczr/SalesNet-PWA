@@ -647,6 +647,7 @@ export default function AddEmployee() {
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
+                              maxLength={12}
                               type='text'
                               value={Aadhar}
                               onChange={(e) => { setAadhar(e.target.value); console.log(Aadhar); }}
@@ -681,6 +682,7 @@ export default function AddEmployee() {
                             <input
                               style={{ width: "100%" }}
                               type='text'
+                              maxLength={10}
                               value={PAN}
                               onChange={(e) => { setPAN(e.target.value); console.log(PAN); }}
                               placeholder='PAN'
@@ -903,7 +905,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Attachments<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Resume/CV<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'
@@ -1255,7 +1257,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Upload image<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Employee Image<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'
