@@ -135,7 +135,6 @@ export default function DARSummary() {
     );
     const profileData = await res.json();
     if (profileData.resCode === 200) {
-      console.log(profileData.resData);
       setProfileData(profileData.resData);
     }
   }
@@ -158,12 +157,9 @@ export default function DARSummary() {
         body: JSON.stringify(PageData),
       }
     );
-    console.log(localStorage.getItem("JwtToken"));
     const HrMAnualData = await res.json();
     if (HrMAnualData.resCode === 200) {
-      console.log(HrMAnualData.resData);
       setData(HrMAnualData.resData.data);
-      console.log(data);
       setLoading(false);
       setTableParams({
         ...tableParams,

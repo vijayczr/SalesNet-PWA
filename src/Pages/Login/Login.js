@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../Login/Login.css'
 import { useNavigate } from "react-router-dom";
 import logo2 from '../../assets/logo.png';
+import UserDataContext from '../../Context/UserDataContext/UserDataContext';
+import getProfileData from '../../utils/api';
 
 
 export default function Login() {
@@ -12,11 +14,12 @@ export default function Login() {
     const navigate = useNavigate();
     const [loginErrorMssg, SetLoginErrorMssg] = useState("");
 
+    const {updateUserData} = useContext(UserDataContext)
+
     async function handleSubmit(e) {
         e.preventDefault();
         LoginForm();
     }
-
 
     async function LoginForm() {
         let formData = {
@@ -24,7 +27,7 @@ export default function Login() {
             password: password,
         };
         const res = await fetch(
-            `${localStorage.getItem("BaseUrl")}/Authentication/Login`,
+            `${process.env.REACT_APP_BASE_URL}/Authentication/Login`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -36,6 +39,8 @@ export default function Login() {
             console.log(loginData.resData);
             localStorage.setItem("JwtToken", loginData.resData.token);
             localStorage.setItem("EmpId", loginData.resData.employeeId);
+            
+            getProfileData(updateUserData);
             navigate("/Dashboard", { replace: true });
         }
         else {

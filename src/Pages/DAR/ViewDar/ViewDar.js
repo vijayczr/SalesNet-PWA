@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DarComponent from "../../../Components/DarComponent/DarComponent";
 import DarHeader from "../../../Components/DarHeader/DarHeader";
+import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
+import getProfileData from "../../../utils/api";
 
 export default function ViewDar(props) {
   const navigate = useNavigate();
 
+  const { userData, updateUserData } = useContext(UserDataContext)
+
   const [darHeaderData, setDarHeaderData] = useState({
-    profileData: {},
-    applicationEngineer: {},
-    leadType: {},
+    profileData: userData,
+    applicationEngineer: null,
+    leadType: null,
     joiningDate: null,
     visitTime: null,
     customer: null,
   });
+
+
+  useEffect(() => {
+    console.log('dar header data', darHeaderData)
+  }, [])
 
   const [darFormData, setDarFormData] = useState([
     {
@@ -35,21 +44,22 @@ export default function ViewDar(props) {
       callStatus: null,
       darVertical: null, 
       expectedOrderValue: null,
+      monthOfOrder: null,
+      status: null,
+      statusData: null,
+      opportunityStatus: null,
+      opportunityStatusData: null
     },
   ]);
 
   // const [profileData, setProfileData] = useState("");
   const [AppEngList, setAppEngList] = useState(null);
-  const [LeadList, setLeadList] = useState([
-    { id: 1, value: "Self" },
-    { id: 2, value: "Lead" },
-  ]);
   const [customerList, setcustomerList] = useState(null);
   const [principalList, setPrincipalList] = useState(null);
 
   const [Branch, setBranch] = useState("");
-  // const [Appeng, setAppeng] = useState(null);
-  // const [LeadType, setLeadType] = useState(null);
+  const [Appeng, setAppeng] = useState(null);
+  const [LeadType, setLeadType] = useState(null);
   const [JoiningDate1, setJoiningDate1] = useState(null);
   const [MonthOfOrder, setMonthOfOrder] = useState(null);
   const [TodayTime, setTodayTime] = useState("01:00 PM");
@@ -88,7 +98,6 @@ export default function ViewDar(props) {
   const [Remark, setRemark] = useState(null);
   const [DocumentName, setDocumentName] = useState(null);
 
-  const plainOptions = [5, 18, 28];
   // setJoiningDate1(new Date().toLocaleDateString());
   // useEffect(() => {
   //   getProfiledata(); GetAppEnggList(); SearchCustomer();
@@ -98,13 +107,17 @@ export default function ViewDar(props) {
     let ignore = false;
 
     if (!ignore) DarData();
-    getProfiledata();
+    // getProfiledata();
     GetAppEnggList();
     SearchCustomer();
     return () => {
       ignore = true;
     };
   }, []);
+
+  // useLayoutEffect(() => {
+  //   getProfiledata();
+  // }, [])
 
   var newDate = new Date().toLocaleDateString();
 
@@ -172,7 +185,7 @@ export default function ViewDar(props) {
       setRemark(Response.resData.darRemark);
       setDocumentName(Response.resData.filename);
 
-      console.log(Response.resData);
+      // console.log(Response.resData);
     }
   }
 
@@ -188,8 +201,8 @@ export default function ViewDar(props) {
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
-      console.log(Response.resData);
-      setCustContactList(Response.resData);
+      // console.log(Response.resData);
+      setCustomerContactList(Response.resData);
     }
   }
 
@@ -205,27 +218,32 @@ export default function ViewDar(props) {
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
-      console.log(Response.resData);
+      // console.log(Response.resData);
       setPrincipalList(Response.resData);
     }
   }
 
-  async function getProfiledata() {
-    const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
-        },
-      }
-    );
-    const profileData = await res.json();
-    if (profileData.resCode === 200) {
-      console.log(profileData.resData);
-      setProfileData(profileData.resData);
-    }
-  }
+  // async function getProfiledata() {
+  //   const res = await fetch(
+  //     `${process.env.REACT_APP_BASE_URL}/Authentication/ProfileData`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+  //       },
+  //     }
+  //   );
+  //   const profileData = await res.json();
+  //   if (profileData.resCode === 200) {
+  //     // console.log(profileData.resData, 'Profile Data');
+  //     // setProfileData(profileData.resData);
+  //     setDarHeaderData((prev) => ({...prev, profileData: profileData?.resData}))
+  //   }
+  // }
+
+  useEffect(() => {
+    // console.log(darHeaderData, 'dar Header');
+  }, [darHeaderData])
 
   const NavBack = () => {
     navigate("/DarSummary", { replace: true });
@@ -243,7 +261,7 @@ export default function ViewDar(props) {
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
-      console.log(Response.resData);
+      // console.log(Response.resData);
       setAppEngList(Response.resData);
     }
   }
@@ -252,18 +270,18 @@ export default function ViewDar(props) {
   //   console.log(date);
   //   setJoiningDate1(date);
   // };
-  const Date3 = (date) => {
-    console.log(date);
-    setMonthOfOrder(date);
-  };
-  const Date4 = (date) => {
-    console.log(date);
-    setNextActionDate(date);
-  };
-  const DateOfClosing = (date) => {
-    console.log(date);
-    setClosingDate(date);
-  };
+  // const Date3 = (date) => {
+  //   console.log(date);
+  //   setMonthOfOrder(date);
+  // };
+  // const Date4 = (date) => {
+  //   console.log(date);
+  //   setNextActionDate(date);
+  // };
+  // const DateOfClosing = (date) => {
+  //   console.log(date);
+  //   setClosingDate(date);
+  // };
   // const GstvalueChange = (checkedValues) => {
   //   console.log('checked = ', checkedValues);
   //   GstPerc
@@ -291,7 +309,7 @@ export default function ViewDar(props) {
     const Response = await res.json();
     if (Response.resCode === 200) {
       setcustomerList(Response.resData);
-      console.log(Response.resData);
+      // console.log(Response.resData);
     }
   }
   const DarStatusfun = (e) => {
@@ -302,7 +320,7 @@ export default function ViewDar(props) {
   return (
     <>
       <div>
-        <AppHeader data={darHeaderData?.ProfileData} />
+        {/* <AppHeader data={darHeaderData?.profileData} /> */}
 
         <div className="breadcrumb-area">
           <div className="container-fluid">
@@ -333,11 +351,10 @@ export default function ViewDar(props) {
           darHeaderData={darHeaderData}
           setDarHeaderData={setDarHeaderData}
           AppEngList={AppEngList}
-          LeadList={LeadList}
           customerList={customerList}
         />
 
-        <div>
+        {/* <div>
           {darFormData?.map((formData) => {
             return (
               <div>
@@ -346,12 +363,11 @@ export default function ViewDar(props) {
                   setDarFormData={setDarFormData}
                   customerContactList={customerContactList}
                   principalList={principalList}
-                  callTypeList={callTypeList}
                 />
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
     </>
   );

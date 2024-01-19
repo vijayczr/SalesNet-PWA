@@ -13,12 +13,14 @@ import dayjs from "dayjs";
 import { LeadList } from "../../utils/data";
 
 function DarHeader({
-  DarHeaderData,
+  darHeaderData,
   setDarHeaderData,
   AppEngList,
   customerList,
 }) {
-  const { profileData, applicationEngineer, leadType } = DarHeaderData;
+  const { profileData, applicationEngineer, leadType } = darHeaderData;
+  // console.log(darHeaderData, 'dar header')
+  // let profileData, applicationEngineer, leadType;
   const navigate = useNavigate();
 
   return (
@@ -36,7 +38,7 @@ function DarHeader({
                 <button
                   className="FunctionButton"
                   style={{ backgroundColor: "#e8d105", color: "black" }}
-                  onClick={navigate(-1)}
+                  // onClick={navigate(-1)}
                 >
                   Back
                 </button>
@@ -51,8 +53,7 @@ function DarHeader({
                       <input
                         style={{ width: "100%" }}
                         type="text"
-                        value={profileData?.name}
-                        disabled
+                        value={profileData?.userName}
                       />
                     </div>
                   </div>
@@ -67,7 +68,7 @@ function DarHeader({
                     </label>
                     <div className="col-md-7">
                       <select
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", height: "2rem" }}
                         onChange={(e) => {
                           // setAppeng(e.target.value);
                           setDarHeaderData((prev) => ({
@@ -75,17 +76,14 @@ function DarHeader({
                             applicationEngineer: e?.target?.value,
                           }));
                         }}
-                        disabled
                         value={applicationEngineer?.name}
                       >
                         <option value={0}>Select</option>
-                        {AppEngList
-                          ? AppEngList.map((e) => (
-                              <option key={e.empId} value={e.empId}>
-                                {e.empName}
-                              </option>
-                            ))
-                          : null}
+                        {AppEngList?.map((e) => (
+                          <option key={e.empId} value={e.empId}>
+                            {e.empName}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -99,7 +97,7 @@ function DarHeader({
                     </label>
                     <div className="col-md-7">
                       <select
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", height: "2rem" }}
                         onChange={(e) => {
                           // setLeadType(e.target.value);
                           setDarHeaderData((prev) => ({
@@ -108,13 +106,15 @@ function DarHeader({
                           }));
                         }}
                         value={leadType?.value}
-                        disabled
                       >
                         {/* <option value={null}>Select</option>
                         <option value={1}>Self</option>
                         <option value={2}>Lead</option> */}
+                        <option value={null}>Select</option>
                         {LeadList?.map((leadItem) => (
-                          <option value={leadItem?.id}>leadItem?.value</option>
+                          <option value={leadItem?.id}>
+                            {leadItem?.value}
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -129,7 +129,7 @@ function DarHeader({
                     </label>
                     <div className="col-md-7">
                       <select
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", height: "2rem" }}
                         // onChange={(e) => { setLeadType(e.target.value) }}
                       >
                         <option value={null}>Select</option>
@@ -151,9 +151,12 @@ function DarHeader({
                         <ConfigProvider>
                           <DatePicker
                             defaultValue={dayjs(Date.now())}
-                            value={dayjs(DarHeaderData?.joiningDate)}
-                            disabled
-                            style={{ width: "100%" }}
+                            value={
+                              darHeaderData?.joiningDate
+                                ? dayjs(darHeaderData?.joiningDate)
+                                : dayjs(new Date())
+                            }
+                            style={{ width: "100%", height: "2rem" }}
                             onChange={(date) =>
                               setDarHeaderData((prev) => ({
                                 ...prev,
@@ -172,25 +175,16 @@ function DarHeader({
                     <label className="col-md-5 mt-1 mb-0">
                       Visit Time<span className="float-right">:</span>
                     </label>
-                    {/* <div className="col-md-7">
-                      <input
-                        style={{ width: "100%" }}
-                        type="text"
-                        onChange={(e) => {
-                          setTodayTime(e.target.value);
-                        }}
-                        value={TodayTime}
-                        disabled
-                      />
-                    </div> */}
                     <Space>
                       <ConfigProvider>
                         <TimePicker
                           defaultValue={dayjs(Date.now())}
-                          value={dayjs(DarHeaderData?.visitTime).format(
-                            "hh:mm A"
-                          )}
-                          disabled
+                          value={
+                            darHeaderData?.visitTime
+                              ? dayjs(darHeaderData?.visitTime)
+                              : dayjs(new Date())
+                          }
+                          showSecond={false}
                           style={{ width: "100%" }}
                           onChange={(date) =>
                             setDarHeaderData((prev) => ({
@@ -215,14 +209,16 @@ function DarHeader({
                         showSearch
                         style={{ width: 400 }}
                         placeholder="Search to Select"
-                        onChange={(event) =>
+                        onChange={(customerId) => {
+                          const selectedCustomer = customerList.find(
+                            (item) => item?.value === customerId
+                          );
                           setDarHeaderData((prev) => ({
                             ...prev,
-                            customer: event?.target?.value,
-                          }))
-                        }
-                        value={DarHeaderData?.customer?.label}
-                        disabled
+                            customer: selectedCustomer,
+                          }));
+                        }}
+                        value={darHeaderData?.customer?.label}
                         // optionFilterProp="children"
                         filterOption={(input, option) =>
                           (option?.label ?? "")
@@ -239,6 +235,9 @@ function DarHeader({
                     </div>
                   </div>
                 </div>
+                <button onClick={() => console.log(darHeaderData, "dar")}>
+                  click
+                </button>
               </div>
             </div>
           </div>

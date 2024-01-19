@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function DarNavbar() {
     const onClick = ({ key }) => {
         // message.info(`Click on item ${key}`);
-        navigate(`/${key}`, { replace: true });
+        // navigate(`/${key}`, { replace: true });
     };
     const navigate = useNavigate();
 
