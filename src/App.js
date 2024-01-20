@@ -20,7 +20,7 @@ import TargetEdit from "./Pages/HRNavBar/TargetEdit/TargetEdit";
 import DARSummary from "./Pages/DAR/DARSummary/DARSummary";
 import AddDar from "./Pages/DAR/AddDar/AddDar";
 import ViewDar from "./Pages/DAR/ViewDar/ViewDar";
-import UserDataContextProvider from "./Context/UserDataContextProvider";
+import UserDataContextProvider from "./Context/UserDataContext/UserDataContextProvider";
 
 function App() {
   localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");

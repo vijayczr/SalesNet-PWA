@@ -6,7 +6,9 @@ import {
   TimePicker,
   Space,
   Select,
+  Input,
   Checkbox,
+  Button,
   Radio,
 } from "antd";
 import dayjs from "dayjs";
@@ -26,22 +28,23 @@ function DarHeader({
   return (
     <div
       className="containner p-4"
-      style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }}
+      style={{ backgroundColor: "#f3f5f9" }}
     >
       <div className="row">
         <div className="col-lg-12">
-          <div className="bg-boxshadow">
+          <div className="bg-boxshadow m-0">
             <div className="ibox-content">
               <center>
                 {/* <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
               <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button> */}
-                <button
+                <Button
+                  size={"large"}
                   className="FunctionButton"
                   style={{ backgroundColor: "#e8d105", color: "black" }}
-                  // onClick={navigate(-1)}
+                  onClick={() => navigate(-1)}
                 >
                   Back
-                </button>
+                </Button>
               </center>
               <div className="row mt-3">
                 <div className="col-lg-4 ">
@@ -50,7 +53,7 @@ function DarHeader({
                       Employee Name<span className="float-right">:</span>
                     </label>
                     <div className="col-md-7">
-                      <input
+                      <Input
                         style={{ width: "100%" }}
                         type="text"
                         value={profileData?.userName}
@@ -67,10 +70,10 @@ function DarHeader({
                       <span className="float-right">:</span>
                     </label>
                     <div className="col-md-7">
-                      <select
+                      <Select
                         style={{ width: "100%", height: "2rem" }}
+                        placeholder="Select"
                         onChange={(e) => {
-                          // setAppeng(e.target.value);
                           setDarHeaderData((prev) => ({
                             ...prev,
                             applicationEngineer: e?.target?.value,
@@ -78,13 +81,12 @@ function DarHeader({
                         }}
                         value={applicationEngineer?.name}
                       >
-                        <option value={0}>Select</option>
                         {AppEngList?.map((e) => (
                           <option key={e.empId} value={e.empId}>
                             {e.empName}
                           </option>
                         ))}
-                      </select>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -96,10 +98,10 @@ function DarHeader({
                       <span className="float-right">:</span>
                     </label>
                     <div className="col-md-7">
-                      <select
+                      <Select
                         style={{ width: "100%", height: "2rem" }}
+                        placeholder="Select"
                         onChange={(e) => {
-                          // setLeadType(e.target.value);
                           setDarHeaderData((prev) => ({
                             ...prev,
                             leadType: e?.target?.value,
@@ -107,16 +109,12 @@ function DarHeader({
                         }}
                         value={leadType?.value}
                       >
-                        {/* <option value={null}>Select</option>
-                        <option value={1}>Self</option>
-                        <option value={2}>Lead</option> */}
-                        <option value={null}>Select</option>
                         {LeadList?.map((leadItem) => (
                           <option value={leadItem?.id}>
                             {leadItem?.value}
                           </option>
                         ))}
-                      </select>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -128,12 +126,13 @@ function DarHeader({
                       <span className="float-right">:</span>
                     </label>
                     <div className="col-md-7">
-                      <select
+                      <Select
                         style={{ width: "100%", height: "2rem" }}
+                        placeholder="Select"
                         // onChange={(e) => { setLeadType(e.target.value) }}
                       >
                         <option value={null}>Select</option>
-                      </select>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -182,9 +181,10 @@ function DarHeader({
                           value={
                             darHeaderData?.visitTime
                               ? dayjs(darHeaderData?.visitTime)
-                              : dayjs(new Date())
+                              : dayjs(new Date(), 'HH:mm')
                           }
                           showSecond={false}
+                          format={'HH:mm'}
                           style={{ width: "100%" }}
                           onChange={(date) =>
                             setDarHeaderData((prev) => ({
@@ -208,7 +208,7 @@ function DarHeader({
                       <Select
                         showSearch
                         style={{ width: 400 }}
-                        placeholder="Search to Select"
+                        placeholder="Select"
                         onChange={(customerId) => {
                           const selectedCustomer = customerList.find(
                             (item) => item?.value === customerId
@@ -219,7 +219,6 @@ function DarHeader({
                           }));
                         }}
                         value={darHeaderData?.customer?.label}
-                        // optionFilterProp="children"
                         filterOption={(input, option) =>
                           (option?.label ?? "")
                             .toLowerCase()
@@ -235,9 +234,6 @@ function DarHeader({
                     </div>
                   </div>
                 </div>
-                <button onClick={() => console.log(darHeaderData, "dar")}>
-                  click
-                </button>
               </div>
             </div>
           </div>

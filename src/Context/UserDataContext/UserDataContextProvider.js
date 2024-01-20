@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import UserDataContext from "./UserDataContext/UserDataContext";
+import UserDataContext from "./UserDataContext"
 
 function UserDataContextProvider({ children }) {
   const [userData, setUserData] = useState();

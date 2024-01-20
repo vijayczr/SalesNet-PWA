@@ -15,8 +15,8 @@ export default function ViewDar(props) {
     profileData: userData,
     applicationEngineer: null,
     leadType: null,
-    joiningDate: null,
-    visitTime: null,
+    joiningDate: Date.now(),
+    visitTime: Date.now(),
     customer: null,
   });
 
@@ -24,6 +24,20 @@ export default function ViewDar(props) {
   useEffect(() => {
     console.log('dar header data', darHeaderData)
   }, [])
+
+  // {
+  //   let newData = [...prev];
+  //   newData[formIndex] = {
+  //     ...prev[formIndex],
+  //     contactPerson: {
+  //       ...prev[formIndex]?.ContactPerson,
+  //       email: e?.target?.value,
+  //     },
+  //   };
+  //   return newData;
+  // }
+
+  
 
   const [darFormData, setDarFormData] = useState([
     {
@@ -42,16 +56,17 @@ export default function ViewDar(props) {
       },
       callType: null,
       callStatus: null,
-      darVertical: null, 
+      darVertical: null,
       expectedOrderValue: null,
-      monthOfOrder: null,
+      monthOfOrder: new Date(),
       status: null,
       statusData: null,
       opportunityStatus: null,
-      opportunityStatusData: null
+      opportunityStatusData: null, 
+      remark: ""
     },
   ]);
-
+  
   // const [profileData, setProfileData] = useState("");
   const [AppEngList, setAppEngList] = useState(null);
   const [customerList, setcustomerList] = useState(null);
@@ -138,12 +153,12 @@ export default function ViewDar(props) {
       // setAppeng(Response.resData.appEngId);
       // setLeadType(Response.resData.callTypeId);
 
-      setDarFormData((prev) => ({
-        ...prev,
-        ApplicationEngineer: Response.resData.appEngId,
-        LeadType: Response.resData.callTypeId,
-        JoiningDate: Response.resData.visitDate,
-      }));
+      // setDarFormData((prev) => ({
+      //   ...prev,
+      //   ApplicationEngineer: Response.resData.appEngId,
+      //   LeadType: Response.resData.callTypeId,
+      //   JoiningDate: Response.resData.visitDate,
+      // }));
       setJoiningDate1(Response.resData.visitDate);
       setTodayTime(Response.resData.visitTime);
       setCustomerId(Response.resData.customerId);
@@ -354,20 +369,21 @@ export default function ViewDar(props) {
           customerList={customerList}
         />
 
-        {/* <div>
-          {darFormData?.map((formData) => {
+        <div>
+          {darFormData?.map((formData, index) => {
             return (
               <div>
                 <DarComponent
                   darFormData={formData}
                   setDarFormData={setDarFormData}
+                  formIndex={index}
                   customerContactList={customerContactList}
                   principalList={principalList}
                 />
               </div>
             );
           })}
-        </div> */}
+        </div>
       </div>
     </>
   );
