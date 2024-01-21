@@ -1,16 +1,16 @@
-export const getProfileData = async (updateUserData, jwtToken) => {
+export const getProfileData = async (setUserData, jwtToken) => {
   const res = await fetch(
     `${process.env.REACT_APP_BASE_URL}/Authentication/ProfileData`,
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${jwtToken}}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
     }
   );
   const profileData = await res.json();
   if (profileData.resCode === 200) {
-    updateUserData(profileData?.resData);
+    setUserData(profileData?.resData);
   }
 };
 
@@ -20,7 +20,7 @@ export const getPersonContactedData = async (personId, jwtToken) => {
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${jwtToken}}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
     }
   );
@@ -28,6 +28,6 @@ export const getPersonContactedData = async (personId, jwtToken) => {
   if (personResponse.resCode === 200) {
     return personResponse?.resData;
   } else {
-    throw new Error("Couldn't fetch contacted person data");
+    console.log("Couldn't fetch contacted person data");
   }
 };

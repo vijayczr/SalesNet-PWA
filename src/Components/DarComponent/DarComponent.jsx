@@ -20,6 +20,8 @@ import {
   plainOptions,
 } from "../../utils/data";
 import { DeleteOutline } from "@mui/icons-material";
+import { getPersonContactedData } from "../../utils/api";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 function DarComponent({
   darFormData,
@@ -30,6 +32,8 @@ function DarComponent({
   disabledField,
   removeForm,
 }) {
+  const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
+
   const { contactPerson } = darFormData;
 
   const calculate = () => {
@@ -72,6 +76,34 @@ function DarComponent({
     }
   };
   useEffect(() => console.log(darFormData), [darFormData]);
+
+  useEffect(() => {
+    if (typeof darFormData?.contactPerson?.custId === "number") {
+      getPersonContactedData(
+        darFormData?.contactPerson?.custId,
+        jwtStoredValue
+      ).then((data) => {
+        console.log('updating data')
+        setDarFormData((prev) => {
+          let newData = [...prev];
+          newData[formIndex] = {
+            ...prev[formIndex],
+            contactPerson: {
+              ...prev[formIndex].contactPerson,
+              custId: data?.custId,
+              mobileNo: data?.mobileNo,
+              phoneNo: data?.phoneNo,
+              contactPerson: data?.contactPerson,
+              department: data?.custDepartment,
+              designation: data?.custDesgn,
+              email: data?.email
+            },
+          };
+          return newData;
+        });
+      });
+    }
+  }, [darFormData?.contactPerson?.custId]);
 
   return (
     <div className="container p-4">

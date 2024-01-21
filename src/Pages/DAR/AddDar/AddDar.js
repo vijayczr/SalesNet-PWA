@@ -13,7 +13,7 @@ export default function AddDar() {
 
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
   const { userData } = useContext(UserDataContext);
-  
+
   const [darHeaderData, setDarHeaderData] = useState({
     profileData: userData,
     applicationEngineer: null,
@@ -77,10 +77,6 @@ export default function AddDar() {
       });
     });
   }, [darHeaderData?.customer]);
-
-  useEffect(() => {
-    let personContactedData = getPersonContactedData();
-  }, []);
 
   async function getPersonContactList(customerId) {
     const res = await fetch(
