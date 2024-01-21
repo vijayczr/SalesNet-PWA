@@ -4,12 +4,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import DarComponent from "../../../Components/DarComponent/DarComponent";
 import DarHeader from "../../../Components/DarHeader/DarHeader";
 import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
-import getProfileData from "../../../utils/api";
+import useLocalStorage from "../../../hooks/useLocalStorage";
 
 export default function ViewDar(props) {
   const navigate = useNavigate();
+  const [searchparams] = useSearchParams();
 
-  const { userData, updateUserData } = useContext(UserDataContext)
+  const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
+  const { userData } = useContext(UserDataContext);
 
   const [darHeaderData, setDarHeaderData] = useState({
     profileData: userData,
@@ -20,30 +22,10 @@ export default function ViewDar(props) {
     customer: null,
   });
 
-
-  useEffect(() => {
-    console.log('dar header data', darHeaderData)
-  }, [])
-
-  // {
-  //   let newData = [...prev];
-  //   newData[formIndex] = {
-  //     ...prev[formIndex],
-  //     contactPerson: {
-  //       ...prev[formIndex]?.ContactPerson,
-  //       email: e?.target?.value,
-  //     },
-  //   };
-  //   return newData;
-  // }
-
-  
-
   const [darFormData, setDarFormData] = useState([
     {
       contactPerson: {
         custId: null,
-        contactPerson: null,
         phoneNo: null,
         mobileNo: null,
         department: null,
@@ -62,161 +44,129 @@ export default function ViewDar(props) {
       status: null,
       statusData: null,
       opportunityStatus: null,
-      opportunityStatusData: null, 
-      remark: ""
+      opportunityStatusData: null,
+      remark: "",
     },
   ]);
-  
-  // const [profileData, setProfileData] = useState("");
+
   const [AppEngList, setAppEngList] = useState(null);
   const [customerList, setcustomerList] = useState(null);
   const [principalList, setPrincipalList] = useState(null);
-
-  const [Branch, setBranch] = useState("");
-  const [Appeng, setAppeng] = useState(null);
-  const [LeadType, setLeadType] = useState(null);
-  const [JoiningDate1, setJoiningDate1] = useState(null);
-  const [MonthOfOrder, setMonthOfOrder] = useState(null);
-  const [TodayTime, setTodayTime] = useState("01:00 PM");
-  const [searchparams] = useSearchParams();
-
-  const [CustomerId, setCustomerId] = useState(null);
   const [customerContactList, setCustomerContactList] = useState(null);
-  const [CustContactId, setCustContactId] = useState(null);
-  const [CustPhone, setCustPhone] = useState(null);
-  const [CustMobile, setCustMobile] = useState(null);
-  const [CustDesig, setCustDesig] = useState(null);
-  const [CustDept, setCustDept] = useState(null);
-  const [CustEmail, setCustEmail] = useState(null);
-  const [PrincipalId, setPrincipalId] = useState(null);
-  const [ProductName, setProductName] = useState(null);
-  const [DarProductPrice, setDarProductPrice] = useState(null);
-  const [QuotedPrice, setQuotedPrice] = useState(null);
-  const [productValue, setproductValue] = useState(null);
-  const [CallType, setCallType] = useState(null);
-  const [CallStatus, setCallStatus] = useState(null);
-  const [DarVertical, setDarVertical] = useState(null);
-  const [ExpectedOrdervalue, setExpectedOrdervalue] = useState(null);
-  const [DarStatus, setDarStatus] = useState();
-  const [NextActionDate, setNextActionDate] = useState(null);
-  const [ClosingDate, setClosingDate] = useState(null);
-  const [LostReason, setLostReason] = useState(null);
-  const [OpportunityStatus, setOpportunityStatus] = useState(null);
-  const [IsFundAvailAble, setIsFundAvailAble] = useState(null);
-  const [OrderValue, setOrderValue] = useState(null);
-  const [Advance, setAdvance] = useState(null);
-  const [GstPerc, setGstPerc] = useState();
-  const [TaxPrice, setTaxPrice] = useState(null);
-  const [Delivery, setDelivery] = useState(null);
-  const [Training, setTraining] = useState(null);
-  const [Actualvalue, setActualvalue] = useState(null);
-  const [Remark, setRemark] = useState(null);
-  const [DocumentName, setDocumentName] = useState(null);
-
-  // setJoiningDate1(new Date().toLocaleDateString());
-  // useEffect(() => {
-  //   getProfiledata(); GetAppEnggList(); SearchCustomer();
-  // }, []);
 
   useEffect(() => {
-    let ignore = false;
-
-    if (!ignore) DarData();
-    // getProfiledata();
+    getDarData();
     GetAppEnggList();
     SearchCustomer();
-    return () => {
-      ignore = true;
-    };
   }, []);
 
-  // useLayoutEffect(() => {
-  //   getProfiledata();
-  // }, [])
+  useEffect(() => {
+    getPersonContactList(darHeaderData?.customer);
+    darFormData?.map((_, index) => {
+      setDarFormData((prev) => {
+        let newData = [...prev];
+        newData[index] = {
+          ...prev[index],
+          contactPerson: {
+            ...prev[index].contactPerson,
+            custId: {},
+          },
+        };
+        return newData;
+      });
+    });
+  }, [darHeaderData?.customer]);
 
-  var newDate = new Date().toLocaleDateString();
-
-  async function DarData() {
+  async function getDarData() {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Dar/ViewDar?DarId=${searchparams.get(
+      `${process.env.REACT_APP_BASE_URL}/Dar/ViewDar?DarId=${searchparams.get(
         "id"
       )}`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+          Authorization: `Bearer ${jwtStoredValue}`,
         },
       }
     );
-    const Response = await res.json();
-    if (Response.resCode === 200) {
-      // setAppeng(Response.resData.appEngId);
-      // setLeadType(Response.resData.callTypeId);
+    const response = await res.json();
+    const responseData = response.resData;
 
-      // setDarFormData((prev) => ({
-      //   ...prev,
-      //   ApplicationEngineer: Response.resData.appEngId,
-      //   LeadType: Response.resData.callTypeId,
-      //   JoiningDate: Response.resData.visitDate,
-      // }));
-      setJoiningDate1(Response.resData.visitDate);
-      setTodayTime(Response.resData.visitTime);
-      setCustomerId(Response.resData.customerId);
+    if (response.resCode === 200) {
+      setDarHeaderData((prev) => ({
+        ...prev,
+        applicationEngineer: responseData?.appEngId,
+        leadType: responseData?.leadTypeId,
+        joiningDate: responseData.visitDate,
+        visitTime: new Date(responseData.visitTime),
+        customer: responseData?.customerId,
+      }));
 
-      setCustContactId(Response.resData.contactPersonId);
-      setCustPhone(Response.resData.phoneNo);
-      setCustMobile(Response.resData.mobileNo);
-      setCustDesig(Response.resData.custDesgn);
-      setCustDept(Response.resData.custDepartment);
-      setCustEmail(Response.resData.email);
+      let formStatusData = {};
+      if (responseData.darStatusId === 1) {
+        formStatusData.nextActionDate = responseData.nextActionDate;
+      } else if (responseData.darStatusId === 2) {
+        formStatusData.darClosingDate = responseData.darClosingDate;
+      } else {
+        formStatusData.lostReasonId = responseData.lostReasonId;
+      }
 
-      GetCustContactList(Response.resData.customerId);
+      let formOpportunityData = {};
+      if (responseData.opportunityStatus >= 4) {
+        formOpportunityData.isFundAvailable = responseData.isFundAvailable;
+      }
+      if (responseData.opportunityStatus > 5) {
+        formOpportunityData.orderValue = responseData.orderValue;
+        formOpportunityData.advancePay = responseData.advancePay;
+        formOpportunityData.taxprice = responseData.gst;
+        formOpportunityData.gst = responseData.gstPerc;
+        formOpportunityData.deliverypay = responseData.deliverypay;
+        formOpportunityData.trainingPay = responseData.trainingPay;
+        formOpportunityData.actualValue = responseData.actualValue;
+      }
 
-      // GetPrincipalList();
+      setDarFormData((prev) => {
+        let newData = [...prev];
+        newData[0] = {
+          ...prev?.[0],
+          contactPerson: {
+            custId: responseData.contactPersonId,
+            phoneNo: responseData.phoneNo,
+            mobileNo: responseData.mobileNo,
+            department: responseData.custDepartment,
+            designation: responseData.custDesgn,
+            email: responseData.email,
+          },
+          callType: responseData.callTypeId,
+          callStatus: responseData.callStatusId,
+          darVertical: responseData.verticalId,
+          expectedOrderValue: responseData.price,
+          monthOfOrder: responseData.monthOfOrder,
+          status: responseData.darStatusId,
+          statusData: formStatusData,
+          opportunityStatus: responseData.opportunityStatus,
+          opportunityStatusData: formOpportunityData,
+          remark: responseData.darRemark,
+        };
+        return newData;
+      });
 
-      setPrincipalId(Response.resData.principalId);
-      setProductName(Response.resData.productName);
-      setDarProductPrice(Response.resData.darProductPrice);
-      setQuotedPrice(Response.resData.quotedPrice);
-      setproductValue(Response.resData.productValue);
-      setCallType(Response.resData.callTypeId);
-      setCallStatus(Response.resData.callStatusId);
-      setDarVertical(Response.resData.verticalId);
-      setExpectedOrdervalue(Response.resData.price);
-      setMonthOfOrder(Response.resData.monthOfOrder);
-      setDarStatus(Response.resData.darStatusId);
-      setNextActionDate(Response.resData.nextActionDate);
-      setClosingDate(Response.resData.darClosingDate);
-      setLostReason(Response.resData.lostReasonId);
-      setOpportunityStatus(Response.resData.opportunityStatus);
-      setIsFundAvailAble(Response.resData.isFundAvailable);
-      setOrderValue(Response.resData.orderValue);
-      setAdvance(Response.resData.advancePay);
-      setGstPerc(Response.resData.gstPerc);
-      setTaxPrice(Response.resData.gst);
-      setDelivery(Response.resData.deliveryPay);
-      setTraining(Response.resData.trainingPay);
-      setActualvalue(Response.resData.actualValue);
-      setRemark(Response.resData.darRemark);
-      setDocumentName(Response.resData.filename);
-
-      // console.log(Response.resData);
+      getPersonContactList(responseData.customerId);
     }
   }
 
-  async function GetCustContactList(e) {
+  async function getPersonContactList(customerId) {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Dar/CustpersonList?CustId=${e}`,
+      `${process.env.REACT_APP_BASE_URL}/Dar/CustpersonList?CustId=${customerId}`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+          Authorization: `Bearer ${jwtStoredValue}`,
         },
       }
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
-      // console.log(Response.resData);
       setCustomerContactList(Response.resData);
     }
   }
@@ -233,36 +183,9 @@ export default function ViewDar(props) {
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
-      // console.log(Response.resData);
       setPrincipalList(Response.resData);
     }
   }
-
-  // async function getProfiledata() {
-  //   const res = await fetch(
-  //     `${process.env.REACT_APP_BASE_URL}/Authentication/ProfileData`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
-  //       },
-  //     }
-  //   );
-  //   const profileData = await res.json();
-  //   if (profileData.resCode === 200) {
-  //     // console.log(profileData.resData, 'Profile Data');
-  //     // setProfileData(profileData.resData);
-  //     setDarHeaderData((prev) => ({...prev, profileData: profileData?.resData}))
-  //   }
-  // }
-
-  useEffect(() => {
-    // console.log(darHeaderData, 'dar Header');
-  }, [darHeaderData])
-
-  const NavBack = () => {
-    navigate("/DarSummary", { replace: true });
-  };
 
   async function GetAppEnggList() {
     const res = await fetch(
@@ -276,39 +199,8 @@ export default function ViewDar(props) {
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
-      // console.log(Response.resData);
       setAppEngList(Response.resData);
     }
-  }
-
-  // const Date2 = (date) => {
-  //   console.log(date);
-  //   setJoiningDate1(date);
-  // };
-  // const Date3 = (date) => {
-  //   console.log(date);
-  //   setMonthOfOrder(date);
-  // };
-  // const Date4 = (date) => {
-  //   console.log(date);
-  //   setNextActionDate(date);
-  // };
-  // const DateOfClosing = (date) => {
-  //   console.log(date);
-  //   setClosingDate(date);
-  // };
-  // const GstvalueChange = (checkedValues) => {
-  //   console.log('checked = ', checkedValues);
-  //   GstPerc
-  // };
-  const GstvalueChange = ({ target: { value } }) => {
-    setGstPerc(value);
-  };
-
-  function DgstValCal() {
-    var x = OrderValue * (GstPerc / 100);
-    setTaxPrice(x);
-    console.log(x);
   }
 
   async function SearchCustomer() {
@@ -317,25 +209,20 @@ export default function ViewDar(props) {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+          Authorization: `Bearer ${jwtStoredValue}`,
         },
       }
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
       setcustomerList(Response.resData);
-      // console.log(Response.resData);
     }
   }
-  const DarStatusfun = (e) => {
-    // console.log(e);
-    setDarStatus(e);
-  };
 
   return (
     <>
       <div>
-        {/* <AppHeader data={darHeaderData?.profileData} /> */}
+        <AppHeader data={userData} />
 
         <div className="breadcrumb-area">
           <div className="container-fluid">
@@ -358,18 +245,23 @@ export default function ViewDar(props) {
             </div>
           </div>
         </div>
-        {/* <DarComponent
-          darFormData={darFormData}
-          setDarFormData={setDarFormData}
-        /> */}
         <DarHeader
           darHeaderData={darHeaderData}
           setDarHeaderData={setDarHeaderData}
           AppEngList={AppEngList}
           customerList={customerList}
+          disabledField={true}
         />
 
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "4rem",
+            justifyContent: "flex-start",
+            backgroundColor: "#f3f5f9",
+          }}
+        >
           {darFormData?.map((formData, index) => {
             return (
               <div>
@@ -379,6 +271,7 @@ export default function ViewDar(props) {
                   formIndex={index}
                   customerContactList={customerContactList}
                   principalList={principalList}
+                  disabledField={true}
                 />
               </div>
             );

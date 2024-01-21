@@ -5,7 +5,7 @@ import '../Login/Login.css'
 import { useNavigate } from "react-router-dom";
 import logo2 from '../../assets/logo.png';
 import UserDataContext from '../../Context/UserDataContext/UserDataContext';
-import getProfileData from '../../utils/api';
+import {getProfileData} from '../../utils/api';
 
 
 export default function Login() {

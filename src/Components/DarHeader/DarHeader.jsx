@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ConfigProvider,
@@ -7,9 +7,7 @@ import {
   Space,
   Select,
   Input,
-  Checkbox,
   Button,
-  Radio,
 } from "antd";
 import dayjs from "dayjs";
 import { LeadList } from "../../utils/data";
@@ -19,24 +17,20 @@ function DarHeader({
   setDarHeaderData,
   AppEngList,
   customerList,
+  disabledField,
 }) {
   const { profileData, applicationEngineer, leadType } = darHeaderData;
-  // console.log(darHeaderData, 'dar header')
-  // let profileData, applicationEngineer, leadType;
   const navigate = useNavigate();
 
+  useEffect(() => console.log(darHeaderData), [darHeaderData]);
+
   return (
-    <div
-      className="containner p-4"
-      style={{ backgroundColor: "#f3f5f9" }}
-    >
+    <div className="containner p-4" style={{ backgroundColor: "#f3f5f9" }}>
       <div className="row">
         <div className="col-lg-12">
-          <div className="bg-boxshadow m-0">
-            <div className="ibox-content">
+          {/* <div className="bg-boxshadow m-0"> */}
+            {/* <div className="ibox-content"> */}
               <center>
-                {/* <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-              <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button> */}
                 <Button
                   size={"large"}
                   className="FunctionButton"
@@ -57,6 +51,7 @@ function DarHeader({
                         style={{ width: "100%" }}
                         type="text"
                         value={profileData?.userName}
+                        disabled={disabledField}
                       />
                     </div>
                   </div>
@@ -73,13 +68,13 @@ function DarHeader({
                       <Select
                         style={{ width: "100%", height: "2rem" }}
                         placeholder="Select"
-                        onChange={(e) => {
+                        onChange={(appEngId) => {
                           setDarHeaderData((prev) => ({
                             ...prev,
-                            applicationEngineer: e?.target?.value,
+                            applicationEngineer: appEngId,
                           }));
                         }}
-                        value={applicationEngineer?.name}
+                        disabled={disabledField}
                       >
                         {AppEngList?.map((e) => (
                           <option key={e.empId} value={e.empId}>
@@ -101,13 +96,13 @@ function DarHeader({
                       <Select
                         style={{ width: "100%", height: "2rem" }}
                         placeholder="Select"
-                        onChange={(e) => {
+                        onChange={(leadTypeId) => {
                           setDarHeaderData((prev) => ({
                             ...prev,
-                            leadType: e?.target?.value,
+                            leadType: leadTypeId,
                           }));
                         }}
-                        value={leadType?.value}
+                        disabled={disabledField}
                       >
                         {LeadList?.map((leadItem) => (
                           <option value={leadItem?.id}>
@@ -129,6 +124,7 @@ function DarHeader({
                       <Select
                         style={{ width: "100%", height: "2rem" }}
                         placeholder="Select"
+                        disabled={disabledField}
                         // onChange={(e) => { setLeadType(e.target.value) }}
                       >
                         <option value={null}>Select</option>
@@ -143,9 +139,6 @@ function DarHeader({
                       Date<span className="pull-right">:</span>
                     </label>
                     <div className="col-md-7">
-                      {/* <Space >
-                                              <DatePicker style={{ width: "100%" }} onChange={Date2} />
-                                          </Space> */}
                       <Space>
                         <ConfigProvider>
                           <DatePicker
@@ -156,12 +149,14 @@ function DarHeader({
                                 : dayjs(new Date())
                             }
                             style={{ width: "100%", height: "2rem" }}
-                            onChange={(date) =>
+                            onChange={(date) =>{
+                              console.log(date, date.target.value, 'val');
                               setDarHeaderData((prev) => ({
                                 ...prev,
                                 joiningDate: date,
-                              }))
+                              }))}
                             }
+                            disabled={disabledField}
                           />
                         </ConfigProvider>
                       </Space>
@@ -181,17 +176,18 @@ function DarHeader({
                           value={
                             darHeaderData?.visitTime
                               ? dayjs(darHeaderData?.visitTime)
-                              : dayjs(new Date(), 'HH:mm')
+                              : dayjs(new Date(), "HH:mm")
                           }
                           showSecond={false}
-                          format={'HH:mm'}
+                          format={"HH:mm"}
                           style={{ width: "100%" }}
-                          onChange={(date) =>
+                          onChange={(date) => {
                             setDarHeaderData((prev) => ({
                               ...prev,
                               visitTime: date,
-                            }))
-                          }
+                            }));
+                          }}
+                          disabled={disabledField}
                         />
                       </ConfigProvider>
                     </Space>
@@ -210,15 +206,15 @@ function DarHeader({
                         style={{ width: 400 }}
                         placeholder="Select"
                         onChange={(customerId) => {
-                          const selectedCustomer = customerList.find(
-                            (item) => item?.value === customerId
-                          );
+                          // const selectedCustomer = customerList.find(
+                          //   (item) => item?.value === customerId
+                          // );
                           setDarHeaderData((prev) => ({
                             ...prev,
-                            customer: selectedCustomer,
+                            customer: customerId,
                           }));
                         }}
-                        value={darHeaderData?.customer?.label}
+                        value={darHeaderData?.customer}
                         filterOption={(input, option) =>
                           (option?.label ?? "")
                             .toLowerCase()
@@ -230,13 +226,14 @@ function DarHeader({
                         //     .localeCompare((optionB?.label ?? "").toLowerCase())
                         // }
                         options={customerList}
+                        disabled={disabledField}
                       />
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            {/* </div> */}
+          {/* </div> */}
         </div>
       </div>
     </div>

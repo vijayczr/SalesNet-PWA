@@ -1,32 +1,33 @@
 import React, { useCallback, useEffect, useState } from "react";
 import UserDataContext from "./UserDataContext"
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 function UserDataContextProvider({ children }) {
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useLocalStorage('userData');
 
-  const updateUserData = useCallback((newData) => {
-    setUserData((prevData) => {
-      let updatedData = { ...prevData, ...newData }
-      localStorage.setItem("userData", JSON.stringify(updatedData));
-      return updatedData;
-    });
-  }, []);
+  // const updateUserData = useCallback((newData) => {
+  //   setUserData((prevData) => {
+  //     let updatedData = { ...prevData, ...newData }
+  //     localStorage.setItem("userData", JSON.stringify(updatedData));
+  //     return updatedData;
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    let storedUserData = localStorage.getItem("userData");
+  // useEffect(() => {
+  //   let storedUserData = localStorage.getItem("userData");
 
-    if (storedUserData) {
-      try {
-        const parsedData = JSON.parse(storedUserData);
-        setUserData(parsedData)
-      } catch (error) {
-        console.log('Error in setting localstore data to context')
-      }
-    }
-  }, [])
+  //   if (storedUserData) {
+  //     try {
+  //       const parsedData = JSON.parse(storedUserData);
+  //       setUserData(parsedData)
+  //     } catch (error) {
+  //       console.log('Error in setting localstore data to context')
+  //     }
+  //   }
+  // }, [])
 
   return (
-    <UserDataContext.Provider value={{ userData, updateUserData }}>
+    <UserDataContext.Provider value={{ userData, setUserData }}>
       {children}
     </UserDataContext.Provider>
   );
