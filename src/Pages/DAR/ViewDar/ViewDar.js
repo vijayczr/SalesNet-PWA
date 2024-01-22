@@ -3,6 +3,7 @@ import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ConfigProvider, DatePicker, Space, Select, Checkbox, Radio, Table } from 'antd';
 import dayjs from 'dayjs';
+import { DataGrid } from '@mui/x-data-grid';
 
 export default function ViewDar(props) {
 
@@ -54,6 +55,7 @@ export default function ViewDar(props) {
   const [DocumentName, setDocumentName] = useState(null);
   const [ProductList, setProductList] = useState(null);
 
+
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -74,18 +76,6 @@ export default function ViewDar(props) {
 
   const plainOptions = [5, 18, 28];
   const columns = [
-    {
-      title: 'Add',
-      key: 'employee',
-      width: '7%',
-      render: (_,record) =>(
-        <input 
-        type='checkbox'
-        checked = {CheckboxData.productId === record.productId}
-        onChange={()=>setCheckboxData(record)}
-        />
-      )
-    },
     {
       title: 'Product',
       dataIndex: 'productName',
@@ -114,13 +104,9 @@ export default function ViewDar(props) {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      width: '45%',
+      width: '40%',
     }
   ]
-  // setJoiningDate1(new Date().toLocaleDateString());
-  // useEffect(() => {
-  //   getProfiledata(); GetAppEnggList(); SearchCustomer();
-  // }, []);
 
   useEffect(() => {
     let ignore = false;
@@ -188,7 +174,7 @@ export default function ViewDar(props) {
       setActualvalue(Response.resData.actualValue);
       setRemark(Response.resData.darRemark);
       setDocumentName(Response.resData.filename);
-
+      setSelectedproducts(Response.resData.products);
       ProductLists(Response.resData.principalId);
 
       console.log(Response.resData);
@@ -335,18 +321,38 @@ export default function ViewDar(props) {
     if (Response.resCode === 200) {
       // setCustomerList(Response.resData);
       setProductList(Response.resData);
-      console.log(Response.resData);
+      console.log(ProductList);
     }
   }
 
-  function  ProductSelection() {
-    console.log(CheckboxData);
-    setProductName(CheckboxData.productName);
-    setDarProductPrice(CheckboxData.techlabPrice);
-    setQuotedPrice(CheckboxData.quotedPrice);
-    setproductValue(CheckboxData.productValue);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [Selectedproducts, setSelectedproducts] = useState([]);
+  const [selectionType, setSelectionType] = useState('checkbox');
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setSelectedRowKeys(selectedRows);
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
+
+  function SelectedProduct() {
+    setSelectedproducts(selectedRowKeys)
+    console.log(Selectedproducts);
   }
 
+  const onChangeInputdata = (e, key) => {
+    const { name, value } = e.target
+
+    const editDataa = Selectedproducts.map((item) =>
+      item.key === key && name ? { ...item, [name]: value } : item
+    )
+    setSelectedproducts(editDataa)
+  }
 
   return (
     <>
@@ -585,7 +591,7 @@ export default function ViewDar(props) {
                           <select
                             style={{ width: "100%" }}
                             onChange={(e) => { setPrincipalId(e.target.value); ProductLists(e.target.value); }}
-                            disabled
+                            // disabled
                             value={PrincipalId}
                           >
                             <option value={0}>Select</option>
@@ -599,7 +605,7 @@ export default function ViewDar(props) {
                           <button
                             data-toggle="modal" data-target=".bd-example-modal-lg"
                             className="FunctionButton5"
-                            disabled
+                            // disabled
                             style={{ backgroundColor: "#e8d105", color: "black", width: "120px" }}
                           >Add Product
                           </button>
@@ -622,25 +628,24 @@ export default function ViewDar(props) {
                                           headerColor: 'white',
                                           cellFontSizeSM: 6,
                                           rowHoverBg: '#abc4af',
-                                          // cellPaddingBlock: 0,
                                           cellPaddingInlineSM: 2
                                         },
                                       },
                                     }}
                                   >
                                     <Table
-
+                                      rowSelection={{
+                                        type: selectionType,
+                                        ...rowSelection,
+                                      }}
                                       columns={columns}
                                       dataSource={ProductList}
-                                      pagination={tableParams.pagination}
-                                      onChange={handleTableChange}
-                                      style={{ overflowX: "auto" }}
                                     />
                                   </ConfigProvider>
+
                                 </div>
                                 <div className="modal-footer">
-                                  <button type="button" className="btn btn-primary" onClick={ProductSelection} data-dismiss="modal" >Add Product</button>
-                                  {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button> */}
+                                  <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={SelectedProduct} >Add Product</button>
                                 </div>
                               </div>
                             </div>
@@ -649,80 +654,63 @@ export default function ViewDar(props) {
                       </div>
                     </div>
 
-                    <div class="box" style={{ border: "solid" }}>
+                    <div class="box" style={{ border: "solid" , overflow:"auto" }}>
                       <div class="col-md-12">
-                        <div className="form-group d-flex">
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1" >
-                              <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Product</label>
-                            </div>
-                          </div>
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1">
-                              <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Techlab MRP</label>
-                            </div>
-                          </div>
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1">
-                              <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Product Value</label>
-                            </div>
-                          </div>
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1">
-                              <label className="col-md-12 m-0" style={{ fontWeight: "bold", padding: "0px" }}>Quoted Price</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-12">
-                        <div className="form-group d-flex">
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1" >
-                              {/* <label  className="col-md-12 m-0" style={{ fontWeight: "bold",padding:"0px" }}>Product</label> */}
-                              <input
-                                className="col-md-12 m-0"
-                                style={{ width: "100%" }}
-                                type='text'
-                                value={ProductName}
-                                disabled
-                              />
-                            </div>
-                          </div>
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1">
-                              <input
-                                className="col-md-12 m-0"
-                                style={{ width: "100%" }}
-                                type='text'
-                                value={DarProductPrice}
-                                disabled
-                              />
-                            </div>
-                          </div>
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1">
-                              <input
-                                className="col-md-12 m-0"
-                                style={{ width: "100%" }}
-                                type='text'
-                                value={QuotedPrice}
-                                disabled
-                              />
-                            </div>
-                          </div>
-                          <div className="col-lg-3">
-                            <div className="d-flex mt-1">
-                              <input
-                                className="col-md-12 m-0"
-                                style={{ width: "100%" }}
-                                type='text'
-                                value={productValue}
-                                disabled
-                              />
-                            </div>
-                          </div>
-                        </div>
+                        <table
+                          style={{ width: "100hw" }}>
+                          <thead className="text-center" style={{ fontSize: "15px", height: "28px", }}>
+                            <tr  >
+                              <th style={{ paddingLeft: "20px", width: "100px" }}>Product</th>
+                              <th style={{ paddingLeft: "40px" }}>Techlab MRP</th>
+                              <th style={{ paddingLeft: "40px" }}>Quoted Price</th>
+                              <th style={{ paddingLeft: "40px" }}>Product Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {
+                              Selectedproducts.map(({ darProductId,key, productName, productValue, quotedPrice, darProductPrice, description }) => (
+                                <tr key={key}>
+                                  <td >
+                                    <input style={{width: "130px" }}
+                                      name="productName"
+                                      value={productName}
+                                      type="text"
+                                      disabled
+                                      onChange={(e) => onChangeInputdata(e, key)}
+                                    />
+                                  </td>
+                                  <td style={{ paddingLeft: "40px" }}>
+                                    <input style={{ width: "100px"}}
+                                      name="darProductPrice"
+                                      value={darProductPrice}
+                                      type="text"
+                                      disabled
+                                      onChange={(e) => onChangeInputdata(e, key)}
+                                    />
+                                  </td>
+                                  <td style={{ paddingLeft: "40px" }}>
+                                    <input style={{ width: "100px"}}
+                                      name="quotedPrice"
+                                      value={quotedPrice}
+                                      type="text"
+                                      disabled
+                                      onChange={(e) => onChangeInputdata(e, key)}
+                                    />
+                                  </td>
+                                  <td style={{ paddingLeft: "40px" }}>
+                                    <input style={{ width: "100px"}}
+                                      name="productValue"
+                                      value={productValue}
+                                      type="text"
+                                      disabled
+                                      onChange={(e) => onChangeInputdata(e, key)}
+                                    />
+                                  </td>
+                                </tr>
+                              ))
+                            }
+                          </tbody>
+                        </table>
                       </div>
                     </div>
 
