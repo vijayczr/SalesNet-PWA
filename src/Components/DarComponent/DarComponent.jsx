@@ -52,7 +52,6 @@ function DarComponent({
   };
 
   const handlePreview = async (file) => {
-    console.log(file, "File");
     if (file && file?.type.includes("image/")) {
       let previewUrl = URL.createObjectURL(uploadFile[0]);
       setPreviewFile(previewUrl);
@@ -60,6 +59,12 @@ function DarComponent({
     } else if (file && file?.type.includes("application/pdf")) {
       let url = URL.createObjectURL(file);
       window.open(url, "_blank");
+    } else {
+      let downloadLink = document.createElement('a')
+      downloadLink.download = "Uploaded File"
+      downloadLink.href = URL.createObjectURL(file);
+      downloadLink.click();
+      URL.revokeObjectURL(downloadLink.href);
     }
   };
 
