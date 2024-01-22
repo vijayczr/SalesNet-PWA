@@ -183,7 +183,7 @@ export default function AddDar() {
     }
     setDarFormData((prev) => {
       let newData = [...prev];
-      newData.splice(index, index);
+      newData.splice(index, 1);
       return newData;
     });
   };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ConfigProvider,
   DatePicker,
@@ -7,6 +7,8 @@ import {
   Input,
   Radio,
   Button,
+  Upload,
+  Modal,
 } from "antd";
 import dayjs from "dayjs";
 import {
@@ -19,7 +21,8 @@ import {
   SalesStatus,
   plainOptions,
 } from "../../utils/data";
-import { DeleteOutline } from "@mui/icons-material";
+
+import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { getPersonContactedData } from "../../utils/api";
 import useLocalStorage from "../../hooks/useLocalStorage";
 
@@ -33,14 +36,49 @@ function DarComponent({
   removeForm,
 }) {
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
+  const [uploadFile, setUploadFile] = useState([]);
+  const [previewFile, setPreviewFile] = useState();
+  const [showPreview, setShowPreview] = useState();
 
   const { contactPerson } = darFormData;
+
+  const handleRemove = async (file) => {
+    let indexOfFile = uploadFile.indexOf(file);
+    setUploadFile((prev) => {
+      let newAr = [...prev];
+      newAr = newAr.splice(indexOfFile, indexOfFile);
+      return newAr;
+    });
+  };
+
+  const handlePreview = async (file) => {
+    console.log(file, "File");
+    if (file && file?.type.includes("image/")) {
+      let previewUrl = URL.createObjectURL(uploadFile[0]);
+      setPreviewFile(previewUrl);
+      setShowPreview(true);
+    } else if (file && file?.type.includes("application/pdf")) {
+      let url = URL.createObjectURL(file);
+      window.open(url, "_blank");
+    }
+  };
+
+  const closePreview = () => {
+    setShowPreview(false);
+    URL.revokeObjectURL(previewFile);
+  };
+
+  useEffect(() => {
+    if (uploadFile[0]) {
+      let previewUrl = URL.createObjectURL(uploadFile[0]);
+      setPreviewFile(previewUrl);
+    }
+  }, [uploadFile]);
 
   const calculate = () => {
     const FivePercent =
       darFormData?.opportunityStatusData?.orderValue *
       (darFormData?.opportunityStatusData?.gst / 100);
-    // setTaxPrice(x);
     setDarFormData((prev) => {
       let newData = [...prev];
       newData[formIndex] = {
@@ -83,7 +121,7 @@ function DarComponent({
         darFormData?.contactPerson?.custId,
         jwtStoredValue
       ).then((data) => {
-        console.log('updating data')
+        console.log("updating data");
         setDarFormData((prev) => {
           let newData = [...prev];
           newData[formIndex] = {
@@ -96,7 +134,7 @@ function DarComponent({
               contactPerson: data?.contactPerson,
               department: data?.custDepartment,
               designation: data?.custDesgn,
-              email: data?.email
+              email: data?.email,
             },
           };
           return newData;
@@ -119,10 +157,12 @@ function DarComponent({
                   display: "flex",
                   justifyContent: "center",
                   outline: "none",
+                  width: "2.6rem",
+                  height: "2.6rem",
                 }}
                 onClick={() => removeForm(formIndex)}
               >
-                <DeleteOutline />
+                <DeleteOutlined style={{ fontSize: "1.8rem" }} />
               </Button>
             )}
             <div>
@@ -937,52 +977,38 @@ function DarComponent({
                   />
                 </div>
                 <label class="col-md-12 mt-2">Documents (if any)</label>
-                <div className="col-md-12">
-                  <Input
-                    type="file"
-                    // disabled
-                    // onChange={AttachmentUpload}
-                  />
+                <div style={{ marginLeft: "1rem" }}>
+                  <Upload
+                    accept="image/*, application/*"
+                    beforeUpload={(file) => {
+                      setUploadFile([file]);
+                      return false;
+                    }}
+                    showUploadList={{
+                      showPreviewIcon: false,
+                      showDownloadIcon: true,
+                    }}
+                    onPreview={handlePreview}
+                    onRemove={handleRemove}
+                    fileList={uploadFile}
+                    style={{ outline: "none", border: "none" }}
+                  >
+                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                  </Upload>
                 </div>
-                <label class="col-md-12 mt-2">Uploaded Document</label>
-                {/* <div className="col-md-12">
-                  <div className="form-group d-flex">
-                    <div className="col-md-8">
-                      <Input
-                        style={{ width: "100%" }}
-                        type="text"
-                        disabled
-                        onChange={(e) => {
-                          setDocumentName(e.target.value);
-                          console.log(TaxPrice);
-                        }}
-                        value={DocumentName}
-                      />
-                    </div>
-                    {DocumentName != null && (
-                      <div class="col-md-4">
-                        <a
-                          href={`${localStorage.getItem(
-                            "BaseUrl"
-                          )}/Dar/DarDownloadFile?DarId=${searchparams.get(
-                            "id"
-                          )}`}
-                        >
-                          <button
-                            className="FunctionButton5"
-                            style={{
-                              backgroundColor: "#e8d105",
-                              color: "black",
-                              width: "120px",
-                            }}
-                          >
-                            Download
-                          </button>
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                </div> */}
+                <Modal
+                  open={showPreview}
+                  footer={null}
+                  onCancel={closePreview}
+                  width={"38vw"}
+                  style={{ top: 10 }}
+                >
+                  <img
+                    alt="Preview"
+                    style={{ width: "100%" }}
+                    src={previewFile}
+                  />
+                </Modal>
               </div>
             </div>
           </div>
