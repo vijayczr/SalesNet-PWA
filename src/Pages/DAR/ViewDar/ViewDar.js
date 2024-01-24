@@ -693,7 +693,7 @@ export default function ViewDar(props) {
                                       name="quotedPrice"
                                       value={quotedPrice}
                                       type="text"
-                                      disabled
+                                      // disabled
                                       onChange={(e) => onChangeInputdata(e, key)}
                                     />
                                   </td>
@@ -702,7 +702,7 @@ export default function ViewDar(props) {
                                       name="productValue"
                                       value={productValue}
                                       type="text"
-                                      disabled
+                                      // disabled
                                       onChange={(e) => onChangeInputdata(e, key)}
                                     />
                                   </td>
