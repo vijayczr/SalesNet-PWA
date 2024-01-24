@@ -22,7 +22,7 @@ function DarHeader({
   const { profileData, applicationEngineer, leadType } = darHeaderData;
   const navigate = useNavigate();
 
-  useEffect(() => console.log(darHeaderData), [darHeaderData]);
+  useEffect(() => console.log(customerList), [darHeaderData,customerList]);
 
   return (
     <div className="containner p-4" style={{ backgroundColor: "#f3f5f9" }}>

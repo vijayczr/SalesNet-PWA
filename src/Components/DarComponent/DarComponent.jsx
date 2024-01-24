@@ -40,6 +40,9 @@ function DarComponent({
   const [previewFile, setPreviewFile] = useState();
   const [showPreview, setShowPreview] = useState();
 
+  useEffect(() => console.log(darFormData), [darFormData]);
+
+
   const { contactPerson } = darFormData;
 
   const handleRemove = async (file) => {
@@ -340,7 +343,7 @@ function DarComponent({
                           });
                         }}
                         // disabled
-                        value={darFormData?.principal}
+                        value={darFormData?.principal.principalId}
                       >
                         {principalList?.map((e) => (
                           <option key={e.principalId} value={e.principalId}>

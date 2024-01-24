@@ -25,7 +25,7 @@ import UserDataContextProvider from "./Context/UserDataContext/UserDataContextPr
 function App() {
   localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
   // localStorage.setItem("BaseUrl", "https://5b56-103-8-43-34.ngrok-free.app");
-  // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
+  // localStorage.setItem("BaseUrl", "http://localhost:5193");
   return (
     <UserDataContextProvider>
       <BrowserRouter>

@@ -58,6 +58,7 @@ export default function ViewDar(props) {
     getDarData();
     GetAppEnggList();
     SearchCustomer();
+    GetPrincipalList()
   }, []);
 
   useEffect(() => {
@@ -137,6 +138,7 @@ export default function ViewDar(props) {
             designation: responseData.custDesgn,
             email: responseData.email,
           },
+          
           callType: responseData.callTypeId,
           callStatus: responseData.callStatusId,
           darVertical: responseData.verticalId,
@@ -205,7 +207,7 @@ export default function ViewDar(props) {
 
   async function SearchCustomer() {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
+      `${localStorage.getItem("BaseUrl")}/Dar/customerList`,
       {
         method: "GET",
         headers: {
@@ -216,6 +218,7 @@ export default function ViewDar(props) {
     const Response = await res.json();
     if (Response.resCode === 200) {
       setcustomerList(Response.resData);
+      console.log(Response.resData);
     }
   }
 
