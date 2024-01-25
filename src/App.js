@@ -24,10 +24,10 @@ import EditDar from './Pages/DAR/Editdar/EditDar';
 
 function App() {
 
-  localStorage.setItem("BaseUrl", "http://localhost:5193");
+  // localStorage.setItem("BaseUrl", "http://localhost:5193");
   // localStorage.setItem("BaseUrl", "https://790e-103-8-43-34.ngrok-free.app");
   // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
-  // localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
+  localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
   return (
     <BrowserRouter>
       <Routes>

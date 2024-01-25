@@ -3,7 +3,6 @@ import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ConfigProvider, DatePicker, Space, Select, Checkbox, Radio, Table } from 'antd';
 import dayjs from 'dayjs';
-import { DataGrid } from '@mui/x-data-grid';
 
 export default function ViewDar(props) {
 
@@ -352,6 +351,7 @@ export default function ViewDar(props) {
       item.key === key && name ? { ...item, [name]: value } : item
     )
     setSelectedproducts(editDataa)
+    console.log(Selectedproducts);
   }
 
   return (
@@ -773,7 +773,7 @@ export default function ViewDar(props) {
                           <DatePicker
                             defaultValue={dayjs(Date.now())}
                             value={dayjs(MonthOfOrder)}
-                            disabled
+                            // disabled
                             style={{ width: "100%" }} onChange={Date3} />
                         </ConfigProvider>
                       </Space>
