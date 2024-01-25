@@ -619,7 +619,7 @@ function DarComponent({
                   </Select>
                 </div>
 
-                {darFormData?.status?.id === 1 && (
+                {darFormData?.status === 3 && (
                   <div>
                     <label class="col-md-12 mt-2">Next Action Date</label>
                     <div className="col-md-12">
@@ -652,7 +652,7 @@ function DarComponent({
                     </div>
                   </div>
                 )}
-                {darFormData?.status?.id === 2 && (
+                {darFormData?.status === 2 && (
                   <div>
                     <label class="col-md-12 mt-2">Closing Date</label>
                     <div className="col-md-12">
@@ -685,7 +685,7 @@ function DarComponent({
                     </div>
                   </div>
                 )}
-                {darFormData?.status?.id === 3 && (
+                {darFormData?.status === 1 && (
                   <div>
                     <label class="col-md-12 mt-2">Lost Reason</label>
                     <div className="col-md-12">

@@ -22,9 +22,9 @@ export const DAR_VerticalList = [
 ];
 
 export const SalesStatus = [
-  { id: 1, value: "Open" },
+  { id: 3, value: "Open" },
   { id: 2, value: "Closed" },
-  { id: 3, value: "Lost" },
+  { id: 1, value: "Lost" },
 ];
 
 export const LostReasonList = [
