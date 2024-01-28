@@ -56,3 +56,36 @@ export const FundAvailableOptionsList = [
 
 
 export const plainOptions = [5, 18, 28];
+
+export const productColumns = [
+  {
+    title: 'Product',
+    dataIndex: 'productName',
+    key: 'productName',
+    width: '16%',
+  },
+  {
+    title: 'Price',
+    dataIndex: 'techlabPrice',
+    key: 'techlabPrice',
+    width: '8%',
+  },
+  {
+    title: 'Quoted Price',
+    dataIndex: 'quotedPrice',
+    key: 'quotedPrice',
+    width: '12%',
+  },
+  {
+    title: 'Product Value',
+    dataIndex: 'productValue',
+    key: 'productValue',
+    width: '12%',
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
+    width: '40%',
+  }
+]

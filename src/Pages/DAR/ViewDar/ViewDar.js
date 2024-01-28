@@ -7,18 +7,18 @@ import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 
 export default function ViewDar(props) {
-  const navigate = useNavigate();
   const [searchparams] = useSearchParams();
 
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
   const { userData } = useContext(UserDataContext);
+
 
   const [darHeaderData, setDarHeaderData] = useState({
     profileData: userData,
     applicationEngineer: null,
     leadType: null,
     joiningDate: Date.now(),
-    visitTime: Date.now(),
+    visitTime: "12:00 AM",
     customer: null,
   });
 
@@ -32,10 +32,8 @@ export default function ViewDar(props) {
         designation: null,
         email: null,
       },
-      principal: {
-        principalId: null,
-        principalName: null,
-      },
+      principal: {},
+      selectedProducts: [],
       callType: null,
       callStatus: null,
       darVertical: null,
@@ -46,6 +44,7 @@ export default function ViewDar(props) {
       opportunityStatus: null,
       opportunityStatusData: null,
       remark: "",
+      uploadFile: null,
     },
   ]);
 
@@ -118,9 +117,9 @@ export default function ViewDar(props) {
       if (responseData.opportunityStatus > 5) {
         formOpportunityData.orderValue = responseData.orderValue;
         formOpportunityData.advancePay = responseData.advancePay;
-        formOpportunityData.taxprice = responseData.gst;
-        formOpportunityData.gst = responseData.gstPerc;
-        formOpportunityData.deliverypay = responseData.deliverypay;
+        formOpportunityData.gst = responseData.gst;
+        formOpportunityData.gstPerc = responseData.gstPerc;
+        formOpportunityData.deliveryPay = responseData.deliveryPay;
         formOpportunityData.trainingPay = responseData.trainingPay;
         formOpportunityData.actualValue = responseData.actualValue;
       }
@@ -137,6 +136,8 @@ export default function ViewDar(props) {
             designation: responseData.custDesgn,
             email: responseData.email,
           },
+          principal: responseData.principalId,
+          selectedProducts: responseData.products,
           callType: responseData.callTypeId,
           callStatus: responseData.callStatusId,
           darVertical: responseData.verticalId,
@@ -147,6 +148,7 @@ export default function ViewDar(props) {
           opportunityStatus: responseData.opportunityStatus,
           opportunityStatusData: formOpportunityData,
           remark: responseData.darRemark,
+          uploadFile: responseData.file
         };
         return newData;
       });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   ConfigProvider,
   DatePicker,
@@ -9,6 +9,8 @@ import {
   Button,
   Upload,
   Modal,
+  Table,
+  InputNumber,
 } from "antd";
 import dayjs from "dayjs";
 import {
@@ -20,10 +22,12 @@ import {
   OpportunityStatusList,
   SalesStatus,
   plainOptions,
+  productColumns,
 } from "../../utils/data";
+import "../DarComponent/DarComponent.css";
 
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import { getPersonContactedData } from "../../utils/api";
+import { getPersonContactedData, getProductLists } from "../../utils/api";
 import useLocalStorage from "../../hooks/useLocalStorage";
 
 function DarComponent({
@@ -36,32 +40,35 @@ function DarComponent({
   removeForm,
 }) {
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
-  const [uploadFile, setUploadFile] = useState([]);
   const [previewFile, setPreviewFile] = useState();
   const [showPreview, setShowPreview] = useState();
+  const [productList, setProductList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { contactPerson } = darFormData;
 
   const handleRemove = async (file) => {
-    let indexOfFile = uploadFile.indexOf(file);
-    setUploadFile((prev) => {
+    setDarFormData((prev) => {
       let newAr = [...prev];
-      newAr = newAr.splice(indexOfFile, indexOfFile);
+      newAr[formIndex] = {
+        ...prev[formIndex],
+        uploadFile: null,
+      };
       return newAr;
     });
   };
 
   const handlePreview = async (file) => {
     if (file && file?.type.includes("image/")) {
-      let previewUrl = URL.createObjectURL(uploadFile[0]);
+      let previewUrl = URL.createObjectURL(darFormData?.uploadFile);
       setPreviewFile(previewUrl);
       setShowPreview(true);
     } else if (file && file?.type.includes("application/pdf")) {
       let url = URL.createObjectURL(file);
       window.open(url, "_blank");
     } else {
-      let downloadLink = document.createElement('a')
-      downloadLink.download = "Uploaded File"
+      let downloadLink = document.createElement("a");
+      downloadLink.download = "Uploaded File";
       downloadLink.href = URL.createObjectURL(file);
       downloadLink.click();
       URL.revokeObjectURL(downloadLink.href);
@@ -74,43 +81,32 @@ function DarComponent({
   };
 
   useEffect(() => {
-    if (uploadFile[0]) {
-      let previewUrl = URL.createObjectURL(uploadFile[0]);
+    if (darFormData?.uploadFile) {
+      let previewUrl = URL.createObjectURL(darFormData?.uploadFile);
       setPreviewFile(previewUrl);
     }
-  }, [uploadFile]);
+  }, [darFormData?.uploadFile]);
 
   const calculate = () => {
-    const FivePercent =
-      darFormData?.opportunityStatusData?.orderValue *
-      (darFormData?.opportunityStatusData?.gst / 100);
-    setDarFormData((prev) => {
-      let newData = [...prev];
-      newData[formIndex] = {
-        ...prev[formIndex],
-        opportunityStatusData: {
-          ...prev[formIndex]?.opportunityStatusData,
-          taxPrice: FivePercent.toFixed(2),
-        },
-      };
-      return newData;
-    });
-
     if (
       darFormData?.opportunityStatusData?.orderValue &&
-      darFormData?.opportunityStatusData?.taxPrice
+      darFormData?.opportunityStatusData?.gstPerc
     ) {
-      const calculatedActualValue =
-        darFormData?.opportunityStatusData?.orderValue -
-        darFormData?.opportunityStatusData?.taxPrice;
+      const FivePercent = Number(
+        darFormData?.opportunityStatusData?.orderValue *
+          (darFormData?.opportunityStatusData?.gstPerc / 100)
+      );
 
-      console.log(calculatedActualValue, "cla dat");
+      const calculatedActualValue =
+        darFormData?.opportunityStatusData?.orderValue - FivePercent.toFixed(2);
+
       setDarFormData((prev) => {
         let newData = [...prev];
         newData[formIndex] = {
           ...prev[formIndex],
           opportunityStatusData: {
             ...prev[formIndex]?.opportunityStatusData,
+            gst: Number(FivePercent.toFixed(2)),
             actualValue: calculatedActualValue,
           },
         };
@@ -118,7 +114,12 @@ function DarComponent({
       });
     }
   };
-  useEffect(() => console.log(darFormData), [darFormData]);
+
+  useEffect(() => {
+    getProductLists(darFormData?.principal, jwtStoredValue).then((data) => {
+      setProductList(data);
+    });
+  }, [darFormData?.principal]);
 
   useEffect(() => {
     if (typeof darFormData?.contactPerson?.custId === "number") {
@@ -126,7 +127,6 @@ function DarComponent({
         darFormData?.contactPerson?.custId,
         jwtStoredValue
       ).then((data) => {
-        console.log("updating data");
         setDarFormData((prev) => {
           let newData = [...prev];
           newData[formIndex] = {
@@ -148,6 +148,25 @@ function DarComponent({
     }
   }, [darFormData?.contactPerson?.custId]);
 
+  useEffect(() => console.log(darFormData, "dar form"), [darFormData]);
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      setDarFormData((prev) => {
+        let newData = [...prev];
+        newData[formIndex] = {
+          ...prev[formIndex],
+          selectedProducts: selectedRows,
+        };
+        return newData;
+      });
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === "Disabled User",
+      name: record.name,
+    }),
+  };
+
   return (
     <div className="container p-4">
       <div className="row">
@@ -156,7 +175,7 @@ function DarComponent({
             {!disabledField && (
               <Button
                 style={{
-                  backgroundColor: "red",
+                  backgroundColor: "#da251c",
                   color: "white",
                   margin: "0 auto",
                   display: "flex",
@@ -320,145 +339,224 @@ function DarComponent({
                   />
                 </div>
                 <label class="col-md-12 mt-2">Principal</label>
-                <div className="col-md-12">
+                <div className="col-md-12" style={{ padding: 0 }}>
                   <div className="form-group d-flex">
                     <div className="col-md-8">
                       <Select
+                        showSearch
                         style={{ width: "100%" }}
                         placeholder="Select"
-                        onChange={(principalValue) => {
-                          let principalData = principalList?.find(
-                            (item) => item?.custId === principalValue
-                          );
+                        onChange={(value) => {
                           setDarFormData((prev) => {
                             let newData = [...prev];
                             newData[formIndex] = {
                               ...prev[formIndex],
-                              prinicipal: principalData,
+                              selectedProducts: [],
+                              principal: value,
                             };
                             return newData;
                           });
                         }}
-                        // disabled
                         value={darFormData?.principal}
-                      >
-                        {principalList?.map((e) => (
-                          <option key={e.principalId} value={e.principalId}>
-                            {e.principalName}
-                          </option>
-                        ))}
-                      </Select>
+                        filterOption={(input, option) =>
+                          (option?.label ?? "")
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }
+                        options={principalList?.map((item) => ({
+                          label: item?.principalName,
+                          value: item?.principalId,
+                        }))}
+                        disabled={disabledField}
+                      />
                     </div>
                     <div class="col-md-4">
-                      <button
+                      <Button
+                        // data-toggle="modal"
+                        // data-target=".bd-example-modal-lg"
                         className="FunctionButton5"
                         style={{
                           backgroundColor: "#e8d105",
                           color: "black",
                           width: "120px",
+                          fontWeight: "bolder",
                         }}
+                        onClick={() => setIsModalOpen(true)}
+                        disabled={disabledField}
                       >
                         Add Product
-                      </button>
+                      </Button>
+                      <div>
+                        <Modal
+                          width={"90%"}
+                          style={{ top: "1rem" }}
+                          title={() => (
+                            <div className="modal-header">
+                              <h3>Product List</h3>
+                              <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                          )}
+                          footer={[
+                            <Button
+                              key="back"
+                              size={"large"}
+                              style={{
+                                backgroundColor: "#007bff",
+                                color: "#ffffff",
+                              }}
+                              onClick={() => setIsModalOpen(false)}
+                            >
+                              Close
+                            </Button>,
+                          ]}
+                          open={isModalOpen}
+                          onOk={() => setIsModalOpen(false)}
+                          onCancel={() => setIsModalOpen(false)}
+                        >
+                          <div className="modal-body">
+                            <ConfigProvider
+                              theme={{
+                                components: {
+                                  Table: {
+                                    borderColor: "#000000",
+                                    headerBg: "#da251c",
+                                    headerColor: "white",
+                                    cellFontSizeSM: 6,
+                                    rowHoverBg: "#abc4af",
+                                    cellPaddingInlineSM: 2,
+                                  },
+                                },
+                              }}
+                            >
+                              <Table
+                                rowSelection={{
+                                  type: "checkbox",
+                                  ...rowSelection,
+                                }}
+                                columns={productColumns}
+                                dataSource={productList}
+                              />
+                            </ConfigProvider>
+                          </div>
+                        </Modal>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* <div class="box" style={{ border: "solid" }}>
-                  <div class="col-md-12">
-                    <div className="form-group d-flex">
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <label
-                            className="col-md-12 m-0"
-                            style={{ fontWeight: "bold", padding: "0px" }}
-                          >
-                            Product
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <label
-                            className="col-md-12 m-0"
-                            style={{ fontWeight: "bold", padding: "0px" }}
-                          >
-                            Techlab MRP
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <label
-                            className="col-md-12 m-0"
-                            style={{ fontWeight: "bold", padding: "0px" }}
-                          >
-                            Product Value
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <label
-                            className="col-md-12 m-0"
-                            style={{ fontWeight: "bold", padding: "0px" }}
-                          >
-                            Quoted Price
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                {darFormData?.selectedProducts?.length > 0 && (
+                  <div style={{ overflow: "auto" }}>
+                    <div>
+                      <table className="product-table">
+                        <thead>
+                          <tr className="product-heading-row">
+                            <th>Product</th>
+                            <th>Techlab MRP</th>
+                            <th>Quoted Price</th>
+                            <th>Product Value</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {darFormData?.selectedProducts?.map(
+                            (
+                              {
+                                key: darProductId,
+                                productName,
+                                productValue,
+                                quotedPrice,
+                                techlabPrice,
+                              },
+                              productIndex
+                            ) => (
+                              <tr
+                                key={darProductId}
+                                className="product-body-row"
+                              >
+                                <td>
+                                  <Input
+                                    name="productName"
+                                    value={productName}
+                                    type="text"
+                                    disabled
+                                  />
+                                </td>
+                                <td>
+                                  <Input
+                                    name="darProductPrice"
+                                    value={techlabPrice}
+                                    type="text"
+                                    disabled
+                                  />
+                                </td>
+                                <td>
+                                  <Input
+                                    name="quotedPrice"
+                                    value={quotedPrice}
+                                    type="text"
+                                    onChange={(value) => {
+                                      const newValue = value.target.value;
+                                      setDarFormData((prev) => {
+                                        let newData = [...prev];
+                                        let selectedProductsCopy = [
+                                          ...prev[formIndex].selectedProducts,
+                                        ];
+                                        selectedProductsCopy[productIndex] = {
+                                          ...selectedProductsCopy[productIndex],
+                                          quotedPrice: newValue,
+                                        };
+                                        newData[formIndex] = {
+                                          ...prev[formIndex],
+                                          selectedProducts:
+                                            selectedProductsCopy,
+                                        };
 
-                  <div class="col-md-12">
-                    <div className="form-group d-flex">
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <Input
-                            className="col-md-12 m-0"
-                            style={{ width: "100%" }}
-                            type="text"
-                            value={ProductName}
-                            disabled
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <Input
-                            className="col-md-12 m-0"
-                            style={{ width: "100%" }}
-                            type="text"
-                            value={DarProductPrice}
-                            disabled
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <Input
-                            className="col-md-12 m-0"
-                            style={{ width: "100%" }}
-                            type="text"
-                            value={QuotedPrice}
-                            disabled
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex mt-1">
-                          <Input
-                            className="col-md-12 m-0"
-                            style={{ width: "100%" }}
-                            type="text"
-                            value={productValue}
-                            disabled
-                          />
-                        </div>
-                      </div>
+                                        return newData;
+                                      });
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <Input
+                                    name="productValue"
+                                    value={productValue}
+                                    type="text"
+                                    onChange={(value) => {
+                                      const newValue = value.target.value;
+                                      setDarFormData((prev) => {
+                                        let newData = [...prev];
+                                        let selectedProductsCopy = [
+                                          ...prev[formIndex].selectedProducts,
+                                        ];
+                                        selectedProductsCopy[productIndex] = {
+                                          ...selectedProductsCopy[productIndex],
+                                          productValue: newValue,
+                                        };
+                                        newData[formIndex] = {
+                                          ...prev[formIndex],
+                                          selectedProducts:
+                                            selectedProductsCopy,
+                                        };
+
+                                        return newData;
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            )
+                          )}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
-                </div> */}
+                )}
 
                 <label class="col-md-12 mt-2">
                   Call Type<span style={{ color: "red" }}>*</span>
@@ -468,9 +566,6 @@ function DarComponent({
                     style={{ width: "100%" }}
                     placeholder="Select"
                     onChange={(callTypeValue) => {
-                      // let callTypeData = CallTypeList?.find(
-                      //   (item) => item?.id === callTypeValue
-                      // );
                       setDarFormData((prev) => {
                         let newData = [...prev];
                         newData[formIndex] = {
@@ -546,16 +641,16 @@ function DarComponent({
                   Expected Order Value<span style={{ color: "red" }}>*</span>
                 </label>
                 <div className="col-md-12">
-                  <Input
+                  <InputNumber
                     style={{ width: "100%" }}
                     type="number"
-                    onChange={(e) => {
-                      // setExpectedOrdervalue(e.target.value);
+                    controls={false}
+                    onChange={(eorValue) => {
                       setDarFormData((prev) => {
                         let newData = [...prev];
                         newData[formIndex] = {
                           ...prev[formIndex],
-                          expectedOrderValue: e.target.value,
+                          expectedOrderValue: eorValue,
                         };
                         return newData;
                       });
@@ -578,7 +673,7 @@ function DarComponent({
                             let newData = [...prev];
                             newData[formIndex] = {
                               ...prev[formIndex],
-                              monthOfOrder: event?.target?.value,
+                              monthOfOrder: event,
                             };
                             return newData;
                           });
@@ -616,17 +711,17 @@ function DarComponent({
                   </Select>
                 </div>
 
-                {darFormData?.status?.id === 1 && (
+                {darFormData?.status === 1 && (
                   <div>
                     <label class="col-md-12 mt-2">Next Action Date</label>
                     <div className="col-md-12">
                       <Space>
                         <ConfigProvider>
                           <DatePicker
-                            defaultValue={dayjs(Date.now())}
                             value={
-                              dayjs(darFormData?.statusData?.nextActionDate) ||
-                              dayjs(Date.now())
+                              darFormData?.statusData?.nextActionDate
+                                ? dayjs(darFormData?.statusData?.nextActionDate)
+                                : null
                             }
                             disabled={disabledField}
                             style={{ width: "100%" }}
@@ -636,7 +731,6 @@ function DarComponent({
                                 newData[formIndex] = {
                                   ...prev[formIndex],
                                   statusData: {
-                                    // ...prev[formIndex]?.statusData,
                                     nextActionDate: event,
                                   },
                                 };
@@ -649,7 +743,7 @@ function DarComponent({
                     </div>
                   </div>
                 )}
-                {darFormData?.status?.id === 2 && (
+                {darFormData?.status === 2 && (
                   <div>
                     <label class="col-md-12 mt-2">Closing Date</label>
                     <div className="col-md-12">
@@ -658,8 +752,9 @@ function DarComponent({
                           <DatePicker
                             defaultValue={dayjs(Date.now())}
                             value={
-                              dayjs(darFormData?.statusData?.darClosingDate) ||
-                              dayjs(Date.now())
+                              darFormData?.statusData?.darClosingDate
+                                ? dayjs(darFormData?.statusData?.darClosingDate)
+                                : null
                             }
                             disabled={disabledField}
                             style={{ width: "100%" }}
@@ -669,7 +764,6 @@ function DarComponent({
                                 newData[formIndex] = {
                                   ...prev[formIndex],
                                   statusData: {
-                                    // ...prev[formIndex]?.statusData,
                                     darClosingDate: event,
                                   },
                                 };
@@ -682,7 +776,7 @@ function DarComponent({
                     </div>
                   </div>
                 )}
-                {darFormData?.status?.id === 3 && (
+                {darFormData?.status === 3 && (
                   <div>
                     <label class="col-md-12 mt-2">Lost Reason</label>
                     <div className="col-md-12">
@@ -794,11 +888,11 @@ function DarComponent({
                   <div>
                     <label class="col-md-12 mt-2">Order Value</label>
                     <div className="col-md-12">
-                      <Input
+                      <InputNumber
                         size={"middle"}
                         style={{ width: "100%" }}
-                        type="text"
-                        // disabled
+                        type="number"
+                        controls={false}
                         onChange={(event) => {
                           setDarFormData((prev) => {
                             let newData = [...prev];
@@ -806,7 +900,7 @@ function DarComponent({
                               ...prev[formIndex],
                               opportunityStatusData: {
                                 ...prev[formIndex]?.opportunityStatusData,
-                                orderValue: event?.target?.value,
+                                orderValue: event,
                               },
                             };
                             return newData;
@@ -818,18 +912,19 @@ function DarComponent({
                     </div>
                     <label class="col-md-12 mt-2">Advance %</label>
                     <div className="col-md-12">
-                      <Input
+                      <InputNumber
                         size={"middle"}
                         style={{ width: "100%" }}
-                        type="text"
-                        onChange={(event) => {
+                        type="number"
+                        controls={false}
+                        onChange={(eventValue) => {
                           setDarFormData((prev) => {
                             let newData = [...prev];
                             newData[formIndex] = {
                               ...prev[formIndex],
                               opportunityStatusData: {
                                 ...prev[formIndex]?.opportunityStatusData,
-                                advancePay: event?.target?.value,
+                                advancePay: eventValue,
                               },
                             };
                             return newData;
@@ -850,6 +945,27 @@ function DarComponent({
                               ...prev[formIndex],
                               opportunityStatusData: {
                                 ...prev[formIndex]?.opportunityStatusData,
+                                gstPerc: event?.target?.value,
+                              },
+                            };
+                            return newData;
+                          });
+                        }}
+                        value={darFormData?.opportunityStatusData?.gstPerc}
+                        disabled={disabledField}
+                      />
+                    </div>
+                    <div className="col-md-12 mt-3">
+                      <Input
+                        style={{ width: "100%" }}
+                        type="text"
+                        onChange={(event) => {
+                          setDarFormData((prev) => {
+                            let newData = [...prev];
+                            newData[formIndex] = {
+                              ...prev[formIndex],
+                              opportunityStatusData: {
+                                ...prev[formIndex]?.opportunityStatusData,
                                 gst: event?.target?.value,
                               },
                             };
@@ -857,56 +973,23 @@ function DarComponent({
                           });
                         }}
                         value={darFormData?.opportunityStatusData?.gst}
-                        disabled={disabledField}
+                        disabled={true}
                       />
-                    </div>
-                    <div className="col-md-12 mt-3">
-                      <Input
-                        style={{ width: "100%" }}
-                        type="text"
-                        onChange={(event) => {
-                          setDarFormData((prev) => {
-                            let newData = [...prev];
-                            newData[formIndex] = {
-                              ...prev[formIndex],
-                              opportunityStatusData: {
-                                ...prev[formIndex]?.opportunityStatusData,
-                                taxPrice: event?.target?.value,
-                              },
-                            };
-                            return newData;
-                          });
-                        }}
-                        value={darFormData?.opportunityStatusData?.taxPrice}
-                        disabled={disabledField}
-                      />
-                    </div>
-                    <div className="col-md-12 mt-3">
-                      <button
-                        className="FunctionButton5"
-                        style={{
-                          backgroundColor: "#e8d105",
-                          color: "black",
-                          width: "120px",
-                        }}
-                        onClick={calculate}
-                      >
-                        Calculate
-                      </button>
                     </div>
                     <label class="col-md-12 mt-2">Delivery %</label>
                     <div className="col-md-12">
-                      <Input
+                      <InputNumber
                         style={{ width: "100%" }}
-                        type="text"
-                        onChange={(event) => {
+                        type="number"
+                        controls={false}
+                        onChange={(eventValue) => {
                           setDarFormData((prev) => {
                             let newData = [...prev];
                             newData[formIndex] = {
                               ...prev[formIndex],
                               opportunityStatusData: {
                                 ...prev[formIndex]?.opportunityStatusData,
-                                deliveryPay: event?.target?.value,
+                                deliveryPay: eventValue,
                               },
                             };
                             return newData;
@@ -918,17 +1001,18 @@ function DarComponent({
                     </div>
                     <label class="col-md-12 mt-2">Training %</label>
                     <div className="col-md-12">
-                      <Input
+                      <InputNumber
                         style={{ width: "100%" }}
-                        type="text"
-                        onChange={(event) => {
+                        type="number"
+                        controls={false}
+                        onChange={(eventValue) => {
                           setDarFormData((prev) => {
                             let newData = [...prev];
                             newData[formIndex] = {
                               ...prev[formIndex],
                               opportunityStatusData: {
                                 ...prev[formIndex]?.opportunityStatusData,
-                                trainingPay: event?.target?.value,
+                                trainingPay: eventValue,
                               },
                             };
                             return newData;
@@ -940,25 +1024,39 @@ function DarComponent({
                     </div>
                     <label class="col-md-12 mt-2">Actual Value</label>
                     <div className="col-md-12">
-                      <Input
+                      <InputNumber
                         style={{ width: "100%" }}
-                        type="text"
-                        onChange={(event) => {
+                        type="number"
+                        onChange={(eventValue) => {
                           setDarFormData((prev) => {
                             let newData = [...prev];
                             newData[formIndex] = {
                               ...prev[formIndex],
                               opportunityStatusData: {
                                 ...prev[formIndex]?.opportunityStatusData,
-                                actualValue: event?.target?.value,
+                                actualValue: eventValue,
                               },
                             };
                             return newData;
                           });
                         }}
                         value={darFormData?.opportunityStatusData?.actualValue}
-                        disabled={disabledField}
+                        disabled={true}
                       />
+                    </div>
+                    <div className="col-md-12 mt-3">
+                      <Button
+                        className="FunctionButton5"
+                        style={{
+                          backgroundColor: "#e8d105",
+                          color: "black",
+                          width: "120px",
+                        }}
+                        onClick={calculate}
+                        disabled={disabledField}
+                      >
+                        Calculate
+                      </Button>
                     </div>
                   </div>
                 )}
@@ -986,7 +1084,14 @@ function DarComponent({
                   <Upload
                     accept="image/*, application/*"
                     beforeUpload={(file) => {
-                      setUploadFile([file]);
+                      setDarFormData((prev) => {
+                        let newAr = [...prev];
+                        newAr[formIndex] = {
+                          ...prev[formIndex],
+                          uploadFile: file,
+                        };
+                        return newAr;
+                      });
                       return false;
                     }}
                     showUploadList={{
@@ -995,10 +1100,15 @@ function DarComponent({
                     }}
                     onPreview={handlePreview}
                     onRemove={handleRemove}
-                    fileList={uploadFile}
+                    fileList={
+                      darFormData?.uploadFile ? [darFormData?.uploadFile] : []
+                    }
                     style={{ outline: "none", border: "none" }}
+                    disabled={disabledField}
                   >
-                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                    <Button disabled={disabledField} icon={<UploadOutlined />}>
+                      Click to Upload
+                    </Button>
                   </Upload>
                 </div>
                 <Modal
