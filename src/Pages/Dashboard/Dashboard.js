@@ -10,10 +10,6 @@ import HolidayListLogo from '../../assets/appointment.png';
 import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
-    const navigate = useNavigate();
-
-    const data1 = localStorage.getItem('EmpId');
-    console.log(data1);
 
     return (
         <div>

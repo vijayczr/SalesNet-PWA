@@ -1,0 +1,11 @@
+.FunctionButton5 {
+    margin-right: 10px;
+    color: white;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    background-color: #183985;
+    width: 80px;
+    border :none;
+    font-weight: bold;
+    outline: none;
+}

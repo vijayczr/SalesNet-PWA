@@ -15,6 +15,7 @@ export default function HeaderDashboard() {
     const [loginErrorMssg, SetLoginErrorMssg] = useState("");
     const [resCOlor, SetresCOlor] = useState("");
     const [profileData, setProfileData] = useState("");
+    const [ImageString, setImageString] = useState("");
 
     const Reset = () => {
         setOldPassword("");
@@ -44,10 +45,11 @@ export default function HeaderDashboard() {
             if (profileData.resCode === 200) {
                 console.log(profileData.resData);
                 setProfileData(profileData.resData);
+                setImageString(profileData.resData.image)
             }
     }
-    localStorage.setItem('userImage', profileData.image);
-    const base64Image = `data:image/png;base64, ${profileData.image}`;
+    localStorage.setItem('userImage', ImageString);
+    const base64Image = `data:image/png;base64, ${ImageString}`;
 
 
     async function ChangePassword() {

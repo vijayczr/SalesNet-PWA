@@ -1,55 +1,120 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
-import { useNavigate } from "react-router-dom";
-import { ConfigProvider, DatePicker, Space, Select } from 'antd';
-import dayjs from 'dayjs';
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Button } from "antd";
+import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
+import useLocalStorage from "../../../hooks/useLocalStorage";
+import DarComponent from "../../../Components/DarComponent/DarComponent";
+import DarHeader from "../../../Components/DarHeader/DarHeader";
+import "../AddDar/AddDar.css";
+import { Spin } from "antd";
+import { submitDarForm, uploadDarFile } from "../../../utils/api";
+import dayjs from "dayjs";
 
 export default function AddDar() {
+  const [searchparams] = useSearchParams();
   const navigate = useNavigate();
-  const [ProfileData, setProfileData] = useState("");
-  const [Branch, setBranch] = useState("");
+
+  const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
+  const { userData } = useContext(UserDataContext);
+
+  // const [uploadFile, setUploadFile] = useState([]);
+
+  const [darHeaderData, setDarHeaderData] = useState({
+    profileData: userData,
+    applicationEngineer: null,
+    leadType: null,
+    joiningDate: dayjs(),
+    visitTime: "12:00 AM",
+    customer: null,
+  });
+
+  const [darFormData, setDarFormData] = useState([
+    {
+      contactPerson: {
+        custId: null,
+        phoneNo: null,
+        mobileNo: null,
+        department: null,
+        designation: null,
+        email: null,
+      },
+      principal: {},
+      selectedProducts: [],
+      callType: null,
+      callStatus: null,
+      darVertical: null,
+      expectedOrderValue: null,
+      monthOfOrder: dayjs(),
+      status: null,
+      statusData: null,
+      opportunityStatus: null,
+      opportunityStatusData: { actualValue: null },
+      remark: "",
+      uploadFile: null,
+    },
+  ]);
+
+  const [loading, setLoading] = useState(false);
   const [AppEngList, setAppEngList] = useState(null);
-  const [Appeng, setAppeng] = useState(null);
-  const [LeadType, setLeadType] = useState(null);
-  const [JoiningDate1, setJoiningDate1] = useState(null);
-  const [TodayTime, setTodayTime] = useState("01:00 PM");
+  const [customerList, setcustomerList] = useState(null);
+  const [principalList, setPrincipalList] = useState(null);
+  const [customerContactList, setCustomerContactList] = useState(null);
 
-  const [CustomerList, setCustomerList] = useState(null);
-
-  // setJoiningDate1(new Date().toLocaleDateString());
   useEffect(() => {
-    let ignore = false;
-
-    if (!ignore) { getProfiledata(); GetAppEnggList() ;SearchCustomer(); }
-    return () => { ignore = true; }
+    GetAppEnggList();
+    SearchCustomer();
+    getPrincipalList();
   }, []);
 
-  var newDate = new Date().toLocaleDateString();
+  useEffect(() => {
+    getPersonContactList(darHeaderData?.customer);
+    darFormData?.map((_, index) => {
+      setDarFormData((prev) => {
+        let newData = [...prev];
+        newData[index] = {
+          ...prev[index],
+          contactPerson: {
+            ...prev[index].contactPerson,
+            custId: {},
+          },
+        };
+        return newData;
+      });
+    });
+  }, [darHeaderData?.customer]);
 
-  async function getProfiledata() {
-
+  async function getPersonContactList(customerId) {
     const res = await fetch(
-      `${process.env.BaseURL}/Authentication/ProfileData`,
+      `${process.env.REACT_APP_BASE_URL}/Dar/CustpersonList?CustId=${customerId}`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          Authorization: `Bearer ${jwtStoredValue}`,
         },
       }
     );
-    const profileData = await res.json();
-    if (profileData.resCode === 200) {
-      console.log(profileData.resData);
-      setProfileData(profileData.resData);
-      console.log(ProfileData.branch);
-      setBranch(profileData.resData.branch)
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setCustomerContactList(Response.resData);
     }
   }
 
-  const NavBack = () => {
-    navigate(-1);
+  async function getPrincipalList() {
+    const res = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/Dar/PrincipalList`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtStoredValue}`,
+        },
+      }
+    );
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setPrincipalList(Response.resData);
+    }
   }
-
 
   async function GetAppEnggList() {
     const res = await fetch(
@@ -57,211 +122,226 @@ export default function AddDar() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
         },
       }
-    )
-    const Response = await res.json();
-    if (Response.resCode === 200) {
-      console.log(Response.resData);
-      setAppEngList(Response.resData)
-    }
-  }
-
-  const Date2 = (date) => {
-    console.log(date);
-    setJoiningDate1(date);
-  };
-
-  async function SearchCustomer() {
-    const res = await fetch(
-        `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-            },
-        }
     );
     const Response = await res.json();
     if (Response.resCode === 200) {
-      setCustomerList(Response.resData);
-      console.log(Response.resData);
+      setAppEngList(Response.resData);
     }
+  }
 
-};
+  async function SearchCustomer() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtStoredValue}`,
+        },
+      }
+    );
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setcustomerList(Response.resData);
+    }
+  }
 
+  const addForm = () => {
+    setDarFormData((prev) => {
+      let newData = [...prev];
+      newData.push({
+        contactPerson: {
+          custId: null,
+          phoneNo: null,
+          mobileNo: null,
+          department: null,
+          designation: null,
+          email: null,
+        },
+        principal: {},
+        selectedProducts: [],
+        callType: null,
+        callStatus: null,
+        darVertical: null,
+        expectedOrderValue: null,
+        monthOfOrder: new Date(),
+        status: null,
+        statusData: null,
+        opportunityStatus: null,
+        opportunityStatusData: null,
+        remark: "",
+        uploadFile: null,
+      });
+
+      return newData;
+    });
+  };
+
+  const submitForm = async () => {
+    try {
+      await Promise.allSettled(
+        darFormData.map(async (darForm) => {
+          let selectedProductsArr = darForm?.selectedProducts?.map((item) => ({
+            key: item?.key,
+            DarProductPrice: item?.techlabPrice,
+            QuotedPrice: Number(item?.quotedPrice),
+            ProductValue: Number(item?.productValue),
+          }));
+
+          let submitFormData = {
+            CustomerId: darHeaderData?.customer,
+            VisitDate: darHeaderData?.joiningDate,
+            VisitTime: darHeaderData?.visitTime,
+            LeadTypeId: darHeaderData?.leadType,
+            AppEngId: darHeaderData?.applicationEngineer,
+            ContactPersonId: darForm?.contactPerson?.custId,
+            CallTypeId: darForm?.callType,
+            CallStatusId: darForm?.callStatus,
+            VerticalId: darForm?.darVertical,
+            OpportunityStatus: darForm?.opportunityStatus,
+            DarStatusId: darForm?.status,
+            Price: darForm?.expectedOrderValue,
+            DarRemark: darForm?.remark,
+            ...darForm?.statusData,
+            ...darForm?.opportunityStatusData,
+            MonthOfOrder: darForm?.monthOfOrder,
+            Products: selectedProductsArr,
+          };
+
+          try {
+            const darFormSubmitResponse = await submitDarForm(
+              jwtStoredValue,
+              submitFormData
+            );
+            console.log(
+              darFormSubmitResponse && darFormData?.uploadFile,
+              darFormSubmitResponse,
+              darForm?.uploadFile
+            );
+            if (darFormSubmitResponse && darForm?.uploadFile) {
+              const darUploadFileResponse = await uploadDarFile(
+                jwtStoredValue,
+                darFormSubmitResponse,
+                darForm.uploadFile
+              );
+            }
+
+            setLoading(false);
+            navigate("/DarSummary");
+          } catch (err) {
+            console.log("Error found", err);
+          }
+        })
+      );
+    } catch (error) {
+      console.log("Promise all settled Failed", error);
+    }
+  };
+
+  const removeForm = (index) => {
+    if (
+      (darFormData?.length === 1 && index === 0) ||
+      index >= darFormData?.length
+    ) {
+      return;
+    }
+    setDarFormData((prev) => {
+      let newData = [...prev];
+      newData.splice(index, 1);
+      return newData;
+    });
+  };
 
   return (
-    <div>
+    <Spin
+      spinning={loading}
+      style={{ top: "15rem", transform: "scale(1.2)" }}
+      size="large"
+      tip="Submitting the form"
+    >
+      <div className="add-dar-container">
+        <AppHeader data={userData} />
 
-      <AppHeader data={ProfileData} />
-
-      <div className="breadcrumb-area">
-        <div className="container-fluid">
-          <div className="row pt-1 pb-1">
-            <div className="col-md-6">
-              <nav aria-label="breadcrumb">
-                <h2>DAR Entry</h2>
-              </nav>
-            </div>
-            <div className="col-md-6">
-              <ol className="breadcrumb d-flex justify-content-end bg-transparent">
-                <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                <li className="breadcrumb-item active" aria-current="page">DAR Entry</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
-
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="bg-boxshadow">
-              <div className="ibox-content">
-                <center >
-                  {/* <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button> */}
-                  <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
-                </center>
-
-
-                {/* <div className="box-footer">
-                  <center style={{ padding: "10px" }}>
-                    <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
-                  </center>
-                </div> */}
-
-                <div className="row mt-3">
-
-                  <div className="col-lg-4 ">
-                    <div className="form-group d-flex">
-                      <label className="col-md-5 mt-1 mb-0">Employee Name<span className="float-right">:</span></label>
-                      <div className="col-md-7">
-                        <input
-                          style={{ width: "100%" }}
-                          type='text'
-                          value={ProfileData.userName}
-                          disabled
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-4 ">
-                    <div className="form-group d-flex">
-                      <label className="col-md-5 mt-1 mb-0">Application Engineer<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
-                      <div className="col-md-7">
-                        <select
-                          style={{ width: "100%" }}
-                          onChange={(e) => { setAppeng(e.target.value) }}
-                        >
-                          <option value={"null"}>Select</option>
-                          {AppEngList ?
-                            AppEngList.map((e) => (
-                              <option key={e.empId} value={e.empId} >{e.empName}</option>
-                            )) : null}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-4 ">
-                    <div className="form-group d-flex">
-                      <label className="col-md-5 mt-1 mb-0">Lead Type<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
-                      <div className="col-md-7">
-                        <select
-                          style={{ width: "100%" }}
-                          onChange={(e) => { setLeadType(e.target.value) }}
-                        >
-                          <option value={null}>Select</option>
-                          <option value={1}>Self</option>
-                          <option value={2}>Lead</option>
-
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-4 ">
-                    <div className="form-group d-flex">
-                      <label className="col-md-5 mt-1 mb-0">Lead No<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
-                      <div className="col-md-7">
-                        <select
-                          style={{ width: "100%" }}
-                        // onChange={(e) => { setLeadType(e.target.value) }}
-                        >
-                          <option value={null}>Select</option>
-
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-4">
-                    <div className="form-group d-flex">
-                      <label for="inputEmail3" className="col-md-5 mt-1">Date<span className="pull-right">:</span></label>
-                      <div className="col-md-7">
-                        {/* <Space >
-                                                    <DatePicker style={{ width: "100%" }} onChange={Date2} />
-                                                </Space> */}
-                        <Space >
-                          <ConfigProvider>
-                            <DatePicker
-                               defaultValue={dayjs(Date.now())}
-                               style={{ width: "100%" }} onChange={Date2} />
-                          </ConfigProvider>
-                        </Space>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-4 ">
-                    <div className="form-group d-flex">
-                      <label className="col-md-5 mt-1 mb-0">Visit Time<span className="float-right">:</span></label>
-                      <div className="col-md-7">
-                        <input
-                          style={{ width: "100%" }}
-                          type='text'
-                          onChange={(e) => { setTodayTime(e.target.value); }}
-                          value={TodayTime}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-8 ">
-                    <div className="form-group d-flex">
-                      <label className="col-md-3 mt-1 mb-0">Customer<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
-                      <div className="col-md-9">
-                        <Select
-                          showSearch
-                          style={{ width: 400 }}
-                          placeholder="Search to Select"
-                          onChange={(e)=> {console.log(e);}}
-                          optionFilterProp="children"
-                          filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                          }
-                          options={CustomerList}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
+        <div className="breadcrumb-area">
+          <div className="container-fluid">
+            <div className="row pt-1 pb-1">
+              <div className="col-md-6">
+                <nav aria-label="breadcrumb">
+                  <h2>DAR Entry</h2>
+                </nav>
+              </div>
+              <div className="col-md-6">
+                <ol className="breadcrumb d-flex justify-content-end bg-transparent">
+                  <li className="breadcrumb-item">
+                    <a href="/Dashboard">Dashboard</a>
+                  </li>
+                  <li className="breadcrumb-item active" aria-current="page">
+                    DAR Entry
+                  </li>
+                </ol>
               </div>
             </div>
           </div>
         </div>
 
-      </div>
+        <center>
+          <Button
+            size={"large"}
+            className="FunctionButton"
+            style={{
+              backgroundColor: "#757575",
+              color: "white",
+              marginTop: "1rem",
+            }}
+            onClick={() => navigate("/DarSummary")}
+          >
+            Back
+          </Button>
+        </center>
 
-    </div>
-  )
+        <DarHeader
+          darHeaderData={darHeaderData}
+          setDarHeaderData={setDarHeaderData}
+          AppEngList={AppEngList}
+          customerList={customerList}
+          disabledField={false}
+        />
+
+        <div className="form-container">
+          {darFormData?.map((formData, index) => {
+            return (
+              <div>
+                <DarComponent
+                  darFormData={formData}
+                  setDarFormData={setDarFormData}
+                  formIndex={index}
+                  customerContactList={customerContactList}
+                  principalList={principalList}
+                  disabledField={false}
+                  removeForm={removeForm}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="btn-container">
+          <Button className="add-form-btn" onClick={addForm}>
+            Add Form +
+          </Button>
+          <Button
+            className="submit-form-btn"
+            onClick={() => {
+              submitForm();
+              setLoading(true);
+            }}
+          >
+            Submit
+          </Button>
+        </div>
+      </div>
+    </Spin>
+  );
 }

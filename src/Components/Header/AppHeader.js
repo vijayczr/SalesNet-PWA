@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import logo2 from '../../assets/logo.png';
-import defaultpfp from '../../assets/Default_pfp.svg.png'
 import { Button, Popover } from "antd";
 import '../../Pages/Dashboard/Dashboard.css'
 import { LogoutOutlined,SettingOutlined } from '@ant-design/icons';
