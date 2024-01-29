@@ -20,6 +20,7 @@ import TargetEdit from "./Pages/HRNavBar/TargetEdit/TargetEdit";
 import DARSummary from "./Pages/DAR/DARSummary/DARSummary";
 import AddDar from "./Pages/DAR/AddDar/AddDar";
 import ViewDar from "./Pages/DAR/ViewDar/ViewDar";
+import EditDar from "./Pages/DAR/EditDar/EditDar";
 import UserDataContextProvider from "./Context/UserDataContext/UserDataContextProvider";
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/DarSummary" element={<DARSummary />} />
           <Route path="/AddDar" element={<AddDar />} />
           <Route path="/ViewDar" element={<ViewDar />} />
+          <Route path="/EditDar" element={<EditDar />} />
         </Routes>
       </BrowserRouter>
       </UserDataContextProvider>

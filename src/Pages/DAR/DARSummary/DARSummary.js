@@ -84,6 +84,7 @@ export default function DARSummary() {
             type="button"
             className="viewbutton"
             style={{ marginRight: "0px" }}
+            onClick={() => EditDar(record.darId)}
           >
             <EditOutlined />{" "}
           </button>
@@ -161,6 +162,16 @@ export default function DARSummary() {
     // navigate("/EditEmployee", { replace: true });
     navigate({
       pathname: "/ViewDar",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
+  };
+
+  const EditDar = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate({
+      pathname: "/EditDar",
       search: createSearchParams({
         id: e,
       }).toString(),
