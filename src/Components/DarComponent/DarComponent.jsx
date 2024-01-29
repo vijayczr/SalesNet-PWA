@@ -500,6 +500,7 @@ function DarComponent({
                                     name="quotedPrice"
                                     value={quotedPrice}
                                     type="text"
+                                    disabled={disabledField}
                                     onChange={(value) => {
                                       const newValue = value.target.value;
                                       setDarFormData((prev) => {
@@ -527,6 +528,7 @@ function DarComponent({
                                     name="productValue"
                                     value={productValue}
                                     type="text"
+                                    disabled={disabledField}
                                     onChange={(value) => {
                                       const newValue = value.target.value;
                                       setDarFormData((prev) => {
