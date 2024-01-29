@@ -58,6 +58,7 @@ function DarHeader({
                   <Select
                     style={{ width: "100%", height: "2rem" }}
                     placeholder="Select"
+                    value={darHeaderData?.applicationEngineer}
                     onChange={(appEngId) => {
                       setDarHeaderData((prev) => ({
                         ...prev,

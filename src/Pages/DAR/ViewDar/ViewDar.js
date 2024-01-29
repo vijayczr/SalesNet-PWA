@@ -57,6 +57,7 @@ export default function ViewDar(props) {
     getDarData();
     GetAppEnggList();
     SearchCustomer();
+    GetPrincipalList();
   }, []);
 
   useEffect(() => {
@@ -97,7 +98,7 @@ export default function ViewDar(props) {
         applicationEngineer: responseData?.appEngId,
         leadType: responseData?.leadTypeId,
         joiningDate: responseData.visitDate,
-        visitTime: new Date(responseData.visitTime),
+        visitTime: responseData.visitTime,
         customer: responseData?.customerId,
       }));
 
