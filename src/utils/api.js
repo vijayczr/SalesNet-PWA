@@ -32,6 +32,24 @@ export const getPersonContactedData = async (personId, jwtToken) => {
   }
 };
 
+export const DeleteDar = async (DarId, jwtToken) => {
+  const res = await fetch(
+    `${process.env.REACT_APP_BASE_URL}/Dar/DeleteDar?DarId=${DarId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+  );
+  const personResponse = await res.json();
+  if (personResponse.resCode === 200) {
+    return personResponse?.resData;
+  } else {
+    console.log("Couldn't fetch contacted person data");
+  }
+};
+
 export const getProductLists = async (productId, jwtToken) => {
   const res = await fetch(
     `${process.env.REACT_APP_BASE_URL}/Dar/ProductListByPrincipalId?PrincipalId=${productId}`,

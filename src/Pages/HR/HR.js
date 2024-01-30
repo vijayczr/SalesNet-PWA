@@ -17,6 +17,8 @@ export default function HR() {
   const [FilterName, setFilterName] = useState(null);
   const [FilterStatus, setFilterStatus] = useState("true");
   const [FilterVertical, setFilterVertical] = useState(7);
+  const [DelEmpId, SetDelEmpId] = useState(null);
+
   const [FilterDesignation, setFilterDesignation] = useState(999);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -77,7 +79,7 @@ export default function HR() {
         <Space size="middle">
           <button type="button" className="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditEmpPage(record.userId)}><EditOutlined /> </button>
           <button type="button" className="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => ViewEmpPage(record.userId)}><FolderViewOutlined /> </button>
-          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
+          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => SetDelEmpId(record.userId)}><DeleteFilled /> </button>
           <button type="button" className="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Empprdct(record.userId)}><FileAddOutlined /></button>
 
 
@@ -91,11 +93,11 @@ export default function HR() {
                   </button>
                 </div>
                 <div className="modal-body">
-                  <h5>Do you really want to delete user {record.name}</h5>
+                  <h5>Do you really want to delete user {DelEmpId}</h5>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="button" className="btn btn-primary" onClick={() => DelEmp(record.userId)}>Delete</button>
+                  <button type="button" className="btn btn-primary" data-dismiss="modal" aria-label="Close" onClick={() => DelEmp(DelEmpId)}>Delete</button>
                 </div>
               </div>
             </div>

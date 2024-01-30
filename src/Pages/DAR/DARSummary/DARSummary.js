@@ -22,6 +22,7 @@ export default function DARSummary() {
   const [ProfileData, setProfileData] = useState(userData);
   const [data, setData] = useState();
   const [FilterName, setFilterName] = useState(null);
+  const [DeleteddarId, setDeleteddarId] = useState(null);
 
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -30,6 +31,27 @@ export default function DARSummary() {
       position: ["topRight"],
     },
   });
+
+  const DeleteDar = async (e) => {
+    console.log(e);
+    const res = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/Dar/DeleteDar?DarId=${e}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtStoredValue}`,
+        },
+      }
+    );
+    const personResponse = await res.json();
+    if (personResponse.resCode === 200) {
+      
+      window.location.reload();
+      return personResponse?.resData;
+    } else {
+      console.log("Couldn't fetch contacted person data");
+    }
+  };
 
   const columns = [
     {
@@ -102,8 +124,9 @@ export default function DARSummary() {
             data-target="#exampleModalCenter"
             className="viewbutton2"
             style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => setDeleteddarId(record.darId)}
           >
-            <DeleteFilled />{" "}
+            <DeleteFilled />
           </button>
           <button
             type="button"
@@ -135,7 +158,7 @@ export default function DARSummary() {
                   </button>
                 </div>
                 <div className="modal-body">
-                  <h5>Do you really want to delete user {record.name}</h5>
+                  <h5>Do you really want to delete DAR {DeleteddarId} ??</h5>
                 </div>
                 <div className="modal-footer">
                   <button
@@ -145,7 +168,9 @@ export default function DARSummary() {
                   >
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary">
+                  <button type="button" 
+                    data-dismiss="modal"
+                    aria-label="Close" className="btn btn-primary" onClick={() => { DeleteDar(DeleteddarId)}}>
                     Delete
                   </button>
                 </div>
@@ -177,6 +202,8 @@ export default function DARSummary() {
       }).toString(),
     });
   };
+
+
 
   // useEffect(() => {
   //   let ignore = false;
