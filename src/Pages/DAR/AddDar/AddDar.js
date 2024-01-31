@@ -321,6 +321,7 @@ export default function AddDar() {
                   principalList={principalList}
                   disabledField={false}
                   removeForm={removeForm}
+                  formType={"Add"}
                 />
               </div>
             );

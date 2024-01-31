@@ -85,6 +85,7 @@ function DarHeader({
                 </label>
                 <div className="col-md-7">
                   <Select
+                    value={darHeaderData?.leadType}
                     style={{ width: "100%", height: "2rem" }}
                     placeholder="Select"
                     onChange={(leadTypeId) => {
@@ -110,14 +111,10 @@ function DarHeader({
                   <span className="float-right">:</span>
                 </label>
                 <div className="col-md-7">
-                  <Select
-                    style={{ width: "100%", height: "2rem" }}
-                    placeholder="Select"
-                    disabled={disabledField}
-                    // onChange={(e) => { setLeadType(e.target.value) }}
-                  >
-                    <option value={null}>Select</option>
-                  </Select>
+                  <Input
+                  value={darHeaderData?.LeadId}
+                  disabled
+                />
                 </div>
               </div>
             </div>

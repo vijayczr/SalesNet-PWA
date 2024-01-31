@@ -99,6 +99,7 @@ export default function ViewDar(props) {
         ...prev,
         applicationEngineer: responseData?.appEngId,
         leadType: responseData?.leadTypeId,
+        LeadId: responseData?.leadId,
         joiningDate: responseData.visitDate,
         visitTime: responseData.visitTime,
         customer: responseData?.customerId,
@@ -151,7 +152,8 @@ export default function ViewDar(props) {
           opportunityStatus: responseData.opportunityStatus,
           opportunityStatusData: formOpportunityData,
           remark: responseData.darRemark,
-          uploadFile: responseData.file
+          uploadFile: responseData.file,
+          darComment: responseData.darComment
         };
         return newData;
       });
@@ -291,6 +293,7 @@ export default function ViewDar(props) {
                   customerContactList={customerContactList}
                   principalList={principalList}
                   disabledField={true}
+                  formType={"View"}
                 />
               </div>
             );

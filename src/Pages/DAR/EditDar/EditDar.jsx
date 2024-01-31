@@ -106,6 +106,7 @@ export default function EditDar() {
             ...prev,
             applicationEngineer: responseData?.appEngId,
             leadType: responseData?.leadTypeId,
+            LeadId: responseData?.leadId,
             joiningDate: responseData.visitDate,
             visitTime: responseData.visitTime,
             customer: responseData?.customerId,
@@ -158,7 +159,8 @@ export default function EditDar() {
               opportunityStatus: responseData.opportunityStatus,
               opportunityStatusData: formOpportunityData,
               remark: responseData.darRemark,
-              uploadFile: responseData.file
+              uploadFile: responseData.file,
+              darComment: responseData.darComment
             };
             return newData;
           });
@@ -406,6 +408,7 @@ export default function EditDar() {
                     principalList={principalList}
                     disabledField={false}
                     removeForm={removeForm}
+                    formType={"Edit"}
                   />
                 </div>
               );

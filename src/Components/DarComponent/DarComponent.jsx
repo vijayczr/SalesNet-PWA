@@ -38,6 +38,7 @@ function DarComponent({
   principalList,
   disabledField,
   removeForm,
+  formType
 }) {
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
   const [previewFile, setPreviewFile] = useState();
@@ -1127,6 +1128,13 @@ function DarComponent({
                     src={previewFile}
                   />
                 </Modal>
+                {formType != "Add" && (
+                  <div>
+                    {darFormData?.darComment?.map((item, index) => (
+                          <p style={{marginBottom:"0px"}}>{item.commentDate}--{item.commentBy}--{item.comment}</p>
+                        ))}
+                  </div>
+                ) } 
               </div>
             </div>
           </div>
