@@ -10,7 +10,7 @@ import {
   Button,
 } from "antd";
 import dayjs from "dayjs";
-import { LeadList } from "../../utils/data";
+import { LeadList , ContinueLeadList } from "../../utils/data";
 
 function DarHeader({
   darHeaderData,
@@ -18,6 +18,7 @@ function DarHeader({
   AppEngList,
   customerList,
   disabledField,
+  formType
 }) {
   const { profileData, applicationEngineer, leadType } = darHeaderData;
 
@@ -85,7 +86,7 @@ function DarHeader({
                 </label>
                 <div className="col-md-7">
                   <Select
-                    value={darHeaderData?.leadType}
+                    value={(formType == "Continue") ? 3:darHeaderData?.leadType}
                     style={{ width: "100%", height: "2rem" }}
                     placeholder="Select"
                     onChange={(leadTypeId) => {
@@ -94,11 +95,14 @@ function DarHeader({
                         leadType: leadTypeId,
                       }));
                     }}
-                    disabled={disabledField}
+                    disabled={(formType == "Continue") ?true :disabledField}
                   >
-                    {LeadList?.map((leadItem) => (
+                    {(formType == "Continue") ? ContinueLeadList?.map((leadItem) => (
+                      <option value={leadItem?.id}>{leadItem?.value}</option>
+                    )): LeadList?.map((leadItem) => (
                       <option value={leadItem?.id}>{leadItem?.value}</option>
                     ))}
+                   
                   </Select>
                 </div>
               </div>

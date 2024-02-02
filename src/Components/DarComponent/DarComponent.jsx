@@ -38,13 +38,15 @@ function DarComponent({
   principalList,
   disabledField,
   removeForm,
-  formType
+  formType,
+  DarId
 }) {
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
   const [previewFile, setPreviewFile] = useState();
   const [showPreview, setShowPreview] = useState();
   const [productList, setProductList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [DarCommentSent, setDarCommentSent] = useState(null);
 
   const { contactPerson } = darFormData;
 
@@ -168,6 +170,29 @@ function DarComponent({
     }),
   };
 
+  async function PostComment() {
+    let PageData = {
+      DarId: Number(DarId),
+      DarComment: DarCommentSent
+  };
+  console.log(PageData);
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/AddComment`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(PageData),
+      }
+    )
+    const reportingData = await res.json();
+    if (reportingData.resCode === 200) {
+      console.log(reportingData.resData);
+      window.location.reload();
+    }
+  }
   return (
     <div className="container p-4">
       <div className="row">
@@ -1135,6 +1160,29 @@ function DarComponent({
                         ))}
                   </div>
                 ) } 
+                {formType != "Add" && (
+                  <div className="form-outline mt-2">
+                  <textarea className="form-control" id="textArea1" rows="1" placeholder='messege' style={{height:"100px"}}
+                    // value={VerificationDetails}
+                    onChange={(e) => { setDarCommentSent(e.target.value); console.log(DarCommentSent); }}
+                  >
+                  </textarea>
+                  <div className="col-md-12 mt-3">
+                      <Button
+                        className="FunctionButton5"
+                        style={{
+                          backgroundColor: "#e8d105",
+                          color: "black",
+                          width: "120px",
+                        }}
+                        onClick={PostComment}
+                      >
+                        Post Comment
+                      </Button>
+                    </div>
+
+                </div>
+                ) }
               </div>
             </div>
           </div>

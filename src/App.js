@@ -21,6 +21,7 @@ import DARSummary from "./Pages/DAR/DARSummary/DARSummary";
 import AddDar from "./Pages/DAR/AddDar/AddDar";
 import ViewDar from "./Pages/DAR/ViewDar/ViewDar";
 import EditDar from "./Pages/DAR/EditDar/EditDar";
+import ContinueDar from "./Pages/DAR/ContinueDar/ContinueDar";
 import UserDataContextProvider from "./Context/UserDataContext/UserDataContextProvider";
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/AddDar" element={<AddDar />} />
           <Route path="/ViewDar" element={<ViewDar />} />
           <Route path="/EditDar" element={<EditDar />} />
+          <Route path="/ContinueDar" element={<ContinueDar />} />
         </Routes>
       </BrowserRouter>
       </UserDataContextProvider>

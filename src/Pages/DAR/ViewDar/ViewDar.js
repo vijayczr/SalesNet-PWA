@@ -294,6 +294,9 @@ export default function ViewDar(props) {
                   principalList={principalList}
                   disabledField={true}
                   formType={"View"}
+                  DarId={searchparams.get(
+                    "id"
+                  )}
                 />
               </div>
             );

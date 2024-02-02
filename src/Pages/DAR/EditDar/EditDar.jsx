@@ -409,6 +409,9 @@ export default function EditDar() {
                     disabledField={false}
                     removeForm={removeForm}
                     formType={"Edit"}
+                    DarId={searchparams.get(
+                      "id"
+                    )}
                   />
                 </div>
               );

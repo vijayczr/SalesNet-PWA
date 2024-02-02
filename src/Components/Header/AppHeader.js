@@ -109,7 +109,7 @@ export default function AppHeader(props) {
             </nav>
             <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" style={{backgroundColor:"#f3f5f9"}}>
                 {
-                (`${localStorage.getItem('EmpId')}` === '1068') ? 
+                (`${localStorage.getItem('EmpId')}` === '297') ? 
                 <DarNavbar />:
 
                 <HrNavbar />

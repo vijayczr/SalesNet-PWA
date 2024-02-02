@@ -6,6 +6,7 @@ import {
   FolderViewOutlined,
   DeleteFilled,
   FileAddOutlined,
+  PlayCircleOutlined
 } from "@ant-design/icons";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
@@ -132,8 +133,9 @@ export default function DARSummary() {
             type="button"
             className="viewbutton3"
             style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => ContinueDar(record.darId)}
           >
-            <FileAddOutlined />
+            <PlayCircleOutlined />
           </button>
 
           <div
@@ -192,6 +194,17 @@ export default function DARSummary() {
       }).toString(),
     });
   };
+
+  const ContinueDar = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate({
+      pathname: "/ContinueDar",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
+  };
+
 
   const EditDar = (e) => {
     // navigate("/EditEmployee", { replace: true });

@@ -15,6 +15,12 @@ export const LeadList = [
   { id: 2, value: "Lead" },
 ];
 
+export const ContinueLeadList = [
+  { id: 1, value: "Self" },
+  { id: 2, value: "Lead" },
+  { id: 3, value: "Continue" },
+]
+
 export const DAR_VerticalList = [
   { id: 1, value: "ASG" },
   { id: 2, value: "ISG" },
