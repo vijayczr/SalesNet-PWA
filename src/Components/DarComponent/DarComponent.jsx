@@ -1160,7 +1160,7 @@ function DarComponent({
                         ))}
                   </div>
                 ) } 
-                {formType != "Add" && (
+                {formType != "Add" && formType != "Continue" && (
                   <div className="form-outline mt-2">
                   <textarea className="form-control" id="textArea1" rows="1" placeholder='messege' style={{height:"100px"}}
                     // value={VerificationDetails}

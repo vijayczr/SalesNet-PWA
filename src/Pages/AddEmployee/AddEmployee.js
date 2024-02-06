@@ -19,7 +19,7 @@ export default function AddEmployee() {
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata()
+    if (!ignore) getProfiledata();GetHeirarchy(10)
     return () => { ignore = true; }
   }, []);
 
@@ -648,6 +648,7 @@ export default function AddEmployee() {
                             <input
                               style={{ width: "100%" }}
                               type='text'
+                              maxLength={12}
                               value={Aadhar}
                               onChange={(e) => { setAadhar(e.target.value); console.log(Aadhar); }}
                               placeholder='Aadhar'
@@ -681,6 +682,7 @@ export default function AddEmployee() {
                             <input
                               style={{ width: "100%" }}
                               type='text'
+                              maxLength={10}
                               value={PAN}
                               onChange={(e) => { setPAN(e.target.value); console.log(PAN); }}
                               placeholder='PAN'
@@ -903,7 +905,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Attachments<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Resume/CV<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'
@@ -1076,7 +1078,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Total number of Experience<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Previous Experience<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
