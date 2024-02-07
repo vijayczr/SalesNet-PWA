@@ -1257,7 +1257,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Upload image<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Employee Photo<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'
