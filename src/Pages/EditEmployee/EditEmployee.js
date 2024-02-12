@@ -87,6 +87,7 @@ export default function EditEmployee(props) {
   }
   const cancelCourse = () => {
     document.getElementById("clearForm").reset();
+    navigate("/HR", { replace: true });
   }
 
   const [Name, setName] = useState(null);
@@ -132,8 +133,12 @@ export default function EditEmployee(props) {
   const [AniversaryDate, setAniversaryDate] = useState(null);
   const [BloodGroup, setBloodGroup] = useState(null);
   const [Peremail, setPeremail] = useState(null);
+
   const [EmerContact, setEmerContact] = useState(null);
   const [RelationWcontact, setRelationWcontact] = useState(null);
+  const [EmerContact2, setEmerContact2] = useState(null);
+  const [RelationWcontact2, setRelationWcontact2] = useState(null);
+
   const [LandlineNo, setLandlineNo] = useState(null);
 
   const [PAddress, setPAddress] = useState(null);
@@ -222,8 +227,12 @@ export default function EditEmployee(props) {
       setAniversaryDate((data.anniversary=== null)?null  :data.anniversary.toString().substring(0,10));
       setBloodGroup(data.bloodgroup);
       setPeremail(data.personalemail);
+
       setEmerContact(data.emergencyContact);
       setRelationWcontact(data.realtionwithContact);
+      setEmerContact2(data.emergencyContact2);
+      setRelationWcontact2(data.realtionwithContact2);
+
       setLandlineNo(data.landlineNumber);
       setPAddress(data.pAddress);
       setPCity(data.pCity);
@@ -332,8 +341,12 @@ export default function EditEmployee(props) {
     FormData1.append("Anniversary", AniversaryDate);
     FormData1.append("Bloodgroup", BloodGroup);
     FormData1.append("Personalemail", Peremail);
+
     FormData1.append("EmergencyContact", EmerContact);
     FormData1.append("realtionwithContact", RelationWcontact);
+    FormData1.append("EmergencyContact2", EmerContact2);
+    FormData1.append("realtionwithContact2", RelationWcontact2);
+
     FormData1.append("LandlineNumber", LandlineNo);
     FormData1.append("PAddress", PAddress);
     FormData1.append("PCity", PCity);
@@ -721,6 +734,7 @@ export default function EditEmployee(props) {
                               style={{ width: "100%" }}
                               type='text'
                               value={Aadhar}
+                              maxLength={12}
                               onChange={(e) => { setAadhar(e.target.value); console.log(Aadhar); }}
                               placeholder='Aadhar'
                               required
@@ -755,6 +769,7 @@ export default function EditEmployee(props) {
                               style={{ width: "100%" }}
                               type='text'
                               value={PAN}
+                              maxLength={10}
                               onChange={(e) => { setPAN(e.target.value); console.log(PAN); }}
                               placeholder='PAN'
                               required
@@ -982,7 +997,7 @@ export default function EditEmployee(props) {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Attachments<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Resume/CV<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'
@@ -1172,7 +1187,7 @@ export default function EditEmployee(props) {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Total number of Experience<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Previous Experience<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
@@ -1348,6 +1363,35 @@ export default function EditEmployee(props) {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
+                          <label className="col-md-5 mt-1 mb-0">Emergency Contact Number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <div className="col-md-7">
+                            <input
+                              style={{ width: "100%" }}
+                              type='text'
+                              required
+                              value={EmerContact2}
+                              onChange={(e) => setEmerContact2(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-6 ">
+                        <div className="form-group d-flex">
+                          <label className="col-md-5 mt-1 mb-0">relation with that number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <div className="col-md-7">
+                            <input
+                              style={{ width: "100%" }}
+                              type='text'
+                              placeholder='name'
+                              required
+                              value={RelationWcontact2}
+                              onChange={(e) => setRelationWcontact2(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-6 ">
+                        <div className="form-group d-flex">
                           <label className="col-md-5 mt-1 mb-0">landline Number<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
@@ -1361,7 +1405,7 @@ export default function EditEmployee(props) {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Upload image<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Employee Photo<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'

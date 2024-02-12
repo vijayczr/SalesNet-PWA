@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppHeader from "../../Components/Header/AppHeader";
 import '../AddEmployee/AddEmployee.css';
-import { DatePicker, Space ,Button, Modal } from 'antd';
+import { DatePicker, Space ,Button, Modal ,Checkbox  , CheckboxProps  } from 'antd';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 import { useNavigate,createSearchParams } from "react-router-dom";
 
@@ -117,8 +117,12 @@ export default function AddEmployee() {
   const [AniversaryDate, setAniversaryDate] = useState(null);
   const [BloodGroup, setBloodGroup] = useState(null);
   const [Peremail, setPeremail] = useState(null);
+
   const [EmerContact, setEmerContact] = useState(null);
   const [RelationWcontact, setRelationWcontact] = useState(null);
+  const [EmerContact2, setEmerContact2] = useState(null);
+  const [RelationWcontact2, setRelationWcontact2] = useState(null);
+
   const [LandlineNo, setLandlineNo] = useState(null);
   const [PAddress, setPAddress] = useState(null);
   const [PCity, setPCity] = useState(null);
@@ -195,8 +199,12 @@ export default function AddEmployee() {
     FormData1.append("Anniversary", AniversaryDate);
     FormData1.append("Bloodgroup", BloodGroup);
     FormData1.append("Personalemail", Peremail);
+
     FormData1.append("EmergencyContact", EmerContact);
     FormData1.append("realtionwithContact", RelationWcontact);
+    FormData1.append("EmergencyContact2", EmerContact2);
+    FormData1.append("realtionwithContact2", RelationWcontact2);
+
     FormData1.append("LandlineNumber", LandlineNo);
 
     FormData1.append("uploadImage", Image);
@@ -445,6 +453,9 @@ export default function AddEmployee() {
     setAttachment(event.target.files[0])
   }
 
+  const onChangeAddress = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
 
 
   return (
@@ -1229,15 +1240,44 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">relation with that number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Relation with that number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
                               type='text'
-                              placeholder='name'
+                              placeholder='Name'
                               required
                               value={RelationWcontact}
                               onChange={(e) => setRelationWcontact(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-6 ">
+                        <div className="form-group d-flex">
+                          <label className="col-md-5 mt-1 mb-0">Emergency Contact Number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <div className="col-md-7">
+                            <input
+                              style={{ width: "100%" }}
+                              type='text'
+                              required
+                              value={EmerContact2}
+                              onChange={(e) => setEmerContact2(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-6 ">
+                        <div className="form-group d-flex">
+                          <label className="col-md-5 mt-1 mb-0">Relation with that number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <div className="col-md-7">
+                            <input
+                              style={{ width: "100%" }}
+                              type='text'
+                              placeholder='Name'
+                              required
+                              value={RelationWcontact2}
+                              onChange={(e) => setRelationWcontact2(e.target.value)}
                             />
                           </div>
                         </div>
@@ -1376,7 +1416,8 @@ export default function AddEmployee() {
 
                       <div className="col-lg-12 mt-0 mb-0">
                         <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                          <p className="mt-0 mb-0">Correspondence Address</p>
+                          <p className="mt-0 mb-0">Correspondence Address___________</p>
+                          <Checkbox onChange={onChangeAddress}> Same as Permanent Address</Checkbox>
                         </div>
                       </div>
                       <div className="col-lg-6 ">

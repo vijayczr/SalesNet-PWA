@@ -8,7 +8,7 @@ import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import locale from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
-import {Table} from 'antd';
+import { Table } from 'antd';
 
 export default function ViewEmployee(props) {
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ export default function ViewEmployee(props) {
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata(); EditEmployee(); EmpHistory();UserImage()
+        if (!ignore) getProfiledata(); EditEmployee(); EmpHistory(); UserImage()
         return () => { ignore = true; }
     }, []);
 
@@ -90,25 +90,25 @@ export default function ViewEmployee(props) {
     const [UserImagestring, setUserImagestring] = useState(null);
     async function UserImage() {
         const res = await fetch(
-          `${localStorage.getItem("BaseUrl")}/Authentication/USerImage?EmpId=${searchparams.get("id")}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-            },
-          }
+            `${localStorage.getItem("BaseUrl")}/Authentication/USerImage?EmpId=${searchparams.get("id")}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+            }
         )
         const profileData = await res.json();
-                if (profileData.resCode === 200) {
-                    console.log(profileData.resData);
-                    setUserImagestring(profileData.resData);
-                }
-      }
-    
-      const base64Image = `data:image/png;base64, ${UserImagestring}`;
+        if (profileData.resCode === 200) {
+            console.log(profileData.resData);
+            setUserImagestring(profileData.resData);
+        }
+    }
+
+    const base64Image = `data:image/png;base64, ${UserImagestring}`;
 
 
-    async function EmpHistory(){
+    async function EmpHistory() {
         try {
             const res = await fetch(
                 `${localStorage.getItem("BaseUrl")}/HrManual/EmpHistory?EmpId=${searchparams.get("id")}`,
@@ -187,8 +187,12 @@ export default function ViewEmployee(props) {
     const [AniversaryDate, setAniversaryDate] = useState(null);
     const [BloodGroup, setBloodGroup] = useState(null);
     const [Peremail, setPeremail] = useState(null);
+
     const [EmerContact, setEmerContact] = useState(null);
     const [RelationWcontact, setRelationWcontact] = useState(null);
+    const [EmerContact2, setEmerContact2] = useState(null);
+    const [RelationWcontact2, setRelationWcontact2] = useState(null);
+
     const [LandlineNo, setLandlineNo] = useState(null);
 
     const [PAddress, setPAddress] = useState(null);
@@ -277,8 +281,12 @@ export default function ViewEmployee(props) {
             setAniversaryDate((data.anniversary === null) ? null : data.anniversary.toString().substring(0, 10));
             setBloodGroup(data.bloodgroup);
             setPeremail(data.personalemail);
+
             setEmerContact(data.emergencyContact);
             setRelationWcontact(data.realtionwithContact);
+            setEmerContact2(data.emergencyContact2);
+            setRelationWcontact2(data.realtionwithContact2);
+
             setLandlineNo(data.landlineNumber);
             setPAddress(data.pAddress);
             setPCity(data.pCity);
@@ -951,7 +959,7 @@ export default function ViewEmployee(props) {
                                             </div>
                                             <div className="col-lg-6 ">
                                                 <div className="form-group d-flex">
-                                                    <label className="col-md-5 mt-1 mb-0">Attachments<span className="float-right">:</span></label>
+                                                    <label className="col-md-5 mt-1 mb-0">Resume/CV<span className="float-right">:</span></label>
                                                     <div className="col-md-7">
                                                         <input
                                                             type='file'
@@ -1150,7 +1158,7 @@ export default function ViewEmployee(props) {
                                             </div>
                                             <div className="col-lg-6 ">
                                                 <div className="form-group d-flex">
-                                                    <label className="col-md-5 mt-1 mb-0">Total number of Experience<span className="float-right">:</span></label>
+                                                    <label className="col-md-5 mt-1 mb-0">Previous Experience<span className="float-right">:</span></label>
                                                     <div className="col-md-7">
                                                         <input
                                                             style={{ width: "100%" }}
@@ -1335,6 +1343,37 @@ export default function ViewEmployee(props) {
                                             </div>
                                             <div className="col-lg-6 ">
                                                 <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Emergency Contact Number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
+                                                        <input
+                                                            style={{ width: "100%" }}
+                                                            type='text'
+                                                            required
+                                                            disabled
+                                                            value={EmerContact2}
+                                                            onChange={(e) => setEmerContact2(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">relation with that number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
+                                                        <input
+                                                            style={{ width: "100%" }}
+                                                            type='text'
+                                                            placeholder='name'
+                                                            required
+                                                            disabled
+                                                            value={RelationWcontact2}
+                                                            onChange={(e) => setRelationWcontact2(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
                                                     <label className="col-md-5 mt-1 mb-0">landline Number<span className="float-right">:</span></label>
                                                     <div className="col-md-7">
                                                         <input
@@ -1349,7 +1388,7 @@ export default function ViewEmployee(props) {
                                             </div>
                                             <div className="col-lg-6 ">
                                                 <div className="form-group d-flex">
-                                                    <label className="col-md-5 mt-1 mb-0">Upload image<span className="float-right">:</span></label>
+                                                    <label className="col-md-5 mt-1 mb-0">Employee Photo<span className="float-right">:</span></label>
                                                     <div className="col-md-7">
                                                         <input
                                                             type='file'
@@ -1363,7 +1402,7 @@ export default function ViewEmployee(props) {
                                                 <div className="form-group d-flex">
                                                     <label className="col-md-5 mt-1 mb-0"></label>
                                                     <div className="col-md-7">
-                                                    <img src={base64Image} style={{ width:"100px" , height:"100px"}} className="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
+                                                        <img src={base64Image} style={{ width: "100px", height: "100px" }} className="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
 
                                                     </div>
                                                 </div>
