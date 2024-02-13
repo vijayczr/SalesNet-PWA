@@ -279,7 +279,7 @@ export default function ViewEmployee(props) {
             setPersonalContact(data.personalContact);
             setMaritalStatus((data.maritalStatus === "True") ? "true" : "false");
             setAniversaryDate((data.anniversary === null) ? null : data.anniversary.toString().substring(0, 10));
-            setBloodGroup(data.bloodgroup);
+            setBloodGroup((data.bloodgroup === "null") ? null : data.bloodgroup);
             setPeremail(data.personalemail);
 
             setEmerContact(data.emergencyContact);
@@ -1286,7 +1286,7 @@ export default function ViewEmployee(props) {
                                                         <input
                                                             style={{ width: "100%" }}
                                                             type='text'
-                                                            value={BloodGroup}
+                                                            value={(BloodGroup == "null") ? null :BloodGroup}
                                                             disabled
                                                             onChange={(e) => setBloodGroup(e.target.value)}
                                                             placeholder='Blood Group'

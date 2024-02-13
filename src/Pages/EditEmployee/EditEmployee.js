@@ -1503,7 +1503,7 @@ export default function EditEmployee(props) {
                               type='text'
                               required
                               value={Ppincode}
-                              onChange={(e) => setPpincode}
+                              onChange={(e) => setPpincode(e.target.value)}
                             />
                           </div>
                         </div>
@@ -1804,7 +1804,7 @@ export default function EditEmployee(props) {
                           <div className="col-md-7">
                           <Space >
                               <ConfigProvider locale={locale}>
-                              <DatePicker value={dayjs((LastDate === null)? '2000-01-01':LastDate)} style={{ width: "100%" }} onChange={LastWorking} />
+                              <DatePicker value={dayjs(LastDate)} style={{ width: "100%" }} onChange={LastWorking} />
                               </ConfigProvider>
                             </Space>
                             {/* <Space >

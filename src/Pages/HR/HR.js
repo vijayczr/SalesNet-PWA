@@ -3,7 +3,7 @@ import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
 import { useNavigate, Link, createSearchParams } from "react-router-dom";
 import { ConfigProvider, Space, Table, Tag } from 'antd';
-import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled ,FileAddOutlined} from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled, FileAddOutlined } from '@ant-design/icons';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 
 export default function HR() {
@@ -119,7 +119,7 @@ export default function HR() {
     );
   };
 
-  async function DelEmp(e){
+  async function DelEmp(e) {
     const res = await fetch(
       `${localStorage.getItem("BaseUrl")}/HrManual/delEmp?EmpId=${e}`,
       {
@@ -130,7 +130,7 @@ export default function HR() {
       }
     );
     const Response = await res.json();
-    if(Response.resCode === 200) {
+    if (Response.resCode === 200) {
       window.location.reload();
     }
 
@@ -263,7 +263,7 @@ export default function HR() {
 
   return (
     <div style={{ height: "100vh", overflow: "auto" }}>
-      
+
       <AppHeader data={ProfileData} />
 
       <div className="breadcrumb-area">
@@ -407,17 +407,22 @@ export default function HR() {
                 </div>
               </div>
               <div className="col-md-4 mt-3">
-                    <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
-                      <div className="col-md-7" style={{ paddingLeft: "10px" }}>
-                        <input
-                          type='text'
-                          value={FilterName}
-                          onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value) ;DocumentSearch() }}
-                        />
-                      </div>
-                    </div>
+                <div className="d-flex">
+                  <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                  <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                    <input
+                      type='text'
+                      value={FilterName}
+                      onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value); DocumentSearch() }}
+                    />
                   </div>
+                  <div className="col-md-5" style={{ paddingLeft: "10px" }}>
+                  <a href={`${localStorage.getItem("BaseUrl")}/HrManual/EmployeeCSVDownload`} ><button className="FunctionButton1" style={{ backgroundColor: "#1b8532" }}>Download CSV</button></a>
+
+                  </div>
+
+                </div>
+              </div>
               <br></br>
 
 

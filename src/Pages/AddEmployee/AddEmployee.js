@@ -136,6 +136,8 @@ export default function AddEmployee() {
   const [Ccountry, setCcountry] = useState(null);
   const [Cpincode, setCpincode] = useState(null);
   const [Cphone, setCphone] = useState(null);
+  const [SameAddress, setSameAddress] = useState("false");
+
   const [Mpolicyname, setMpolicyname] = useState(null);
   const [Mpolicydetail, setMpolicydetail] = useState(null);
   const [Massuredamout, setMassuredamout] = useState(null);
@@ -222,6 +224,8 @@ export default function AddEmployee() {
     FormData1.append("Ccountry", Ccountry);
     FormData1.append("Cpincode", Cpincode);
     FormData1.append("Cphone", Cphone);
+    FormData1.append("SameAddress", SameAddress);
+
     FormData1.append("Medi_PolicyName", Mpolicyname);
     FormData1.append("Medi_PolicyDetail", Mpolicydetail);
     FormData1.append("Medi_AssuredAmount", Massuredamout);
@@ -455,6 +459,7 @@ export default function AddEmployee() {
 
   const onChangeAddress = (e) => {
     console.log(`checked = ${e.target.checked}`);
+    setSameAddress(`${e.target.checked}`)
   };
 
 
@@ -1394,7 +1399,7 @@ export default function AddEmployee() {
                               type='text'
                               required
                               value={Ppincode}
-                              onChange={(e) => setPpincode}
+                              onChange={(e) => setPpincode(e.target.value)}
                             />
                           </div>
                         </div>

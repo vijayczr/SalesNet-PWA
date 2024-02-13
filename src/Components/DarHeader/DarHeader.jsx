@@ -10,7 +10,9 @@ import {
   Button,
 } from "antd";
 import dayjs from "dayjs";
-import { LeadList , ContinueLeadList } from "../../utils/data";
+// import customParseFormat from 'dayjs/plugin/customParseFormat';
+// dayjs.extend(customParseFormat);
+import { LeadList, ContinueLeadList } from "../../utils/data";
 
 function DarHeader({
   darHeaderData,
@@ -24,13 +26,18 @@ function DarHeader({
 
   useEffect(() => console.log(darHeaderData), [darHeaderData]);
 
+  const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < dayjs().endOf('day').subtract(8, 'day');
+  };
+
   return (
     <div className="containner p-4" style={{ backgroundColor: "#f3f5f9" }}>
       <div className="row">
         <div className="col-lg-12">
           {/* <div className="bg-boxshadow m-0"> */}
           {/* <div className="ibox-content"> */}
-          
+
           <div className="row mt-3">
             <div className="col-lg-4 ">
               <div className="form-group d-flex">
@@ -86,7 +93,7 @@ function DarHeader({
                 </label>
                 <div className="col-md-7">
                   <Select
-                    value={(formType == "Continue") ? 3:darHeaderData?.leadType}
+                    value={(formType == "Continue") ? 3 : darHeaderData?.leadType}
                     style={{ width: "100%", height: "2rem" }}
                     placeholder="Select"
                     onChange={(leadTypeId) => {
@@ -95,14 +102,14 @@ function DarHeader({
                         leadType: leadTypeId,
                       }));
                     }}
-                    disabled={(formType == "Continue") ?true :disabledField}
+                    disabled={(formType == "Continue") ? true : disabledField}
                   >
                     {(formType == "Continue") ? ContinueLeadList?.map((leadItem) => (
                       <option value={leadItem?.id}>{leadItem?.value}</option>
-                    )): LeadList?.map((leadItem) => (
+                    )) : LeadList?.map((leadItem) => (
                       <option value={leadItem?.id}>{leadItem?.value}</option>
                     ))}
-                   
+
                   </Select>
                 </div>
               </div>
@@ -116,9 +123,9 @@ function DarHeader({
                 </label>
                 <div className="col-md-7">
                   <Input
-                  value={darHeaderData?.LeadId}
-                  disabled
-                />
+                    value={darHeaderData?.LeadId}
+                    disabled
+                  />
                 </div>
               </div>
             </div>
@@ -132,11 +139,12 @@ function DarHeader({
                   <Space>
                     <ConfigProvider>
                       <DatePicker
+                        disabledDate={disabledDate}
                         defaultValue={dayjs(Date.now())}
                         value={
                           // darHeaderData?.joiningDate ?
-                            dayjs(darHeaderData?.joiningDate)
-                            // : dayjs(new Date())
+                          dayjs(darHeaderData?.joiningDate)
+                          // : dayjs(new Date())
                         }
                         style={{ width: "100%", height: "2rem" }}
                         onChange={(date) => {
