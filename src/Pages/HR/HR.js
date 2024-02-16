@@ -24,7 +24,7 @@ export default function HR() {
     pagination: {
       current: 1,
       pageSize: 10,
-      position: ["topRight"]
+      // position: ["topRight"]
     },
   });
 
