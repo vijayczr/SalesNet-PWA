@@ -29,7 +29,7 @@ export default function DARSummary() {
     pagination: {
       current: 1,
       pageSize: 10,
-      position: ["topRight"],
+      // position: ["topRight"],
     },
   });
 
@@ -92,7 +92,7 @@ export default function DARSummary() {
       width: "10%",
     },
     {
-      title: "Products",
+      title: "Principal",
       dataIndex: "products",
       key: "products",
       width: "12.s%",
@@ -427,7 +427,7 @@ export default function DARSummary() {
 
               <hr></hr>
 
-              <div className="col-md-4 mt-3">
+              <div className="col-md-4 mt-3 mb-4">
                 <div className="d-flex">
                   <label for="inputEmail3" className="col-md-5">
                     Customer Search

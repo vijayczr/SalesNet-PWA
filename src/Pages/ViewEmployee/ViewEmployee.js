@@ -178,6 +178,7 @@ export default function ViewEmployee(props) {
     const [EmpStatFromDate, setEmpStatFromDate] = useState(null);
     const [EmpStatToDate, setEmpStatToDate] = useState(null);
     const [TotalExp, setTotalExp] = useState(null);
+    const [TechLabsExp, setTechLabsExp] = useState(null);
 
     const [Fathername, setFathername] = useState(null);
     const [Mothername, setMothername] = useState(null);
@@ -273,6 +274,7 @@ export default function ViewEmployee(props) {
             setEmpStatFromDate((data.fromDate === null) ? null : data.fromDate.toString().substring(0, 10));
             setEmpStatToDate((data.toDate === null) ? null : data.toDate.toString().substring(0, 10));
             setTotalExp(data.totalexp);
+            setTechLabsExp(data.expInCompany);
             setFathername(data.fatherName);
             setMothername(data.motherName);
             setOrigindob((data.dob === null) ? null : data.dob.toString().substring(0, 10));
@@ -1165,6 +1167,20 @@ export default function ViewEmployee(props) {
                                                             type='text'
                                                             disabled
                                                             value={TotalExp}
+                                                            onChange={(e) => setTotalExp(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-6 ">
+                                                <div className="form-group d-flex">
+                                                    <label className="col-md-5 mt-1 mb-0">Experience in Techlabs<span className="float-right">:</span></label>
+                                                    <div className="col-md-7">
+                                                        <input
+                                                            style={{ width: "100%" }}
+                                                            type='text'
+                                                            disabled
+                                                            value={TechLabsExp}
                                                             onChange={(e) => setTotalExp(e.target.value)}
                                                         />
                                                     </div>

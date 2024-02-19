@@ -194,6 +194,16 @@ export default function HR() {
   const DocumentSearch = () => {
     HrEmpList();
   }
+
+  const SErchWord = (e) => {
+    // HrEmpList();
+    var value = e;
+    console.log(value);
+    setFilterName(value);
+    console.log(FilterName);
+    DocumentSearch()
+  }
+
   const NavBack = () => {
     navigate(-1);
   }
@@ -413,7 +423,7 @@ export default function HR() {
                     <input
                       type='text'
                       value={FilterName}
-                      onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value); DocumentSearch() }}
+                      onChange={(e) => { console.log(e.target.value); SErchWord(e.target.value);  }}
                     />
                   </div>
                   <div className="col-md-5" style={{ paddingLeft: "10px" }}>
