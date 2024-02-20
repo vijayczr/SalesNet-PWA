@@ -23,6 +23,7 @@ import ViewDar from "./Pages/DAR/ViewDar/ViewDar";
 import EditDar from "./Pages/DAR/EditDar/EditDar";
 import ContinueDar from "./Pages/DAR/ContinueDar/ContinueDar";
 import UserDataContextProvider from "./Context/UserDataContext/UserDataContextProvider";
+import CustList from "./Pages/ISR/CustList/CustList";
 
 function App() {
   // localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
@@ -53,6 +54,7 @@ function App() {
           <Route path="/ViewDar" element={<ViewDar />} />
           <Route path="/EditDar" element={<EditDar />} />
           <Route path="/ContinueDar" element={<ContinueDar />} />
+          <Route path="/CustList" element={<CustList />} />
         </Routes>
       </BrowserRouter>
       </UserDataContextProvider>

@@ -68,24 +68,25 @@ export default function Dashboard() {
                         <div className="col-md-2">
                             {(`${localStorage.getItem('EmpId')}` === '297')?<a
                                 href="/DarSummary"
-                                // onClick={
-                                //     navigate("/HR", { replace: true })}
-                                // href="#"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HRlogo} className="img-fluid" />
                                 <h5 className="text-center title W100">DAR Activity</h5>
-                            </a>:
-                            <a
+                            </a>:null}
+                            {(`${localStorage.getItem('EmpId')}` === '1046')?<a
                                 href="/HR"
-                                // onClick={
-                                //     navigate("/HR", { replace: true })}
-                                // href="#"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HRlogo} className="img-fluid" />
                                 <h5 className="text-center title W100">HR</h5>
-                            </a>}
+                            </a>: null}
+                            {(`${localStorage.getItem('EmpId')}` === '1040')?<a
+                                href="/CustList"
+                                style={{ color: "black", textDecoration: "none" }}
+                            >
+                                <img src={HRlogo} className="img-fluid" />
+                                <h5 className="text-center title W100">ISR</h5>
+                            </a>: null}
                         </div>
                         <div className="col-md-2">
                             <a>
