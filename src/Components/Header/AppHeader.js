@@ -114,7 +114,7 @@ export default function AppHeader(props) {
                         <DarNavbar /> : null
                 }
                 {
-                    (`${localStorage.getItem('EmpId')}` === '1046') ?
+                    (`${localStorage.getItem('EmpId')}` === '1027') ?
                         <HrNavbar /> : null
                 }
                                 {

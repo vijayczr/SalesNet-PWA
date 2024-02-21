@@ -13,8 +13,12 @@ import useLocalStorage from "../../../hooks/useLocalStorage";
 export default function CustList() {
     const navigate = useNavigate();
     const [data, setData] = useState();
-    const [Branch, setBranch] = useState("");
+    const [CustName, setCustName] = useState(null);
+    const [CustBranch, setCustBranch] = useState(0);
+    const [CustVertical, setCustVertical] = useState(0);
     const [ProfileData, setProfileData] = useState("");
+    const [BranchandVertical, setBranchandVertical] = useState(null);
+    const [FilterName, setFilterName] = useState(null);
     const [loading, setLoading] = useState(false);
     const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
 
@@ -140,7 +144,7 @@ export default function CustList() {
                                     <button type="button"
                                         data-dismiss="modal"
                                         aria-label="Close" className="btn btn-primary"
-                                     onClick={() => { DeleteDar(record.custId)}}
+                                        onClick={() => { DeleteDar(record.custId) }}
                                     >
                                         Delete
                                     </button>
@@ -157,29 +161,29 @@ export default function CustList() {
     const DeleteDar = async (e) => {
         console.log(e);
         const res = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/ISR/DeleteCustomer?customerId=${e}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${jwtStoredValue}`,
-            },
-          }
+            `${process.env.REACT_APP_BASE_URL}/ISR/DeleteCustomer?customerId=${e}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${jwtStoredValue}`,
+                },
+            }
         );
         const personResponse = await res.json();
         if (personResponse.resCode === 200) {
-          
-          window.location.reload();
-          return personResponse?.resData;
+
+            window.location.reload();
+            return personResponse?.resData;
         } else {
-          console.log("Couldn't fetch contacted person data");
+            console.log("Couldn't fetch contacted person data");
         }
-      };
+    };
 
 
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata()
+        if (!ignore) getProfiledata(); getBranchAndVertical();
         return () => { ignore = true; }
     }, []);
 
@@ -198,17 +202,37 @@ export default function CustList() {
         if (profileData.resCode === 200) {
             console.log(profileData.resData);
             setProfileData(profileData.resData);
-            console.log(ProfileData.branch);
-            setBranch(profileData.resData.branch)
+        }
+    }
+
+    async function getBranchAndVertical() {
+
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/ISR/BranchAndVertical`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+            }
+        );
+        const profileData = await res.json();
+        if (profileData.resCode === 200) {
+            console.log(profileData.resData);
+            setBranchandVertical(profileData.resData);
         }
     }
 
     async function ISRCustList() {
         let PageData = {
-            //   Search: FilterName,
+            Search: FilterName,
+            Name: CustName,
+            Branch: CustBranch,
+            Vertical: CustVertical,
             pageNumber: tableParams.pagination.current,
             pageSize: tableParams.pagination.pageSize,
         };
+        console.log(PageData);
         const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ISR/CustomerList`, {
             method: "POST",
             headers: {
@@ -254,6 +278,18 @@ export default function CustList() {
         window.location.reload();
     };
 
+    const SErchWord = (e) => {
+        // HrEmpList();
+        var value = e;
+        console.log(value);
+        setFilterName(value);
+
+        console.log(FilterName);
+        ISRCustList()
+    }
+
+
+
 
     return (
         <div>
@@ -279,20 +315,81 @@ export default function CustList() {
 
             <div
                 className="containner p-4"
-                style={{ height: "90vh", overflow: "auto", backgroundColor: "#f3f5f9" }}
+                style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }}
             >
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="bg-boxshadow">
                             <div className="ibox-content">
+                                <div className="row">
+                                    <div className="col-md-4 mt-3">
+                                        <div className="d-flex">
+                                            <label for="inputEmail3" className="col-md-5">Customer Name<span className="float-right">:</span></label>
+                                            <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                                                <input
+                                                    type='text'
+                                                    style={{ width: "100%" }}
+                                                    onChange={(e) => { console.log(e.target.value); setCustName(e.target.value) }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4 mt-3">
+                                        <div className="d-flex">
+                                            <label for="inputEmail3" className="col-md-5">Branch<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                                <select value={CustBranch}
+                                                    onChange={(e) => { console.log(e.target.value); setCustBranch(e.target.value) }}
+                                                    style={{ width: "100%" }}
+                                                >
+                                                    <option value={0}>Select</option>
+                                                    {
+                                                        (BranchandVertical == null)
+                                                            ? <></>
+                                                            :
+                                                            (
+                                                                BranchandVertical.branch ?
+                                                                    BranchandVertical.branch.map((e) => (
+                                                                        <option value={e.branchId} >{e.branchName}</option>
+                                                                    )) : null)
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4 mt-3">
+                                        <div className="d-flex">
+                                            <label for="inputEmail3" className="col-md-5">Vertical<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                                <select value={CustVertical}
+                                                    onChange={(e) => { console.log(e.target.value); setCustVertical(e.target.value) }}
+                                                    style={{ width: "100%" }}
+                                                >
+                                                    <option value={0}>Select</option>
+                                                    {
+                                                        (BranchandVertical == null)
+                                                            ? <></>
+                                                            :
+                                                            (
+                                                                BranchandVertical.vertical ?
+                                                                    BranchandVertical.vertical.map((e) => (
+                                                                        <option value={e.verticalId} >{e.verticalName}</option>
+                                                                    )) : null)
+
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="box-footer">
                                     <center style={{ padding: "10px" }}>
                                         <button
                                             className="FunctionButton"
                                             style={{ backgroundColor: "#06960b", width: "150px" }}
-                                        //   onClick={AddDarPage}
+                                            onClick={ISRCustList}
                                         >
-                                            ADD Customer
+                                            Search Customer
                                         </button>
                                         <button
                                             className="FunctionButton"
@@ -300,6 +397,13 @@ export default function CustList() {
                                             onClick={DocSearchReser}
                                         >
                                             Reset
+                                        </button>
+                                        <button
+                                            className="FunctionButton"
+                                            style={{ backgroundColor: "#0b2087" }}
+                                            // onClick={DocSearchReser}
+                                        >
+                                            + ADD
                                         </button>
                                         <button
                                             className="FunctionButton"
@@ -315,30 +419,23 @@ export default function CustList() {
 
                             <hr></hr>
 
-                            {/* <div className="col-md-4 mt-3 mb-4">
-                <div className="d-flex">
-                  <label for="inputEmail3" className="col-md-5">
-                    Customer Search
-                    <span
-                      style={{ paddingLeft: "30px" }}
-                      className="pull-right"
-                    >
-                      :
-                    </span>
-                  </label>
-                  <div className="col-md-7" style={{ paddingLeft: "10px" }}>
-                    <input
-                      type="text"
-                      value={FilterName}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                        setFilterName(e.target.value);
-                        DocumentSearch();
-                      }}
-                    />
-                  </div>
-                </div>
-              </div> */}
+                            <div className="col-md-4 mt-3 mb-4">
+                                <div className="d-flex">
+                                    <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                                    <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                                        <input
+                                            type='text'
+                                            value={FilterName}
+                                            onChange={(e) => { console.log(e.target.value); SErchWord(e.target.value); }}
+                                        />
+                                    </div>
+                                    {/* <div className="col-md-5" style={{ paddingLeft: "10px" }}>
+                                        <a href={`${localStorage.getItem("BaseUrl")}/HrManual/EmployeeCSVDownload`} ><button className="FunctionButton1" style={{ backgroundColor: "#1b8532" }}>Download CSV</button></a>
+
+                                    </div> */}
+
+                                </div>
+                            </div>
 
                             <ConfigProvider
                                 theme={{

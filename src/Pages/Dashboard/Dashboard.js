@@ -73,7 +73,7 @@ export default function Dashboard() {
                                 <img src={HRlogo} className="img-fluid" />
                                 <h5 className="text-center title W100">DAR Activity</h5>
                             </a>:null}
-                            {(`${localStorage.getItem('EmpId')}` === '1046')?<a
+                            {(`${localStorage.getItem('EmpId')}` === '1027')?<a
                                 href="/HR"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
