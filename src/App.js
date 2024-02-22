@@ -3,7 +3,7 @@ import "./App.css";
 import { Button } from "bootstrap";
 import Login from "./Pages/Login/Login";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Router } from "react-router-dom";
 import HumanResource from "./Pages/HumanResource/HumanResource";
 import HolidayList from "./Pages/HolidayList/HolidayList";
 import KnowledgeShare from "./Pages/KnowledgeShare/KnowledgeShare";
@@ -24,6 +24,7 @@ import EditDar from "./Pages/DAR/EditDar/EditDar";
 import ContinueDar from "./Pages/DAR/ContinueDar/ContinueDar";
 import UserDataContextProvider from "./Context/UserDataContext/UserDataContextProvider";
 import CustList from "./Pages/ISR/CustList/CustList";
+import AddCust from "./Pages/ISR/ModifyCustomer/modifyCust";
 
 function App() {
   // localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
@@ -55,6 +56,7 @@ function App() {
           <Route path="/EditDar" element={<EditDar />} />
           <Route path="/ContinueDar" element={<ContinueDar />} />
           <Route path="/CustList" element={<CustList />} />
+          <Route path="/modifyCust" element={<AddCust />} />
         </Routes>
       </BrowserRouter>
       </UserDataContextProvider>

@@ -278,6 +278,18 @@ export default function CustList() {
         window.location.reload();
     };
 
+    const ModifyCust = () => {
+        navigate(
+          {
+            pathname: "/modifyCust",
+            // search: createSearchParams({
+            //   id: e
+            // }).toString(),
+            // state: { name: 'John Doe', age: 25 }
+          },
+        );
+      };
+
     const SErchWord = (e) => {
         // HrEmpList();
         var value = e;
@@ -401,7 +413,7 @@ export default function CustList() {
                                         <button
                                             className="FunctionButton"
                                             style={{ backgroundColor: "#0b2087" }}
-                                            // onClick={DocSearchReser}
+                                            onClick={ModifyCust}
                                         >
                                             + ADD
                                         </button>
