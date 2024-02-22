@@ -11,7 +11,7 @@ export default function AddCust() {
             <CustomerHeader />
 
             <AddCustForm 
-            customerId = {"1"}
+            customerId = {null}
             FormType ={"Add"}
             />
 

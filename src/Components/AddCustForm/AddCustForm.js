@@ -152,7 +152,7 @@ export default function AddCustForm(
                                                 <textarea className="form-control" id="textArea1" rows="1" placeholder='messege'
                                                     value={Address}
                                                     onChange={(e) => { setAddress(e.target.value); }}
-                                                    style={{ width: "220px" }}
+                                                    style={{ height: "80px" }}
                                                 >
                                                 </textarea>
                                             </div>
