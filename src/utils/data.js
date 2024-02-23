@@ -25,6 +25,7 @@ export const DAR_VerticalList = [
   { id: 1, value: "ASG" },
   { id: 2, value: "ISG" },
   { id: 3, value: "PSG" },
+  { id: 6, value: "ESG" }
 ];
 
 export const SalesStatus = [

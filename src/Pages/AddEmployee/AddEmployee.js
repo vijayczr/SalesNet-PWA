@@ -269,20 +269,6 @@ export default function AddEmployee() {
   //   onpreviouspage();
   // };
   const onClick1 = () => {
-    // Modal.confirm({
-    //   // onOk : {onpreviouspage},
-    //   // onOk:{handleOk},
-    //   title: 'Success',
-    //   content: 'EMPLOYEE ADDED SUCCESSFULLY',
-    //   footer: (_, { OkBtn }) => (
-    //     <>
-    //       {/* <Button>Custom Button</Button>
-    //       <CancelBtn /> */}
-    //       <OkBtn />
-    //     </>
-    //   ),
-    // });
-
     Modal.confirm({
       title: 'Success',
       content: 'EMPLOYEE ADDED SUCCESSFULLY',
@@ -291,31 +277,10 @@ export default function AddEmployee() {
           <OkBtn  className="FunctionButton" style={{ color: "white" }} onClick={onpreviouspage}/>
         </>
       ),
-    });
+    });}
     
 
-  //   <Modal
-  //   // open={open}
-  //   title="Title"
-  //   // onOk={handleOk}
-  //   // onCancel={handleCancel}
-  //   footer={(_, { OkBtn }) => (
-  //     <>
-  //       {/* <Button>Custom Button</Button>
-  //       <CancelBtn /> */}
-  //       <OkBtn />
-  //     </>
-  //   )}
-  // >
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  // </Modal>
 
-
-  }
 
   const onpreviouspage =() =>{
     navigate("/HR", { replace: true });

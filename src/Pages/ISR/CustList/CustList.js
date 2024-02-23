@@ -78,7 +78,7 @@ export default function CustList() {
                         type="button"
                         className="viewbutton"
                         style={{ marginRight: "0px" }}
-                    // onClick={() => EditDar(record.darId)}
+                    onClick={() => EditCustomer(record.custId)}
                     >
                         <EditOutlined />{" "}
                     </button>
@@ -86,7 +86,7 @@ export default function CustList() {
                         type="button"
                         className="viewbutton1"
                         style={{ marginLeft: "0px", marginRight: "0px" }}
-                    // onClick={() => Viewdar(record.darId)}
+                    onClick={() => ViewCustomer(record.custId)}
                     >
                         <FolderViewOutlined />{" "}
                     </button>
@@ -157,6 +157,29 @@ export default function CustList() {
             width: "20%",
         },
     ].filter(item => !item.hidden);
+
+    const EditCustomer = (e) => {
+        navigate(
+          {
+            pathname: "/EditCustomer",
+            search: createSearchParams({
+              id: e
+            }).toString(),
+            // state: { name: 'John Doe', age: 25 }
+          },
+        );
+      };
+      const ViewCustomer = (e) => {
+        navigate(
+          {
+            pathname: "/ViewCustomer",
+            search: createSearchParams({
+              id: e
+            }).toString(),
+            // state: { name: 'John Doe', age: 25 }
+          },
+        );
+      };
 
     const DeleteDar = async (e) => {
         console.log(e);

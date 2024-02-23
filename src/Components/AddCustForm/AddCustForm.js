@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { Modal } from 'antd';
 
 export default function AddCustForm(
     PrevData
 ) {
     const navigate = useNavigate();
     const [BranchandVertical, setBranchandVertical] = useState(null);
-    const [CustName, setCustName] = useState(null);
+    const [CustName, setCustName] = useState("");
     const [CustBranch, setCustBranch] = useState(0);
     const [Address, setAddress] = useState(null);
     const [CustCity, setCustCity] = useState(null);
@@ -23,10 +25,12 @@ export default function AddCustForm(
 
     const [Subverticallist, setSubverticallist] = useState(null);
 
+    const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
+
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getBranchAndVertical(); ViewCustDetail();
+        if (!ignore) getBranchAndVertical(); ViewCustDetail()
         return () => { ignore = true; }
     }, []);
 
@@ -65,13 +69,16 @@ export default function AddCustForm(
         if (profileData.resCode === 200) {
             console.log(profileData.resData);
             setCustName(profileData.resData.customerName);
-            setCustBranch(profileData.resData.branchId);
+            setCustBranch(profileData.resData.branch);
             setAddress(profileData.resData.customerAddress1);
             setCustCity(profileData.resData.customerCity);
             setCustState(profileData.resData.customerState);
             setCustCountry(profileData.resData.customerCountry);
             setCustPin(profileData.resData.customerZip);
-            setCustVertical(profileData.resData.verticalId);
+            setCustVertical(profileData.resData.vertical);
+
+            SubVerticalList(profileData.resData.vertical);
+
             setCustSubVertical(profileData.resData.subVerticalId);
             setCustPhone1(profileData.resData.customerPhone1);
             setCustPhone2(profileData.resData.customerPhone2);
@@ -98,6 +105,79 @@ export default function AddCustForm(
         }
     }
 
+    const NavBack = () => {
+        navigate(-1);
+    };
+    const DocSearchReser = () => {
+        window.location.reload();
+    };
+
+    const AddNewCustomer = () => {
+        ISRCustList();
+    }
+
+    async function ISRCustList() {
+        let PageData = {
+            CustomerId: PrevData.customerId,
+            CustomerName: CustName,
+            Branch: Number(CustBranch),
+            Vertical: Number(CustVertical),
+            SubVerticalId: CustSubVertical,
+            CustomerEmail: CustEmail,
+            CustomerAddress1: Address,
+            CustomerCity: CustCity,
+            CustomerState: CustState,
+            CustomerCountry: CustCountry,
+            CustomerZip: CustPin,
+            CustomerPhone1: CustPhone1,
+            CustomerPhone2: CustPhone2,
+            CustomerMobile: Mobile,
+            CustomerFax: CustFax,
+        };
+        console.log(PageData);
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ISR/AddCustomer`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwtStoredValue}`,
+            },
+            body: JSON.stringify(PageData),
+        });
+        const Response = await res.json();
+        if (Response.resCode === 200) {
+            setCustBranch(0)
+            onClick1();
+        }
+        if (Response.resCode === 400) {
+            onClick2();
+        }
+    }
+
+    const onClick1 = () => {
+        Modal.confirm({
+            title: 'Success',
+            content: 'EMPLOYEE ADDED SUCCESSFULLY',
+            footer: (_, { OkBtn }) => (
+                <>
+                    <OkBtn className="FunctionButton" style={{ color: "white" }} onClick={() => window.location.reload()} />
+                </>
+            ),
+        });
+    }
+    const onClick2 = () => {
+        Modal.confirm({
+            title: 'Bad Request',
+            content: 'Enter Required Field',
+            footer: (_, { OkBtn }) => (
+                <>
+                    <OkBtn className="FunctionButton" style={{ color: "white" }}  />
+                </>
+            ),
+        });
+    }
+
+
+
     return (
         <div>
             <div
@@ -117,6 +197,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustName}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustName(e.target.value) }}
                                                 />
                                             </div>
@@ -129,6 +210,7 @@ export default function AddCustForm(
                                                 <select value={CustBranch}
                                                     onChange={(e) => { console.log(e.target.value); setCustBranch(e.target.value) }}
                                                     style={{ width: "100%" }}
+                                                    disabled={PrevData.FormType == "View"}
                                                 >
                                                     <option value={0}>Select</option>
                                                     {
@@ -153,6 +235,7 @@ export default function AddCustForm(
                                                     value={Address}
                                                     onChange={(e) => { setAddress(e.target.value); }}
                                                     style={{ height: "80px" }}
+                                                    disabled={PrevData.FormType == "View"}
                                                 >
                                                 </textarea>
                                             </div>
@@ -166,6 +249,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustCity}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustCity(e.target.value) }}
                                                 />
                                             </div>
@@ -179,6 +263,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustState}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustState(e.target.value) }}
                                                 />
                                             </div>
@@ -192,6 +277,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustCountry}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustCountry(e.target.value) }}
                                                 />
                                             </div>
@@ -205,6 +291,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustPin}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustPin(e.target.value) }}
                                                 />
                                             </div>
@@ -212,11 +299,12 @@ export default function AddCustForm(
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Vertical<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                                            <label for="inputEmail3" className="col-md-5">Vertical<span style={{ color: "red" }}>*</span><span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
                                             <div className="col-md-7">
                                                 <select value={CustVertical}
                                                     onChange={(e) => { console.log(e.target.value); setCustVertical(e.target.value); SubVerticalList(e.target.value) }}
                                                     style={{ width: "100%" }}
+                                                    disabled={PrevData.FormType == "View"}
                                                 >
                                                     <option value={0}>Select</option>
                                                     {
@@ -241,6 +329,7 @@ export default function AddCustForm(
                                                 <select value={CustSubVertical}
                                                     onChange={(e) => { console.log(e.target.value); setCustSubVertical(e.target.value) }}
                                                     style={{ width: "100%" }}
+                                                    disabled={PrevData.FormType == "View"}
                                                     required
                                                 >
                                                     <option value={"null"}>Select</option>
@@ -260,6 +349,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustPhone1}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustPhone1(e.target.value) }}
                                                 />
                                             </div>
@@ -273,6 +363,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustPhone2}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustPhone2(e.target.value) }}
                                                 />
                                             </div>
@@ -286,6 +377,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustFax}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustFax(e.target.value) }}
                                                 />
                                             </div>
@@ -299,6 +391,7 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={Mobile}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setMobile(e.target.value) }}
                                                 />
                                             </div>
@@ -312,12 +405,66 @@ export default function AddCustForm(
                                                     type='text'
                                                     style={{ width: "100%" }}
                                                     value={CustEmail}
+                                                    disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustEmail(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
+                                {(PrevData.FormType === "View") ? null :
+                                    <div className="box-footer mt-3">
+                                        <center style={{ padding: "10px" }}>
+                                            <button
+                                                className="FunctionButton"
+                                                style={{ backgroundColor: "#06960b", width: "70px" }}
+                                                onClick={AddNewCustomer}
+                                            >
+                                                Submit
+                                            </button>
+                                            {(PrevData.FormType === "Edit") ? null :
+                                                <button
+                                                    className="FunctionButton"
+                                                    style={{ backgroundColor: "#da251c" }}
+                                                    onClick={DocSearchReser}
+                                                >
+                                                    Reset
+                                                </button>
+                                            }
+
+                                            <button
+                                                className="FunctionButton"
+                                                style={{ backgroundColor: "#0b2087", width: "150px" }}
+                                            // onClick={ModifyCust}
+                                            >
+                                                + ADD Contact
+                                            </button>
+                                            <button
+                                                className="FunctionButton"
+                                                style={{ backgroundColor: "#e8d105", color: "black" }}
+                                                onClick={NavBack}
+                                            >
+                                                Back
+                                            </button>
+
+                                        </center>
+                                    </div>
+                                }
+
+                                {(PrevData.FormType === "View") ?
+                                    <div className="box-footer mt-3">
+                                        <center style={{ padding: "10px" }}>
+                                            <button
+                                                className="FunctionButton"
+                                                style={{ backgroundColor: "#e8d105", color: "black" }}
+                                                onClick={NavBack}
+                                            >
+                                                Back
+                                            </button>
+                                        </center>
+                                    </div> : null}
+
                             </div>
                         </div>
                     </div>
