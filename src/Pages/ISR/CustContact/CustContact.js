@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import AppHeader from "../../../Components/Header/AppHeader";
-import { useNavigate, createSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import AppHeader from '../../../Components/Header/AppHeader';
 import { ConfigProvider, Table, Space } from "antd";
 import {
     EditOutlined,
@@ -10,18 +10,22 @@ import {
 } from "@ant-design/icons";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 
-export default function CustList() {
+export default function CustContact() {
+    const [searchparams] = useSearchParams();
     const navigate = useNavigate();
-    const [data, setData] = useState();
-    const [CustName, setCustName] = useState(null);
-    const [CustBranch, setCustBranch] = useState(0);
-    const [CustVertical, setCustVertical] = useState(0);
-    const [ProfileData, setProfileData] = useState("");
-    const [BranchandVertical, setBranchandVertical] = useState(null);
-    const [FilterName, setFilterName] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [ProfileData, setProfileData] = useState("");
+    const [data, setData] = useState();
     const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
-    const [DeleteddarId, setDeleteddarId] = useState(null);
+
+    const [CustName, setCustName] = useState(null);
+
+    const [Contpersnname, setContpersnname] = useState(null);
+    const [contemail, setcontemail] = useState(null);
+    const [contphone, setcontphone] = useState(null);
+    const [contmobile, setcontmobile] = useState(null);
+    const [contdesignation, setcontdesignation] = useState(null);
+    const [contdepartment, setcontdepartment] = useState(null);
 
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -33,41 +37,47 @@ export default function CustList() {
 
     const columns = [
         {
-            title: 'custId',
-            dataIndex: 'custId',
-            key: 'custId',
+            title: 'contactId',
+            dataIndex: 'contactId',
+            key: 'contactId',
             width: '0%',
             hidden: true
         },
         {
-            title: "Name",
-            dataIndex: "name",
-            key: "name",
-            width: "40%",
+            title: "Contact Person",
+            dataIndex: "contactPerson",
+            key: "contactPerson",
+            width: "20%",
         },
         {
-            title: "Branch",
-            dataIndex: "branch",
-            key: "branch",
-            width: "10%",
+            title: "Mobile",
+            dataIndex: "mobile",
+            key: "mobile",
+            width: "8%",
         },
         {
-            title: "Vertical",
-            dataIndex: "vertical",
-            key: "vertical",
-            width: "10%",
+            title: "Email",
+            dataIndex: "email",
+            key: "email",
+            width: "19%",
         },
         {
-            title: "Sub-Vertical",
-            dataIndex: "subVertical",
-            key: "subVertical",
-            width: "10%",
+            title: "Phone",
+            dataIndex: "phone",
+            key: "phone",
+            width: "8%",
         },
         {
-            title: "Status",
-            dataIndex: "status",
-            key: "status",
-            width: "10%",
+            title: "Designation",
+            dataIndex: "designation",
+            key: "designation",
+            width: "15%",
+        },
+        {
+            title: "Department",
+            dataIndex: "department",
+            key: "department",
+            width: "15%",
         },
         {
             title: "Action",
@@ -79,7 +89,7 @@ export default function CustList() {
                         type="button"
                         className="viewbutton"
                         style={{ marginRight: "0px" }}
-                    onClick={() => EditCustomer(record.custId)}
+                    // onClick={() => EditCustomer(record.custId)}
                     >
                         <EditOutlined />{" "}
                     </button>
@@ -87,7 +97,7 @@ export default function CustList() {
                         type="button"
                         className="viewbutton1"
                         style={{ marginLeft: "0px", marginRight: "0px" }}
-                    onClick={() => ViewCustomer(record.custId)}
+                    // onClick={() => ViewCustomer(record.custId)}
                     >
                         <FolderViewOutlined />{" "}
                     </button>
@@ -97,16 +107,9 @@ export default function CustList() {
                         data-target="#exampleModalCenter"
                         className="viewbutton2"
                         style={{ marginLeft: "0px", marginRight: "0px" }}
-                        onClick={() => setDeleteddarId(record.custId)} >
+                        // onClick={() => setDeleteddarId(record.custId)}
+                         >
                         <DeleteFilled />
-                    </button>
-                    <button
-                        type="button"
-                        className="viewbutton3"
-                        style={{ marginLeft: "0px", marginRight: "0px" }}
-                        onClick={() => AddContact(record.custId)}
-                    >
-                        <UserAddOutlined />
                     </button>
 
                     <div
@@ -144,7 +147,7 @@ export default function CustList() {
                                     <button type="button"
                                         data-dismiss="modal"
                                         aria-label="Close" className="btn btn-primary"
-                                        onClick={() => { DeleteDar(DeleteddarId) }}
+                                        // onClick={() => { DeleteDar(DeleteddarId) }}
                                     >
                                         Delete
                                     </button>
@@ -154,72 +157,16 @@ export default function CustList() {
                     </div>
                 </Space>
             ),
-            width: "20%",
+            width: "15%",
         },
     ].filter(item => !item.hidden);
 
-    const EditCustomer = (e) => {
-        navigate(
-          {
-            pathname: "/EditCustomer",
-            search: createSearchParams({
-              id: e
-            }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
-        );
-      };
-
-      const AddContact = (e) => {
-        navigate(
-          {
-            pathname: "/CustContact",
-            search: createSearchParams({
-              id: e
-            }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
-        );
-      };
-
-      const ViewCustomer = (e) => {
-        navigate(
-          {
-            pathname: "/ViewCustomer",
-            search: createSearchParams({
-              id: e
-            }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
-        );
-      };
-
-    const DeleteDar = async (e) => {
-        console.log(e);
-        const res = await fetch(
-            `${process.env.REACT_APP_BASE_URL}/ISR/DeleteCustomer?customerId=${e}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${jwtStoredValue}`,
-                },
-            }
-        );
-        const personResponse = await res.json();
-        if (personResponse.resCode === 200) {
-
-            window.location.reload();
-            return personResponse?.resData;
-        } else {
-            console.log("Couldn't fetch contacted person data");
-        }
-    };
 
 
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata(); getBranchAndVertical();
+        if (!ignore) getProfiledata();
         return () => { ignore = true; }
     }, []);
 
@@ -241,35 +188,25 @@ export default function CustList() {
         }
     }
 
-    async function getBranchAndVertical() {
+    const NavBack = () => {
+        navigate(-1);
+    };
+    const DocSearchReser = () => {
+        window.location.reload();
+    };
 
-        const res = await fetch(
-            `${localStorage.getItem("BaseUrl")}/ISR/BranchAndVertical`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-                },
-            }
-        );
-        const profileData = await res.json();
-        if (profileData.resCode === 200) {
-            console.log(profileData.resData);
-            setBranchandVertical(profileData.resData);
-        }
-    }
-
-    async function ISRCustList() {
+    async function ContactList() {
         let PageData = {
-            Search: FilterName,
-            Name: CustName,
-            Branch: CustBranch,
-            Vertical: CustVertical,
+            // Search: FilterName,
+            // Name: CustName,
+            // Branch: CustBranch,
+            // Vertical: CustVertical,
+            CustId :searchparams.get("id"),
             pageNumber: tableParams.pagination.current,
             pageSize: tableParams.pagination.pageSize,
         };
         console.log(PageData);
-        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ISR/CustomerList`, {
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ISR/CustContactList`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -277,22 +214,24 @@ export default function CustList() {
             },
             body: JSON.stringify(PageData),
         });
-        const IsrCustList = await res.json();
-        if (IsrCustList.resCode === 200) {
-            setData(IsrCustList.resData.data);
+        const ContactList = await res.json();
+        if (ContactList.resCode === 200) {
+            setData(ContactList.resData.contList);
+            setCustName(ContactList.resData.contList[0].customerName)
             setLoading(false);
             setTableParams({
                 ...tableParams,
                 pagination: {
                     ...tableParams.pagination,
-                    total: IsrCustList.resData.totalCount,
+                    total: ContactList.resData.totalCount,
                 },
             });
         }
     }
 
+
     useEffect(() => {
-        ISRCustList();
+        ContactList();
     }, [JSON.stringify(tableParams)]);
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
@@ -307,37 +246,6 @@ export default function CustList() {
         }
     };
 
-    const NavBack = () => {
-        navigate(-1);
-    };
-    const DocSearchReser = () => {
-        window.location.reload();
-    };
-
-    const ModifyCust = () => {
-        navigate(
-          {
-            pathname: "/modifyCust",
-            // search: createSearchParams({
-            //   id: e
-            // }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
-        );
-      };
-
-    const SErchWord = (e) => {
-        // HrEmpList();
-        var value = e;
-        console.log(value);
-        setFilterName(value);
-
-        console.log(FilterName);
-        ISRCustList()
-    }
-
-
-
 
     return (
         <div>
@@ -348,18 +256,19 @@ export default function CustList() {
                     <div className="row pt-1 pb-1">
                         <div className="col-md-6">
                             <nav aria-label="breadcrumb">
-                                <h2>Customer List</h2>
+                                <h2>Contact List</h2>
                             </nav>
                         </div>
                         <div className="col-md-6">
                             <ol className="breadcrumb d-flex justify-content-end bg-transparent">
                                 <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Customer List</li>
+                                <li className="breadcrumb-item active" aria-current="page">Contact List</li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <div
                 className="containner p-4"
@@ -372,73 +281,79 @@ export default function CustList() {
                                 <div className="row">
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Customer Name<span className="float-right">:</span></label>
+                                            <label for="inputEmail3" className="col-md-5">Contact Person<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); setCustName(e.target.value) }}
+                                                    onChange={(e) => { console.log(e.target.value); }}
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Branch<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
-                                            <div className="col-md-7">
-                                                <select value={CustBranch}
-                                                    onChange={(e) => { console.log(e.target.value); setCustBranch(e.target.value) }}
+                                            <label for="inputEmail3" className="col-md-5">Designation<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                                                <input
+                                                    type='text'
                                                     style={{ width: "100%" }}
-                                                >
-                                                    <option value={0}>Select</option>
-                                                    {
-                                                        (BranchandVertical == null)
-                                                            ? <></>
-                                                            :
-                                                            (
-                                                                BranchandVertical.branch ?
-                                                                    BranchandVertical.branch.map((e) => (
-                                                                        <option value={e.branchId} >{e.branchName}</option>
-                                                                    )) : null)
-                                                    }
-                                                </select>
+                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Vertical<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
-                                            <div className="col-md-7">
-                                                <select value={CustVertical}
-                                                    onChange={(e) => { console.log(e.target.value); setCustVertical(e.target.value) }}
+                                            <label for="inputEmail3" className="col-md-5">Department<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                                                <input
+                                                    type='text'
                                                     style={{ width: "100%" }}
-                                                >
-                                                    <option value={0}>Select</option>
-                                                    {
-                                                        (BranchandVertical == null)
-                                                            ? <></>
-                                                            :
-                                                            (
-                                                                BranchandVertical.vertical ?
-                                                                    BranchandVertical.vertical.map((e) => (
-                                                                        <option value={e.verticalId} >{e.verticalName}</option>
-                                                                    )) : null)
-
-                                                    }
-                                                </select>
+                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4 mt-3">
+                                        <div className="d-flex">
+                                            <label for="inputEmail3" className="col-md-5">Mobile<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                                                <input
+                                                    type='text'
+                                                    style={{ width: "100%" }}
+                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4 mt-3">
+                                        <div className="d-flex">
+                                            <label for="inputEmail3" className="col-md-5">Phone<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                                                <input
+                                                    type='text'
+                                                    style={{ width: "100%" }}
+                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4 mt-3">
+                                        <div className="d-flex">
+                                            <label for="inputEmail3" className="col-md-5">Email<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                                                <input
+                                                    type='text'
+                                                    style={{ width: "100%" }}
+                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="box-footer">
                                     <center style={{ padding: "10px" }}>
-                                        <button
-                                            className="FunctionButton"
-                                            style={{ backgroundColor: "#06960b", width: "150px" }}
-                                            onClick={ISRCustList}
-                                        >
-                                            Search Customer
-                                        </button>
                                         <button
                                             className="FunctionButton"
                                             style={{ backgroundColor: "#da251c" }}
@@ -449,7 +364,7 @@ export default function CustList() {
                                         <button
                                             className="FunctionButton"
                                             style={{ backgroundColor: "#0b2087" }}
-                                            onClick={ModifyCust}
+                                            // onClick={ModifyCust}
                                         >
                                             + ADD
                                         </button>
@@ -467,15 +382,11 @@ export default function CustList() {
 
                             <hr></hr>
 
-                            <div className="col-md-4 mt-3 mb-4">
+                            <div className="col-md-6 mt-3 mb-4">
                                 <div className="d-flex">
-                                    <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                                    <label for="inputEmail3" className="col-md-5">Customer Name<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
                                     <div className="col-md-7" style={{ paddingLeft: "10px" }}>
-                                        <input
-                                            type='text'
-                                            value={FilterName}
-                                            onChange={(e) => { console.log(e.target.value); SErchWord(e.target.value); }}
-                                        />
+                                        <h4>{CustName}</h4>
                                     </div>
                                     {/* <div className="col-md-5" style={{ paddingLeft: "10px" }}>
                                         <a href={`${localStorage.getItem("BaseUrl")}/HrManual/EmployeeCSVDownload`} ><button className="FunctionButton1" style={{ backgroundColor: "#1b8532" }}>Download CSV</button></a>
@@ -516,4 +427,3 @@ export default function CustList() {
         </div>
     )
 }
-

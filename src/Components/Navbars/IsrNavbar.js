@@ -14,7 +14,11 @@ export default function IsrNavbar() {
         {
             label: 'Customer Master',
             key: 'CustList',
-        }
+        },
+        {
+            label: 'Add Customer',
+            key: 'modifyCust',
+        },
     ];
     return (
         <div >
