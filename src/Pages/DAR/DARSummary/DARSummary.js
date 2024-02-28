@@ -6,6 +6,7 @@ import {
   FolderViewOutlined,
   DeleteFilled,
   FileAddOutlined,
+  PlayCircleOutlined
 } from "@ant-design/icons";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
@@ -22,14 +23,36 @@ export default function DARSummary() {
   const [ProfileData, setProfileData] = useState(userData);
   const [data, setData] = useState();
   const [FilterName, setFilterName] = useState(null);
+  const [DeleteddarId, setDeleteddarId] = useState(null);
 
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 10,
-      position: ["topRight"],
+      // position: ["topRight"],
     },
   });
+
+  const DeleteDar = async (e) => {
+    console.log(e);
+    const res = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/Dar/DeleteDar?DarId=${e}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtStoredValue}`,
+        },
+      }
+    );
+    const personResponse = await res.json();
+    if (personResponse.resCode === 200) {
+      
+      window.location.reload();
+      return personResponse?.resData;
+    } else {
+      console.log("Couldn't fetch contacted person data");
+    }
+  };
 
   const columns = [
     {
@@ -69,7 +92,7 @@ export default function DARSummary() {
       width: "10%",
     },
     {
-      title: "Products",
+      title: "Principal",
       dataIndex: "products",
       key: "products",
       width: "12.s%",
@@ -102,15 +125,17 @@ export default function DARSummary() {
             data-target="#exampleModalCenter"
             className="viewbutton2"
             style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => setDeleteddarId(record.darId)}
           >
-            <DeleteFilled />{" "}
+            <DeleteFilled />
           </button>
           <button
             type="button"
             className="viewbutton3"
             style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => ContinueDar(record.darId)}
           >
-            <FileAddOutlined />
+            <PlayCircleOutlined />
           </button>
 
           <div
@@ -135,7 +160,7 @@ export default function DARSummary() {
                   </button>
                 </div>
                 <div className="modal-body">
-                  <h5>Do you really want to delete user {record.name}</h5>
+                  <h5>Do you really want to delete DAR {DeleteddarId} ??</h5>
                 </div>
                 <div className="modal-footer">
                   <button
@@ -145,7 +170,9 @@ export default function DARSummary() {
                   >
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary">
+                  <button type="button" 
+                    data-dismiss="modal"
+                    aria-label="Close" className="btn btn-primary" onClick={() => { DeleteDar(DeleteddarId)}}>
                     Delete
                   </button>
                 </div>
@@ -168,6 +195,17 @@ export default function DARSummary() {
     });
   };
 
+  const ContinueDar = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate({
+      pathname: "/ContinueDar",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
+  };
+
+
   const EditDar = (e) => {
     // navigate("/EditEmployee", { replace: true });
     navigate({
@@ -177,6 +215,8 @@ export default function DARSummary() {
       }).toString(),
     });
   };
+
+
 
   // useEffect(() => {
   //   let ignore = false;
@@ -387,7 +427,7 @@ export default function DARSummary() {
 
               <hr></hr>
 
-              <div className="col-md-4 mt-3">
+              <div className="col-md-4 mt-3 mb-4">
                 <div className="d-flex">
                   <label for="inputEmail3" className="col-md-5">
                     Customer Search

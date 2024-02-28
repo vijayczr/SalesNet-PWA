@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppHeader from "../../Components/Header/AppHeader";
 import '../AddEmployee/AddEmployee.css';
-import { DatePicker, Space ,Button, Modal } from 'antd';
+import { DatePicker, Space ,Button, Modal ,Checkbox  , CheckboxProps  } from 'antd';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 import { useNavigate,createSearchParams } from "react-router-dom";
 
@@ -19,7 +19,7 @@ export default function AddEmployee() {
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata()
+    if (!ignore) getProfiledata();GetHeirarchy(10)
     return () => { ignore = true; }
   }, []);
 
@@ -117,8 +117,12 @@ export default function AddEmployee() {
   const [AniversaryDate, setAniversaryDate] = useState(null);
   const [BloodGroup, setBloodGroup] = useState(null);
   const [Peremail, setPeremail] = useState(null);
+
   const [EmerContact, setEmerContact] = useState(null);
   const [RelationWcontact, setRelationWcontact] = useState(null);
+  const [EmerContact2, setEmerContact2] = useState(null);
+  const [RelationWcontact2, setRelationWcontact2] = useState(null);
+
   const [LandlineNo, setLandlineNo] = useState(null);
   const [PAddress, setPAddress] = useState(null);
   const [PCity, setPCity] = useState(null);
@@ -132,6 +136,8 @@ export default function AddEmployee() {
   const [Ccountry, setCcountry] = useState(null);
   const [Cpincode, setCpincode] = useState(null);
   const [Cphone, setCphone] = useState(null);
+  const [SameAddress, setSameAddress] = useState("false");
+
   const [Mpolicyname, setMpolicyname] = useState(null);
   const [Mpolicydetail, setMpolicydetail] = useState(null);
   const [Massuredamout, setMassuredamout] = useState(null);
@@ -195,8 +201,12 @@ export default function AddEmployee() {
     FormData1.append("Anniversary", AniversaryDate);
     FormData1.append("Bloodgroup", BloodGroup);
     FormData1.append("Personalemail", Peremail);
+
     FormData1.append("EmergencyContact", EmerContact);
     FormData1.append("realtionwithContact", RelationWcontact);
+    FormData1.append("EmergencyContact2", EmerContact2);
+    FormData1.append("realtionwithContact2", RelationWcontact2);
+
     FormData1.append("LandlineNumber", LandlineNo);
 
     FormData1.append("uploadImage", Image);
@@ -214,6 +224,8 @@ export default function AddEmployee() {
     FormData1.append("Ccountry", Ccountry);
     FormData1.append("Cpincode", Cpincode);
     FormData1.append("Cphone", Cphone);
+    FormData1.append("SameAddress", SameAddress);
+
     FormData1.append("Medi_PolicyName", Mpolicyname);
     FormData1.append("Medi_PolicyDetail", Mpolicydetail);
     FormData1.append("Medi_AssuredAmount", Massuredamout);
@@ -257,20 +269,6 @@ export default function AddEmployee() {
   //   onpreviouspage();
   // };
   const onClick1 = () => {
-    // Modal.confirm({
-    //   // onOk : {onpreviouspage},
-    //   // onOk:{handleOk},
-    //   title: 'Success',
-    //   content: 'EMPLOYEE ADDED SUCCESSFULLY',
-    //   footer: (_, { OkBtn }) => (
-    //     <>
-    //       {/* <Button>Custom Button</Button>
-    //       <CancelBtn /> */}
-    //       <OkBtn />
-    //     </>
-    //   ),
-    // });
-
     Modal.confirm({
       title: 'Success',
       content: 'EMPLOYEE ADDED SUCCESSFULLY',
@@ -279,31 +277,10 @@ export default function AddEmployee() {
           <OkBtn  className="FunctionButton" style={{ color: "white" }} onClick={onpreviouspage}/>
         </>
       ),
-    });
+    });}
     
 
-  //   <Modal
-  //   // open={open}
-  //   title="Title"
-  //   // onOk={handleOk}
-  //   // onCancel={handleCancel}
-  //   footer={(_, { OkBtn }) => (
-  //     <>
-  //       {/* <Button>Custom Button</Button>
-  //       <CancelBtn /> */}
-  //       <OkBtn />
-  //     </>
-  //   )}
-  // >
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  //   <p>Some contents...</p>
-  // </Modal>
 
-
-  }
 
   const onpreviouspage =() =>{
     navigate("/HR", { replace: true });
@@ -445,6 +422,10 @@ export default function AddEmployee() {
     setAttachment(event.target.files[0])
   }
 
+  const onChangeAddress = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+    setSameAddress(`${e.target.checked}`)
+  };
 
 
   return (
@@ -648,6 +629,7 @@ export default function AddEmployee() {
                             <input
                               style={{ width: "100%" }}
                               type='text'
+                              maxLength={12}
                               value={Aadhar}
                               onChange={(e) => { setAadhar(e.target.value); console.log(Aadhar); }}
                               placeholder='Aadhar'
@@ -681,6 +663,7 @@ export default function AddEmployee() {
                             <input
                               style={{ width: "100%" }}
                               type='text'
+                              maxLength={10}
                               value={PAN}
                               onChange={(e) => { setPAN(e.target.value); console.log(PAN); }}
                               placeholder='PAN'
@@ -903,7 +886,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Attachments<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Resume/CV<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'
@@ -1076,7 +1059,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Total number of Experience<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Previous Experience<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
@@ -1227,15 +1210,44 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">relation with that number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Relation with that number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
                               type='text'
-                              placeholder='name'
+                              placeholder='Name'
                               required
                               value={RelationWcontact}
                               onChange={(e) => setRelationWcontact(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-6 ">
+                        <div className="form-group d-flex">
+                          <label className="col-md-5 mt-1 mb-0">Emergency Contact Number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <div className="col-md-7">
+                            <input
+                              style={{ width: "100%" }}
+                              type='text'
+                              required
+                              value={EmerContact2}
+                              onChange={(e) => setEmerContact2(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-6 ">
+                        <div className="form-group d-flex">
+                          <label className="col-md-5 mt-1 mb-0">Relation with that number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <div className="col-md-7">
+                            <input
+                              style={{ width: "100%" }}
+                              type='text'
+                              placeholder='Name'
+                              required
+                              value={RelationWcontact2}
+                              onChange={(e) => setRelationWcontact2(e.target.value)}
                             />
                           </div>
                         </div>
@@ -1255,7 +1267,7 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Upload image<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">Employee Photo<span className="float-right">:</span></label>
                           <div className="col-md-7">
                             <input
                               type='file'
@@ -1352,7 +1364,7 @@ export default function AddEmployee() {
                               type='text'
                               required
                               value={Ppincode}
-                              onChange={(e) => setPpincode}
+                              onChange={(e) => setPpincode(e.target.value)}
                             />
                           </div>
                         </div>
@@ -1374,7 +1386,8 @@ export default function AddEmployee() {
 
                       <div className="col-lg-12 mt-0 mb-0">
                         <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                          <p className="mt-0 mb-0">Correspondence Address</p>
+                          <p className="mt-0 mb-0">Correspondence Address___________</p>
+                          <Checkbox onChange={onChangeAddress}> Same as Permanent Address</Checkbox>
                         </div>
                       </div>
                       <div className="col-lg-6 ">

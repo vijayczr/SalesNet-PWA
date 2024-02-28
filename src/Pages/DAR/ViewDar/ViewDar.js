@@ -5,9 +5,11 @@ import DarComponent from "../../../Components/DarComponent/DarComponent";
 import DarHeader from "../../../Components/DarHeader/DarHeader";
 import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
 import useLocalStorage from "../../../hooks/useLocalStorage";
+import { Button } from "antd";
 
 export default function ViewDar(props) {
   const [searchparams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
   const { userData } = useContext(UserDataContext);
@@ -97,6 +99,7 @@ export default function ViewDar(props) {
         ...prev,
         applicationEngineer: responseData?.appEngId,
         leadType: responseData?.leadTypeId,
+        LeadId: responseData?.leadId,
         joiningDate: responseData.visitDate,
         visitTime: responseData.visitTime,
         customer: responseData?.customerId,
@@ -149,7 +152,8 @@ export default function ViewDar(props) {
           opportunityStatus: responseData.opportunityStatus,
           opportunityStatusData: formOpportunityData,
           remark: responseData.darRemark,
-          uploadFile: responseData.file
+          uploadFile: responseData.file,
+          darComment: responseData.darComment
         };
         return newData;
       });
@@ -248,6 +252,20 @@ export default function ViewDar(props) {
             </div>
           </div>
         </div>
+        <center>
+            <Button
+              size={"large"}
+              className="FunctionButton"
+              style={{
+                backgroundColor: "#757575",
+                color: "white",
+                marginTop: "1rem",
+              }}
+              onClick={() => navigate("/DarSummary")}
+            >
+              Back
+            </Button>
+          </center>
         <DarHeader
           darHeaderData={darHeaderData}
           setDarHeaderData={setDarHeaderData}
@@ -275,6 +293,10 @@ export default function ViewDar(props) {
                   customerContactList={customerContactList}
                   principalList={principalList}
                   disabledField={true}
+                  formType={"View"}
+                  DarId={searchparams.get(
+                    "id"
+                  )}
                 />
               </div>
             );

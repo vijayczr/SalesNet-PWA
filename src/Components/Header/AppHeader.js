@@ -4,9 +4,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import logo2 from '../../assets/logo.png';
 import { Button, Popover } from "antd";
 import '../../Pages/Dashboard/Dashboard.css'
-import { LogoutOutlined,SettingOutlined } from '@ant-design/icons';
+import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import HrNavbar from '../Navbars/HrNavbar.js';
 import DarNavbar from '../Navbars/DarNavbar.js';
+import IsrNavbar from "../Navbars/IsrNavbar.js";
 
 export default function AppHeader(props) {
 
@@ -37,7 +38,7 @@ export default function AppHeader(props) {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
-                    "Content-Type": "application/json" 
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(formData),
             }
@@ -48,7 +49,7 @@ export default function AppHeader(props) {
             SetLoginErrorMssg("Password Change Successfull!");
             SetresCOlor("text-success");
         }
-        else if(Response.resCode === 400){
+        else if (Response.resCode === 400) {
             SetLoginErrorMssg(Response.resData);
             SetresCOlor("text-danger");
         }
@@ -62,11 +63,11 @@ export default function AppHeader(props) {
 
                 <div className="top-search-bar" style={{ marginBottom: "-17px" }}>
                     <ul className="service-btns">
-                        <li><a href="/Dashboard" style={{ textDecoration: "none" , fontWeight:"bold" }}>Dashboard</a></li>
-                        <li><a href="/HumanResource" style={{ textDecoration: "none", fontWeight:"bold"  }}>Human Resource</a></li>
-                        <li><a href="/Blogs" style={{ textDecoration: "none" , fontWeight:"bold" }}>Blog</a></li>
-                        <li><a href="/KnowledgeShare" style={{ textDecoration: "none", fontWeight:"bold"  }}>Knowledge Sharing</a></li>
-                        <li><a href="/HolidayList" style={{ textDecoration: "none", fontWeight:"bold"  }}>Holiday List</a></li>
+                        <li><a href="/Dashboard" style={{ textDecoration: "none", fontWeight: "bold" }}>Dashboard</a></li>
+                        <li><a href="/HumanResource" style={{ textDecoration: "none", fontWeight: "bold" }}>Human Resource</a></li>
+                        <li><a href="/Blogs" style={{ textDecoration: "none", fontWeight: "bold" }}>Blog</a></li>
+                        <li><a href="/KnowledgeShare" style={{ textDecoration: "none", fontWeight: "bold" }}>Knowledge Sharing</a></li>
+                        <li><a href="/HolidayList" style={{ textDecoration: "none", fontWeight: "bold" }}>Holiday List</a></li>
                     </ul>
                 </div>
                 <div className="d-flex align-items-end mr-5">
@@ -76,7 +77,7 @@ export default function AppHeader(props) {
                             <div className="profile-option p-3" >
                                 <div className="mt-2 row">
                                     <div className="col-sm-1">
-                                        <img src={base64Image} style={{ borderRadius:"50%"}} className="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
+                                        <img src={base64Image} style={{ borderRadius: "50%" }} className="defaultpfp2" alt="../../assets/Default_pfp.svg.png" />
                                     </div>
                                     <div className="userDataa">
                                         <h6>{props.data.userName}</h6>
@@ -92,9 +93,9 @@ export default function AppHeader(props) {
                                     <h6>Change Password</h6>
                                 </div>
                             </a>
-                            <a className="profile-list--data" href="/" style={{color:"black" , textDecoration:"none"}}>
+                            <a className="profile-list--data" href="/" style={{ color: "black", textDecoration: "none" }}>
                                 <div className="profile--list-icon" >
-                                <LogoutOutlined style={{fontSize:"25px" , paddingRight:"20px"}} />
+                                    <LogoutOutlined style={{ fontSize: "25px", paddingRight: "20px" }} />
                                 </div>
                                 <div className="notification--list-body-text" >
                                     <h6 >Sign-out</h6>
@@ -102,19 +103,26 @@ export default function AppHeader(props) {
                             </a>
                         </div>}>
                         <Button shape="circle" size="large" >
-                            <img src={base64Image} className="defaultpfp3" style={{ borderRadius:"50%"}} alt="../../assets/Default_pfp.svg.png" />
+                            <img src={base64Image} className="defaultpfp3" style={{ borderRadius: "50%" }} alt="../../assets/Default_pfp.svg.png" />
                         </Button>
                     </Popover>
                 </div>
             </nav>
-            <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" style={{backgroundColor:"#f3f5f9"}}>
+            <nav className="shadow p-2 px-4 border-bottom navbar-inverse navbar-fixed-top" style={{ backgroundColor: "#f3f5f9" }}>
                 {
-                (`${localStorage.getItem('EmpId')}` === '1068') ? 
-                <DarNavbar />:
-
-                <HrNavbar />
-                
+                    (`${localStorage.getItem('EmpId')}` === '297') ?
+                        <DarNavbar /> : null
                 }
+                {
+                    (`${localStorage.getItem('EmpId')}` === '1027') ?
+                        <HrNavbar /> : null
+                }
+                                {
+                    (`${localStorage.getItem('EmpId')}` === '1040') ?
+                        <IsrNavbar /> : null
+                }
+                
+                
             </nav>
             <div className="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
@@ -190,7 +198,7 @@ export default function AppHeader(props) {
                 </div>
             </div>
         </div>
-        
+
 
     )
 }

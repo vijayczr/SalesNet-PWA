@@ -3,7 +3,7 @@ import "./App.css";
 import { Button } from "bootstrap";
 import Login from "./Pages/Login/Login";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Router } from "react-router-dom";
 import HumanResource from "./Pages/HumanResource/HumanResource";
 import HolidayList from "./Pages/HolidayList/HolidayList";
 import KnowledgeShare from "./Pages/KnowledgeShare/KnowledgeShare";
@@ -21,12 +21,18 @@ import DARSummary from "./Pages/DAR/DARSummary/DARSummary";
 import AddDar from "./Pages/DAR/AddDar/AddDar";
 import ViewDar from "./Pages/DAR/ViewDar/ViewDar";
 import EditDar from "./Pages/DAR/EditDar/EditDar";
+import ContinueDar from "./Pages/DAR/ContinueDar/ContinueDar";
 import UserDataContextProvider from "./Context/UserDataContext/UserDataContextProvider";
+import CustList from "./Pages/ISR/CustList/CustList";
+import AddCust from "./Pages/ISR/ModifyCustomer/modifyCust";
+import EditCust from "./Pages/ISR/ModifyCustomer/EditCust";
+import ViewCust from "./Pages/ISR/ModifyCustomer/ViewCust";
+import CustContact from "./Pages/ISR/CustContact/CustContact";
 
 function App() {
-  localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
+  // localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
   // localStorage.setItem("BaseUrl", "https://5b56-103-8-43-34.ngrok-free.app");
-  // localStorage.setItem("BaseUrl", "http://192.168.1.177:2934");
+  localStorage.setItem("BaseUrl", "http://localhost:5193");
   return (
     <UserDataContextProvider>
       <BrowserRouter>
@@ -51,6 +57,12 @@ function App() {
           <Route path="/AddDar" element={<AddDar />} />
           <Route path="/ViewDar" element={<ViewDar />} />
           <Route path="/EditDar" element={<EditDar />} />
+          <Route path="/ContinueDar" element={<ContinueDar />} />
+          <Route path="/CustList" element={<CustList />} />
+          <Route path="/modifyCust" element={<AddCust />} />
+          <Route path="/EditCustomer" element={<EditCust/>}/>
+          <Route path="/ViewCustomer" element={<ViewCust/>}/>
+          <Route path="/CustContact" element={<CustContact/>} />
         </Routes>
       </BrowserRouter>
       </UserDataContextProvider>

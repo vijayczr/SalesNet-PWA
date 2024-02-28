@@ -11,9 +11,9 @@ import { Spin } from "antd";
 import { submitDarForm, uploadDarFile } from "../../../utils/api";
 import dayjs from "dayjs";
 
-export default function AddDar() {
-  const [searchparams] = useSearchParams();
+export default function ContinueDar() {
   const navigate = useNavigate();
+  const [searchparams] = useSearchParams();
 
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
   const { userData } = useContext(UserDataContext);
@@ -62,6 +62,7 @@ export default function AddDar() {
   const [customerContactList, setCustomerContactList] = useState(null);
 
   useEffect(() => {
+      getDarData();
     GetAppEnggList();
     SearchCustomer();
     getPrincipalList();
@@ -83,6 +84,91 @@ export default function AddDar() {
       });
     });
   }, [darHeaderData?.customer]);
+
+
+  async function getDarData() {
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/Dar/ViewDar?DarId=${searchparams.get(
+          "id"
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${jwtStoredValue}`,
+          },
+        }
+      );
+      const response = await res.json();
+      const responseData = response.resData;
+  
+      if (response.resCode === 200) {
+        setDarHeaderData((prev) => ({
+          ...prev,
+          applicationEngineer: responseData?.appEngId,
+          leadType: responseData?.leadTypeId,
+          LeadId: responseData?.leadId,
+          joiningDate: responseData.visitDate,
+          visitTime: responseData.visitTime,
+          customer: responseData?.customerId,
+        }));
+  
+        let formStatusData = {};
+        if (responseData.darStatusId === 1) {
+          formStatusData.nextActionDate = responseData.nextActionDate;
+        } else if (responseData.darStatusId === 2) {
+          formStatusData.darClosingDate = responseData.darClosingDate;
+        } else {
+          formStatusData.lostReasonId = responseData.lostReasonId;
+        }
+  
+        let formOpportunityData = {};
+        if (responseData.opportunityStatus >= 4) {
+          formOpportunityData.isFundAvailable = responseData.isFundAvailable;
+        }
+        if (responseData.opportunityStatus > 5) {
+          formOpportunityData.orderValue = responseData.orderValue;
+          formOpportunityData.advancePay = responseData.advancePay;
+          formOpportunityData.gst = responseData.gst;
+          formOpportunityData.gstPerc = responseData.gstPerc;
+          formOpportunityData.deliveryPay = responseData.deliveryPay;
+          formOpportunityData.trainingPay = responseData.trainingPay;
+          formOpportunityData.actualValue = responseData.actualValue;
+        }
+  
+        setDarFormData((prev) => {
+          let newData = [...prev];
+          newData[0] = {
+            ...prev?.[0],
+            contactPerson: {
+              custId: responseData.contactPersonId,
+              phoneNo: responseData.phoneNo,
+              mobileNo: responseData.mobileNo,
+              department: responseData.custDepartment,
+              designation: responseData.custDesgn,
+              email: responseData.email,
+            },
+            principal: responseData.principalId,
+            selectedProducts: responseData.products,
+            callType: responseData.callTypeId,
+            callStatus: responseData.callStatusId,
+            darVertical: responseData.verticalId,
+            expectedOrderValue: responseData.price,
+            monthOfOrder: responseData.monthOfOrder,
+            status: responseData.darStatusId,
+            statusData: formStatusData,
+            opportunityStatus: responseData.opportunityStatus,
+            opportunityStatusData: formOpportunityData,
+            remark: responseData.darRemark,
+            uploadFile: responseData.file,
+            darComment: responseData.darComment
+          };
+          return newData;
+        });
+  
+        getPersonContactList(responseData.customerId);
+      }
+    }
+  
 
   async function getPersonContactList(customerId) {
     const res = await fetch(
@@ -191,10 +277,12 @@ export default function AddDar() {
           }));
 
           let submitFormData = {
+              DarId:searchparams.get("id"),
             CustomerId: darHeaderData?.customer,
             VisitDate: darHeaderData?.joiningDate,
             VisitTime: darHeaderData?.visitTime,
             LeadTypeId: darHeaderData?.leadType,
+            LeadId:darHeaderData?.LeadId,
             AppEngId: darHeaderData?.applicationEngineer,
             ContactPersonId: darForm?.contactPerson?.custId,
             CallTypeId: darForm?.callType,
@@ -306,6 +394,7 @@ export default function AddDar() {
           setDarHeaderData={setDarHeaderData}
           AppEngList={AppEngList}
           customerList={customerList}
+          formType={"Continue"}
           disabledField={false}
         />
 
@@ -321,7 +410,10 @@ export default function AddDar() {
                   principalList={principalList}
                   disabledField={false}
                   removeForm={removeForm}
-                  formType={"Add"}
+                  formType={"Continue"}
+                  DarId={searchparams.get(
+                    "id"
+                  )}
                 />
               </div>
             );
@@ -329,9 +421,9 @@ export default function AddDar() {
         </div>
 
         <div className="btn-container">
-          <Button className="add-form-btn" onClick={addForm}>
+          {/* <Button className="add-form-btn" onClick={addForm}>
             Add Form +
-          </Button>
+          </Button> */}
           <Button
             className="submit-form-btn"
             onClick={() => {

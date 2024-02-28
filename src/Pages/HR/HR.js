@@ -3,7 +3,7 @@ import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
 import { useNavigate, Link, createSearchParams } from "react-router-dom";
 import { ConfigProvider, Space, Table, Tag } from 'antd';
-import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled ,FileAddOutlined} from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled, FileAddOutlined } from '@ant-design/icons';
 import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
 
 export default function HR() {
@@ -17,12 +17,14 @@ export default function HR() {
   const [FilterName, setFilterName] = useState(null);
   const [FilterStatus, setFilterStatus] = useState("true");
   const [FilterVertical, setFilterVertical] = useState(7);
+  const [DelEmpId, SetDelEmpId] = useState(null);
+
   const [FilterDesignation, setFilterDesignation] = useState(999);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 10,
-      position: ["topRight"]
+      // position: ["topRight"]
     },
   });
 
@@ -77,7 +79,7 @@ export default function HR() {
         <Space size="middle">
           <button type="button" className="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditEmpPage(record.userId)}><EditOutlined /> </button>
           <button type="button" className="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => ViewEmpPage(record.userId)}><FolderViewOutlined /> </button>
-          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }}><DeleteFilled /> </button>
+          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => SetDelEmpId(record.userId)}><DeleteFilled /> </button>
           <button type="button" className="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Empprdct(record.userId)}><FileAddOutlined /></button>
 
 
@@ -91,11 +93,11 @@ export default function HR() {
                   </button>
                 </div>
                 <div className="modal-body">
-                  <h5>Do you really want to delete user {record.name}</h5>
+                  <h5>Do you really want to delete user {DelEmpId}</h5>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="button" className="btn btn-primary" onClick={() => DelEmp(record.userId)}>Delete</button>
+                  <button type="button" className="btn btn-primary" data-dismiss="modal" aria-label="Close" onClick={() => DelEmp(DelEmpId)}>Delete</button>
                 </div>
               </div>
             </div>
@@ -117,7 +119,7 @@ export default function HR() {
     );
   };
 
-  async function DelEmp(e){
+  async function DelEmp(e) {
     const res = await fetch(
       `${localStorage.getItem("BaseUrl")}/HrManual/delEmp?EmpId=${e}`,
       {
@@ -128,7 +130,7 @@ export default function HR() {
       }
     );
     const Response = await res.json();
-    if(Response.resCode === 200) {
+    if (Response.resCode === 200) {
       window.location.reload();
     }
 
@@ -192,6 +194,16 @@ export default function HR() {
   const DocumentSearch = () => {
     HrEmpList();
   }
+
+  const SErchWord = (e) => {
+    // HrEmpList();
+    var value = e;
+    console.log(value);
+    setFilterName(value);
+    console.log(FilterName);
+    DocumentSearch()
+  }
+
   const NavBack = () => {
     navigate(-1);
   }
@@ -261,7 +273,7 @@ export default function HR() {
 
   return (
     <div style={{ height: "100vh", overflow: "auto" }}>
-      
+
       <AppHeader data={ProfileData} />
 
       <div className="breadcrumb-area">
@@ -405,17 +417,22 @@ export default function HR() {
                 </div>
               </div>
               <div className="col-md-4 mt-3">
-                    <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
-                      <div className="col-md-7" style={{ paddingLeft: "10px" }}>
-                        <input
-                          type='text'
-                          value={FilterName}
-                          onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value) ;DocumentSearch() }}
-                        />
-                      </div>
-                    </div>
+                <div className="d-flex">
+                  <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                  <div className="col-md-7" style={{ paddingLeft: "10px" }}>
+                    <input
+                      type='text'
+                      value={FilterName}
+                      onChange={(e) => { console.log(e.target.value); SErchWord(e.target.value);  }}
+                    />
                   </div>
+                  <div className="col-md-5" style={{ paddingLeft: "10px" }}>
+                  <a href={`${localStorage.getItem("BaseUrl")}/HrManual/EmployeeCSVDownload`} ><button className="FunctionButton1" style={{ backgroundColor: "#1b8532" }}>Download CSV</button></a>
+
+                  </div>
+
+                </div>
+              </div>
               <br></br>
 
 
