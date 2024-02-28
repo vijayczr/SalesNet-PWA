@@ -49,7 +49,7 @@ function DarHeader({
                     style={{ width: "100%" }}
                     type="text"
                     value={profileData?.userName}
-                    disabled={disabledField}
+                    disabled
                   />
                 </div>
               </div>
