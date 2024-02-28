@@ -116,6 +116,11 @@ export default function AddCustForm(
         ISRCustList();
     }
 
+    const AddtoContact=()=>{
+        ISRCustList2();
+    }
+
+
     async function ISRCustList() {
         let PageData = {
             CustomerId: PrevData.customerId,
@@ -147,6 +152,51 @@ export default function AddCustForm(
         if (Response.resCode === 200) {
             setCustBranch(0)
             onClick1();
+        }
+        if (Response.resCode === 400) {
+            onClick2();
+        }
+    }
+
+    async function ISRCustList2() {
+        let PageData = {
+            CustomerId: PrevData.customerId,
+            CustomerName: CustName,
+            Branch: Number(CustBranch),
+            Vertical: Number(CustVertical),
+            SubVerticalId: CustSubVertical,
+            CustomerEmail: CustEmail,
+            CustomerAddress1: Address,
+            CustomerCity: CustCity,
+            CustomerState: CustState,
+            CustomerCountry: CustCountry,
+            CustomerZip: CustPin,
+            CustomerPhone1: CustPhone1,
+            CustomerPhone2: CustPhone2,
+            CustomerMobile: Mobile,
+            CustomerFax: CustFax,
+        };
+        console.log(PageData);
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ISR/AddCustomer`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwtStoredValue}`,
+            },
+            body: JSON.stringify(PageData),
+        });
+        const Response = await res.json();
+        if (Response.resCode === 200) {
+            setCustBranch(0)
+            navigate(
+                {
+                  pathname: "/CustContact",
+                  search: createSearchParams({
+                    id: Response.resData
+                  }).toString(),
+                  // state: { name: 'John Doe', age: 25 }
+                },
+              );
         }
         if (Response.resCode === 400) {
             onClick2();
@@ -436,7 +486,7 @@ export default function AddCustForm(
                                             <button
                                                 className="FunctionButton"
                                                 style={{ backgroundColor: "#0b2087", width: "150px" }}
-                                            // onClick={ModifyCust}
+                                                onClick={AddtoContact}
                                             >
                                                 + ADD Contact
                                             </button>

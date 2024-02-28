@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import { ConfigProvider, Table, Space } from "antd";
+import { ConfigProvider, Table,  Select, Space } from "antd";
 import {
     EditOutlined,
     FolderViewOutlined,
@@ -9,6 +9,7 @@ import {
     UserAddOutlined
 } from "@ant-design/icons";
 import useLocalStorage from "../../../hooks/useLocalStorage";
+import "../CustList/CustList.css"
 
 export default function CustList() {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function CustList() {
     const [loading, setLoading] = useState(false);
     const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
     const [DeleteddarId, setDeleteddarId] = useState(null);
+    const [customerList, setcustomerList] = useState(null);
 
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -79,7 +81,7 @@ export default function CustList() {
                         type="button"
                         className="viewbutton"
                         style={{ marginRight: "0px" }}
-                    onClick={() => EditCustomer(record.custId)}
+                        onClick={() => EditCustomer(record.custId)}
                     >
                         <EditOutlined />{" "}
                     </button>
@@ -87,7 +89,7 @@ export default function CustList() {
                         type="button"
                         className="viewbutton1"
                         style={{ marginLeft: "0px", marginRight: "0px" }}
-                    onClick={() => ViewCustomer(record.custId)}
+                        onClick={() => ViewCustomer(record.custId)}
                     >
                         <FolderViewOutlined />{" "}
                     </button>
@@ -160,39 +162,39 @@ export default function CustList() {
 
     const EditCustomer = (e) => {
         navigate(
-          {
-            pathname: "/EditCustomer",
-            search: createSearchParams({
-              id: e
-            }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
+            {
+                pathname: "/EditCustomer",
+                search: createSearchParams({
+                    id: e
+                }).toString(),
+                // state: { name: 'John Doe', age: 25 }
+            },
         );
-      };
+    };
 
-      const AddContact = (e) => {
+    const AddContact = (e) => {
         navigate(
-          {
-            pathname: "/CustContact",
-            search: createSearchParams({
-              id: e
-            }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
+            {
+                pathname: "/CustContact",
+                search: createSearchParams({
+                    id: e
+                }).toString(),
+                // state: { name: 'John Doe', age: 25 }
+            },
         );
-      };
+    };
 
-      const ViewCustomer = (e) => {
+    const ViewCustomer = (e) => {
         navigate(
-          {
-            pathname: "/ViewCustomer",
-            search: createSearchParams({
-              id: e
-            }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
+            {
+                pathname: "/ViewCustomer",
+                search: createSearchParams({
+                    id: e
+                }).toString(),
+                // state: { name: 'John Doe', age: 25 }
+            },
         );
-      };
+    };
 
     const DeleteDar = async (e) => {
         console.log(e);
@@ -219,9 +221,25 @@ export default function CustList() {
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata(); getBranchAndVertical();
+        if (!ignore) getProfiledata(); getBranchAndVertical(); SearchCustomer();
         return () => { ignore = true; }
     }, []);
+
+    async function SearchCustomer() {
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${jwtStoredValue}`,
+                },
+            }
+        );
+        const Response = await res.json();
+        if (Response.resCode === 200) {
+            setcustomerList(Response.resData);
+        }
+    }
 
     async function getProfiledata() {
 
@@ -316,15 +334,15 @@ export default function CustList() {
 
     const ModifyCust = () => {
         navigate(
-          {
-            pathname: "/modifyCust",
-            // search: createSearchParams({
-            //   id: e
-            // }).toString(),
-            // state: { name: 'John Doe', age: 25 }
-          },
+            {
+                pathname: "/modifyCust",
+                // search: createSearchParams({
+                //   id: e
+                // }).toString(),
+                // state: { name: 'John Doe', age: 25 }
+            },
         );
-      };
+    };
 
     const SErchWord = (e) => {
         // HrEmpList();
@@ -379,6 +397,18 @@ export default function CustList() {
                                                     style={{ width: "100%" }}
                                                     onChange={(e) => { console.log(e.target.value); setCustName(e.target.value) }}
                                                 />
+                                                {/* <Select
+                                                    showSearch
+                                                    style={{ width: 250 }}
+                                                    placeholder="Select"
+                                                    onChange={(e) => console.log(e)}
+                                                    filterOption={(input, option) =>
+                                                        (option?.label ?? "")
+                                                            .toLowerCase()
+                                                            .includes(input.toLowerCase())
+                                                    }
+                                                    options={customerList}
+                                                /> */}
                                             </div>
                                         </div>
                                     </div>

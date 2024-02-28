@@ -19,6 +19,7 @@ export default function CustContact() {
     const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
 
     const [CustName, setCustName] = useState(null);
+    const [ContactId, setContactId] = useState(0);
 
     const [Contpersnname, setContpersnname] = useState(null);
     const [contemail, setcontemail] = useState(null);
@@ -87,19 +88,21 @@ export default function CustContact() {
                 <Space size="middle">
                     <button
                         type="button"
+                        data-toggle="modal"
+                        data-target="#exampleModalCenter2"
                         className="viewbutton"
                         style={{ marginRight: "0px" }}
-                    // onClick={() => EditCustomer(record.custId)}
+                        onClick={() => {
+                            setContactId(record.contactId);
+                            setContpersnname(record.contactPerson);
+                            setcontemail(record.email);
+                            setcontphone(record.phone);
+                            setcontmobile(record.mobile);
+                            setcontdesignation(record.designation);
+                            setcontdepartment(record.department);
+                        }}
                     >
                         <EditOutlined />{" "}
-                    </button>
-                    <button
-                        type="button"
-                        className="viewbutton1"
-                        style={{ marginLeft: "0px", marginRight: "0px" }}
-                    // onClick={() => ViewCustomer(record.custId)}
-                    >
-                        <FolderViewOutlined />{" "}
                     </button>
                     <button
                         type="button"
@@ -107,8 +110,8 @@ export default function CustContact() {
                         data-target="#exampleModalCenter"
                         className="viewbutton2"
                         style={{ marginLeft: "0px", marginRight: "0px" }}
-                        // onClick={() => setDeleteddarId(record.custId)}
-                         >
+                        onClick={() => setContactId(record.contactId)}
+                    >
                         <DeleteFilled />
                     </button>
 
@@ -147,10 +150,93 @@ export default function CustContact() {
                                     <button type="button"
                                         data-dismiss="modal"
                                         aria-label="Close" className="btn btn-primary"
-                                        // onClick={() => { DeleteDar(DeleteddarId) }}
+                                        onClick={() => { DeleteCust() }}
                                     >
                                         Delete
                                     </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLongTitle"></h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="col-lg-12">
+                                        <div className="form-group d-flex">
+                                            <label for="inputEmail3" className="col-md-5 mt-1">Contact Person<span className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                                <input
+                                                    onChange={(e) => { setContpersnname(e.target.value); }}
+                                                    value={Contpersnname} className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-12">
+                                        <div className="form-group d-flex">
+                                            <label for="inputEmail3" className="col-md-5 mt-1">Designation<span className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                                <input
+                                                    onChange={(e) => {setcontdesignation(e.target.value); }}
+                                                    value={contdesignation} className="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-12">
+                                        <div className="form-group d-flex">
+                                            <label for="inputEmail3" className="col-md-5 mt-1">Department<span className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                            <input
+                                                    onChange={(e) => { setcontdepartment(e.target.value); }}
+                                                    value={contdepartment} className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-12">
+                                        <div className="form-group d-flex">
+                                            <label for="inputEmail3" className="col-md-5 mt-1">Mobile<span className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                            <input
+                                                    onChange={(e) => { setcontmobile(e.target.value); }}
+                                                    value={contmobile} className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-12">
+                                        <div className="form-group d-flex">
+                                            <label for="inputEmail3" className="col-md-5 mt-1">Phone<span className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                            <input
+                                                    onChange={(e) => { setcontphone(e.target.value); }}
+                                                    value={contphone} className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-12">
+                                        <div className="form-group d-flex">
+                                            <label for="inputEmail3" className="col-md-5 mt-1">Email<span className="pull-right">:</span></label>
+                                            <div className="col-md-7">
+                                            <input
+                                                    onChange={(e) => { setcontemail(e.target.value); }}
+                                                    value={contemail} className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" className="btn btn-primary" onClick={()=>ModifyCont()}>Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -188,6 +274,22 @@ export default function CustContact() {
         }
     }
 
+    async function DeleteCust() {
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/ISR/DeleteContact?ContactId=${ContactId}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+            }
+        );
+        const profileData = await res.json();
+        if (profileData.resCode === 200) {
+            DocSearchReser();
+        }
+    }
+
     const NavBack = () => {
         navigate(-1);
     };
@@ -201,7 +303,7 @@ export default function CustContact() {
             // Name: CustName,
             // Branch: CustBranch,
             // Vertical: CustVertical,
-            CustId :searchparams.get("id"),
+            CustId: searchparams.get("id"),
             pageNumber: tableParams.pagination.current,
             pageSize: tableParams.pagination.pageSize,
         };
@@ -217,7 +319,7 @@ export default function CustContact() {
         const ContactList = await res.json();
         if (ContactList.resCode === 200) {
             setData(ContactList.resData.contList);
-            setCustName(ContactList.resData.contList[0].customerName)
+            setCustName(ContactList.resMessage)
             setLoading(false);
             setTableParams({
                 ...tableParams,
@@ -245,6 +347,36 @@ export default function CustContact() {
             setData([]);
         }
     };
+
+    async function ModifyCont() {
+        let PageData = {
+            CustId: Number(searchparams.get("id")),
+            ContactId: Number(ContactId),
+            ContactName: Contpersnname,
+            Phone: contphone,
+            Email: contemail,
+            Mobile: contmobile,
+            Designation: contdesignation,
+            Department: contdepartment,
+        };
+        console.log(PageData);
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/ISR/AddContact`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwtStoredValue}`,
+                },
+                body: JSON.stringify(PageData),
+            }
+        );
+        const ContData = await res.json();
+        if (ContData.resCode === 200) {
+            console.log(ContData.resData);
+            window.location.reload();
+        }
+    }
 
 
     return (
@@ -286,7 +418,7 @@ export default function CustContact() {
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                    onChange={(e) => { console.log(e.target.value); setContpersnname(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
@@ -298,7 +430,7 @@ export default function CustContact() {
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                    onChange={(e) => { console.log(e.target.value); setcontdesignation(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
@@ -310,7 +442,7 @@ export default function CustContact() {
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                    onChange={(e) => { console.log(e.target.value); setcontdepartment(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
@@ -322,7 +454,7 @@ export default function CustContact() {
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                    onChange={(e) => { console.log(e.target.value); setcontmobile(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
@@ -334,7 +466,7 @@ export default function CustContact() {
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                    onChange={(e) => { console.log(e.target.value); setcontphone(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
@@ -346,7 +478,7 @@ export default function CustContact() {
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); }}
+                                                    onChange={(e) => { console.log(e.target.value); setcontemail(e.target.value) }}
                                                 />
                                             </div>
                                         </div>
@@ -364,7 +496,7 @@ export default function CustContact() {
                                         <button
                                             className="FunctionButton"
                                             style={{ backgroundColor: "#0b2087" }}
-                                            // onClick={ModifyCust}
+                                            onClick={ModifyCont}
                                         >
                                             + ADD
                                         </button>
