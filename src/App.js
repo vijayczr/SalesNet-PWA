@@ -28,6 +28,7 @@ import AddCust from "./Pages/ISR/ModifyCustomer/modifyCust";
 import EditCust from "./Pages/ISR/ModifyCustomer/EditCust";
 import ViewCust from "./Pages/ISR/ModifyCustomer/ViewCust";
 import CustContact from "./Pages/ISR/CustContact/CustContact";
+import CreateQuotation from "./Pages/ISR/CreateQuotation/CreateQuotation";
 
 function App() {
   // localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
@@ -63,6 +64,7 @@ function App() {
           <Route path="/EditCustomer" element={<EditCust/>}/>
           <Route path="/ViewCustomer" element={<ViewCust/>}/>
           <Route path="/CustContact" element={<CustContact/>} />
+          <Route path="/CreateQuotation" element={<CreateQuotation/>}/>
         </Routes>
       </BrowserRouter>
       </UserDataContextProvider>
