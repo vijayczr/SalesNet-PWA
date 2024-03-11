@@ -340,6 +340,7 @@ export default function AddCustForm(
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
+                                                    maxLength={6}
                                                     value={CustPin}
                                                     disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustPin(e.target.value) }}
@@ -398,6 +399,7 @@ export default function AddCustForm(
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
+                                                    maxLength={12}
                                                     value={CustPhone1}
                                                     disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustPhone1(e.target.value) }}
@@ -407,11 +409,12 @@ export default function AddCustForm(
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Phone2 <span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <label for="inputEmail3" className="col-md-5">Phone2<span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
+                                                    maxLength={12}
                                                     value={CustPhone2}
                                                     disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setCustPhone2(e.target.value) }}
@@ -440,6 +443,7 @@ export default function AddCustForm(
                                                 <input
                                                     type='text'
                                                     style={{ width: "100%" }}
+                                                    maxLength={12}
                                                     value={Mobile}
                                                     disabled={PrevData.FormType == "View"}
                                                     onChange={(e) => { console.log(e.target.value); setMobile(e.target.value) }}

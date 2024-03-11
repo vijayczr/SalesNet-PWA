@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import {DatePicker, ConfigProvider, Table, Select, Space } from "antd";
+import { DatePicker, ConfigProvider, Table, Select, Space } from "antd";
 import {
     EditOutlined,
     FolderViewOutlined,
@@ -21,6 +21,7 @@ export default function CreateQuotation() {
     const [Empname, setEmpname] = useState(null);
     const [JoiningDate, setJoiningDate] = useState(null);
     const [EngList, setEngList] = useState(null);
+    const [customerList, setcustomerList] = useState(null);
 
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -180,7 +181,7 @@ export default function CreateQuotation() {
     useEffect(() => {
         let ignore = false;
 
-        if (!ignore) getProfiledata();EngineerList();
+        if (!ignore) getProfiledata(); EngineerList(); SearchCustomer();
         return () => { ignore = true; }
     }, []);
 
@@ -199,6 +200,22 @@ export default function CreateQuotation() {
         if (profileData.resCode === 200) {
             console.log(profileData.resData);
             setProfileData(profileData.resData);
+        }
+    }
+
+    async function SearchCustomer() {
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${jwtStoredValue}`,
+                },
+            }
+        );
+        const Response = await res.json();
+        if (Response.resCode === 200) {
+            setcustomerList(Response.resData);
         }
     }
 
@@ -275,12 +292,12 @@ export default function CreateQuotation() {
         window.location.reload();
     };
 
-    
-  const VisitDate = (date) => {
-    console.log(date);
-    setJoiningDate(date);
-    console.log(JoiningDate);
-  };
+
+    const VisitDate = (date) => {
+        console.log(date);
+        setJoiningDate(date);
+        console.log(JoiningDate);
+    };
 
 
     return (
@@ -318,10 +335,17 @@ export default function CreateQuotation() {
                                         <div className="d-flex">
                                             <label for="inputEmail3" className="col-md-5">Customer<span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
-                                                <input
-                                                    type='text'
-                                                    style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); setCustName(e.target.value) }}
+                                                <Select
+                                                    showSearch
+                                                    style={{ width: 250 }}
+                                                    placeholder="Select"
+                                                    onChange={(customerId) => setCustName(customerId)}
+                                                    filterOption={(input, option) =>
+                                                        (option?.label ?? "")
+                                                            .toLowerCase()
+                                                            .includes(input.toLowerCase())
+                                                    }
+                                                    options={customerList}
                                                 />
                                             </div>
                                         </div>
@@ -330,11 +354,19 @@ export default function CreateQuotation() {
                                         <div className="d-flex">
                                             <label for="inputEmail3" className="col-md-5">Employee<span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
-                                                <input
-                                                    type='text'
+                                                <select
+                                                    onChange={(e) => { console.log(e.target.value); setEmpname(e.target.value); }}
                                                     style={{ width: "100%" }}
-                                                    onChange={(e) => { console.log(e.target.value); setEmpname(e.target.value) }}
-                                                />
+                                                // disabled={PrevData.FormType == "View"}
+                                                >
+                                                    <option value={0}>Select</option>
+                                                    {
+                                                        (EngList == null) ? <></> :
+                                                            EngList.map((e) => (
+                                                                <option value={e.id} >{e.empName}</option>
+                                                            ))
+                                                    }
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -381,14 +413,14 @@ export default function CreateQuotation() {
 
                             <div className="col-md-4 mt-3 mb-4">
                                 <div className="d-flex">
-                                    <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                                    {/* <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
                                     <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                         <input
                                             type='text'
-                                        // value={FilterName}
-                                        // onChange={(e) => { console.log(e.target.value); SErchWord(e.target.value); }}
+                                        value={FilterName}
+                                        onChange={(e) => { console.log(e.target.value); SErchWord(e.target.value); }}
                                         />
-                                    </div>
+                                    </div> */}
                                     {/* <div className="col-md-5" style={{ paddingLeft: "10px" }}>
                                         <a href={`${localStorage.getItem("BaseUrl")}/HrManual/EmployeeCSVDownload`} ><button className="FunctionButton1" style={{ backgroundColor: "#1b8532" }}>Download CSV</button></a>
 
