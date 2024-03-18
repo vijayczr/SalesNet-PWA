@@ -109,14 +109,13 @@ export default function CreateQuotation() {
                         <FolderViewOutlined />{" "}
                     </button> */}
                     <button
+
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModalCenter"
-                        className="viewbutton2"
-                        style={{ marginLeft: "0px", marginRight: "0px" }}
-                    // onClick={() => setDeleteddarId(record.custId)} 
+                        className="viewbutton"
+                        style={{ marginRight: "0px" }}
+                        onClick={() => QuotationForm(record.darId)} 
                     >
-                        <DeleteFilled />
+                        <EditOutlined />
                     </button>
                     {/* <button
                         type="button"
@@ -175,6 +174,18 @@ export default function CreateQuotation() {
             width: "5%",
         },
     ].filter(item => !item.hidden);
+
+    const QuotationForm = (e) => {
+        navigate(
+            {
+                pathname: "/FormQuotation",
+                search: createSearchParams({
+                    id: e
+                }).toString(),
+                // state: { name: 'John Doe', age: 25 }
+            },
+        );
+    };
 
 
 
