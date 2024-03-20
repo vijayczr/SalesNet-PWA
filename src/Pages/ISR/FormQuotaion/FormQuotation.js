@@ -10,7 +10,16 @@ export default function FormQuotation() {
 
     const [PreQuotData, setPreQuotData] = useState("");
 
+
     const [Vertical, setVertical] = useState(null);
+    const [Salutation, setSalutation] = useState(null);
+    const [ContactPerson, setContactPerson] = useState(null);
+    const [Subject, setSubject] = useState(null);
+    const [Respected, setRespected] = useState("Sir");
+    const [Statictext1, setStatictext1] = useState(null);
+    const [Statictext2, setStatictext2] = useState(null);
+    const [ProductData, setProductData] = useState(null);
+
 
     useEffect(() => {
         let ignore = false;
@@ -52,6 +61,8 @@ export default function FormQuotation() {
         if (Res.resCode === 200) {
             console.log(Res.resData);
             setPreQuotData(Res.resData);
+            setProductData(Res.resData.productData);
+            setContactPerson(Res.resData.contactPerson);
         }
     }
 
@@ -105,8 +116,8 @@ export default function FormQuotation() {
                                                         </td>
                                                         <td>
                                                             <select
-                                                            onChange={(e)=>{setVertical(e.target.value);console.log(Vertical);}}
-                                                                style={{ width: "300px" ,height: "20px",paddingLeft: "5px" }}
+                                                                onChange={(e) => { setVertical(e.target.value); console.log(Vertical); }}
+                                                                style={{ width: "300px", height: "20px", paddingLeft: "5px" }}
                                                             >
                                                                 <option value={0}>Select</option>
                                                                 <option value={1}>ASG</option>
@@ -126,6 +137,99 @@ export default function FormQuotation() {
                                                 <b>To,</b>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <input
+                                                    style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
+                                                    onChange={(e) => setSalutation(e.target.value)}
+                                                />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b fontSize="14px">{PreQuotData.custName}</b><br></br>
+                                                <b fontSize="14px">{PreQuotData.custAddress}</b><br></br>
+                                                <b fontSize="14px">{PreQuotData.custCity}</b><br></br>
+                                                <b fontSize="14px">{PreQuotData.custState}</b><br></br>
+                                                <b fontSize="14px">{PreQuotData.custCountry} , {PreQuotData.custZip}</b><br></br>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ paddingTop: '30px' }}>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="600" align="left">
+                                                    <tr height="30px;">
+                                                        <td width="199px">
+                                                            <b>Kind Attention:</b>
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                value={ContactPerson}
+                                                                style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
+                                                                onChange={(e) => setContactPerson(e.target.value)}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                    <tr height="30px;" paddingTop="0">
+                                                        <td width="199px">
+                                                            <b>Subject:</b>
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
+                                                                onChange={(e) => setSubject(e.target.value)}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ paddingTop: '20px', paddingBottom: "20px" }}>
+                                                <strong>
+                                                    <b>Respected</b>
+                                                    <input
+                                                    value={Respected}
+                                                        style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
+                                                        onChange={(e) => setRespected(e.target.value)}
+                                                    />,
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                We thank you for your requirement &nbsp;
+                                                <input
+                                                    style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
+                                                    onChange={(e) => setStatictext1(e.target.value)}
+                                                />&nbsp;
+                                                TECHLABS is technology-driven venture providing Indian industry and technical institutes
+                                                leading–edge products in electronics, electrical, instrumentation and information
+                                                technology. We are the&nbsp;
+                                                <input
+                                                    style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
+                                                    onChange={(e) => setStatictext2(e.target.value)}
+                                                />&nbsp;
+                                                . As desired please find below the our proposal as per your requirement:
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{textAlign: "center",  height: "20px"}}></td>
+                                        </tr>
+                                        <tr>
+                                                <td>
+                                                    Option 1
+                                                    <table id="option1" style={{width:"100%"}}>
+                                                        <tr style={{whiteSpace:"nowrap"}}>
+                                                            <th>SNo</th>
+                                                            <th>Description</th>
+                                                            <th>Quantity</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                        
+                                                    </table>
+                                                </td>
+                                            </tr>
                                     </table>
                                 </div>
                                 <p>ok</p>
