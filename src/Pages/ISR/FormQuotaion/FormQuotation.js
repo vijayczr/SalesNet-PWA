@@ -79,6 +79,46 @@ export default function FormQuotation() {
         }
     }
 
+    async function SubmitQuotationForm() {
+        console.log(ProductData);
+        let pageData = {
+            DarId : Number(searchparams.get("id")),
+            VerticalId :Number(Vertical),
+            ContactPersonName : Salutation,
+            KindAttention : ContactPerson,
+            Subject : Subject,
+            valedictions : Faithfully,
+            IsTendar : Formype == 3 ? true : false,
+            Emdamount : Number(Amount) ,
+            EmdpaymentMode : Number(PaymentMode),
+            EmdbankName: BankName,
+            EmdcheqDddate : CheckDate,
+            EmdcheqDdno : ChequeDDNo,
+            EmdbankTransactionDate : BankTransactionDate,
+            EmdbankTransactionId : BankTransactionID,
+            TendarNo : TenderNo,
+            TenderDate : BankTenderDate,
+            quotProducts : ProductData
+            //  const num1 = parseInt(stringValue, 10);
+    // setNumberValue(num1);
+        }
+console.log(pageData);
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/ISR/SubmitQuotation`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+            body: JSON.stringify(pageData),
+            }
+        );
+        const Res = await res.json();
+        if (Res.resCode === 200) {
+            console.log(Res.resData);
+        }
+    }
+
     const CheqTareek = (date) => {
         console.log(date);
         setCheckDate(date);
@@ -94,6 +134,10 @@ export default function FormQuotation() {
     const TenderTareek = (date) => {
         console.log(date);
         setBankTenderDate(date);
+    };
+    
+    const NavBack = () => {
+        navigate(-1);
     };
 
 
@@ -281,6 +325,7 @@ export default function FormQuotation() {
                                                             </th>
                                                             <th>
                                                                 <input
+                                                                type="number"
                                                                     value={e.quantity}
                                                                     style={{ width: '70px', height: '20px', paddingLeft: '5px' }}
                                                                     onChange={(m) => {
@@ -297,6 +342,7 @@ export default function FormQuotation() {
                                                                 />
                                                             </th>
                                                             <th><input
+                                                            type="number"
                                                                 value={e.amount}
                                                                 style={{ width: '90px', height: '20px', paddingLeft: '5px' }}
                                                                 onChange={(m) => {
@@ -543,6 +589,25 @@ export default function FormQuotation() {
                                             </td>
                                         </tr>
                                     </table>
+                                    <div className="box-footer">
+                                    <center style={{ padding: "10px" }}>
+                                        <button
+                                            className="FunctionButton"
+                                            style={{ backgroundColor: "#0b2087" }}
+                                            onClick={SubmitQuotationForm}
+                                        >
+                                            + ADD
+                                        </button>
+                                        <button
+                                            className="FunctionButton"
+                                            style={{ backgroundColor: "#e8d105", color: "black" }}
+                                            onClick={NavBack}
+                                        >
+                                            Back
+                                        </button>
+
+                                    </center>
+                                </div>
                                 </div>
                             </div>
 
