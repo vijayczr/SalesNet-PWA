@@ -22,7 +22,7 @@ export default function FormQuotation() {
     const [Statictext2, setStatictext2] = useState(null);
     const [ProductData, setProductData] = useState(null);
     const [Formype, setFormype] = useState(0);
-    const [Amount, setAmount] = useState(0);
+    const [Amount, setAmount] = useState(null);
     const [PaymentMode, setPaymentMode] = useState(0);
     const [BankName, setBankName] = useState(null);
     const [CheckDate, setCheckDate] = useState(null);
@@ -88,7 +88,7 @@ export default function FormQuotation() {
             KindAttention : ContactPerson,
             Subject : Subject,
             valedictions : Faithfully,
-            IsTendar : Formype == 3 ? true : false,
+            IsTendar : Formype == 2 ? true : false,
             Emdamount : Number(Amount) ,
             EmdpaymentMode : Number(PaymentMode),
             EmdbankName: BankName,
@@ -99,8 +99,6 @@ export default function FormQuotation() {
             TendarNo : TenderNo,
             TenderDate : BankTenderDate,
             quotProducts : ProductData
-            //  const num1 = parseInt(stringValue, 10);
-    // setNumberValue(num1);
         }
 console.log(pageData);
         const res = await fetch(
@@ -108,6 +106,7 @@ console.log(pageData);
             {
                 method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
                 },
             body: JSON.stringify(pageData),
@@ -333,7 +332,7 @@ console.log(pageData);
                                                                             let selectedProduct = [...ProductData];
                                                                             selectedProduct[index] = {
                                                                                 ...selectedProduct[index],
-                                                                                quantity: m.target.value
+                                                                                quantity: Number(m.target.value)
                                                                             }
                                                                             return selectedProduct;
                                                                         }
@@ -350,7 +349,7 @@ console.log(pageData);
                                                                         let selectedProduct = [...ProductData];
                                                                         selectedProduct[index] = {
                                                                             ...selectedProduct[index],
-                                                                            amount: m.target.value
+                                                                            amount: Number(m.target.value)
                                                                         }
                                                                         return selectedProduct;
                                                                     }
@@ -425,7 +424,7 @@ console.log(pageData);
                                                         </td>
                                                         <td>
                                                             <input
-                                                                value={Amount}
+                                                                value={BankName}
                                                                 style={{ width: '200px', height: '25px', paddingLeft: '5px' }}
                                                                 onChange={(e) => setBankName(e.target.value)}
                                                             />
