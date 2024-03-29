@@ -30,6 +30,8 @@ import ViewCust from "./Pages/ISR/ModifyCustomer/ViewCust";
 import CustContact from "./Pages/ISR/CustContact/CustContact";
 import CreateQuotation from "./Pages/ISR/CreateQuotation/CreateQuotation";
 import FormQuotation from "./Pages/ISR/FormQuotaion/FormQuotation";
+import QuotationList from "./Pages/ISR/QuotationList/QuotationList";
+import Pdfhtml from "./Pages/ISR/PDFHtml/Pdfhtml";
 
 function App() {
   // localStorage.setItem("BaseUrl", "http://103.8.43.34:2934");
@@ -67,6 +69,8 @@ function App() {
           <Route path="/CustContact" element={<CustContact/>} />
           <Route path="/CreateQuotation" element={<CreateQuotation/>}/>
           <Route path="/FormQuotation" element={<FormQuotation/>}/>
+          <Route path="/QuotationList" element={<QuotationList/>}/>
+          <Route path="/Pdfhtml" element={<Pdfhtml/>}/>
         </Routes>
       </BrowserRouter>
       </UserDataContextProvider>

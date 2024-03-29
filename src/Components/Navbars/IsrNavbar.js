@@ -46,8 +46,8 @@ export default function IsrNavbar() {
                             key: 'CreateQuotation'
                         },
                         {
-                            label: 'Create Quotation',
-                            key: 'CreateQuotation'
+                            label: 'Quotation List',
+                            key: 'QuotationList'
                         }
                     ],
                     onClick,

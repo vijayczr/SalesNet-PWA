@@ -10,7 +10,7 @@ import {
     UserAddOutlined
 } from "@ant-design/icons";
 
-export default function CreateQuotation() {
+export default function QuotationList() {
     const [ProfileData, setProfileData] = useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -23,8 +23,6 @@ export default function CreateQuotation() {
     const [EngList, setEngList] = useState(null);
     const [customerList, setcustomerList] = useState(null);
 
-    const [DarId, setDarId] = useState(null);
-
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: 1,
@@ -35,57 +33,39 @@ export default function CreateQuotation() {
 
     const columns = [
         {
-            title: 'LeadId',
-            dataIndex: 'leadId',
-            key: 'leadId',
-            width: '2%'
-        },
-        {
             title: 'DarId',
             dataIndex: 'darId',
             key: 'darId',
-            width: '2%'
+            hidden:true
+        },
+        {
+            title: "Quotation No.",
+            dataIndex: "quotationNo",
+            key: "quotationNo",
+            width: "20%",
+        },
+        {
+            title: "Tender/Quotation",
+            dataIndex: "tender_Quotation",
+            key: "tender_Quotation",
+            width: "10%",
         },
         {
             title: "Customer Name",
-            dataIndex: "customerName",
-            key: "customerName",
-            width: "14%",
-        },
-        {
-            title: "Contact Person",
-            dataIndex: "contactPerson",
-            key: "contactPerson",
-            width: "10%",
-        },
-        {
-            title: "Vertical",
-            dataIndex: "vertical",
-            key: "vertical",
-            width: "4%",
-        },
-        {
-            title: "Phone",
-            dataIndex: "phone",
-            key: "phone",
-            width: "5%",
-        },
-        {
-            title: "E-mail",
-            dataIndex: "email",
-            key: "email",
-            width: "10%",
-        },
-        {
-            title: "Principal",
-            dataIndex: "principal",
-            key: "principal",
-            width: "10%",
+            dataIndex: "cust_Name",
+            key: "cust_Name",
+            width: "32.5%",
         },
         {
             title: "Employee",
             dataIndex: "employee",
             key: "employee",
+            width: "12.5%",
+        },
+        {
+            title: "Vertical",
+            dataIndex: "vertical",
+            key: "vertical",
             width: "10%",
         },
         {
@@ -111,32 +91,82 @@ export default function CreateQuotation() {
                         <FolderViewOutlined />{" "}
                     </button> */}
                     <button
-
                         type="button"
                         className="viewbutton"
                         style={{ marginRight: "0px" }}
-                        onClick={() => {setDarId(record.darId) ;QuotationForm() }} 
+                        onClick={() => QuotationForm(record.darId)} 
                     >
                         <EditOutlined />
                     </button>
+                    {/* <button
+                        type="button"
+                        className="viewbutton3"
+                        style={{ marginLeft: "0px", marginRight: "0px" }}
+                        onClick={() => AddContact(record.custId)}
+                    >
+                        <UserAddOutlined />
+                    </button> */}
+
+                    <div
+                        className="modal fade"
+                        id="exampleModalCenter"
+                        tabindex="-1"
+                        role="dialog"
+                        aria-labelledby="exampleModalCenterTitle"
+                        aria-hidden="true"
+                    >
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLongTitle"></h5>
+                                    <button
+                                        type="button"
+                                        className="close"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    <h5>Do you really want to delete ??</h5>
+                                </div>
+                                <div className="modal-footer">
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        data-dismiss="modal"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button type="button"
+                                        data-dismiss="modal"
+                                        aria-label="Close" className="btn btn-primary"
+                                    // onClick={() => { DeleteDar(DeleteddarId) }}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </Space>
             ),
-            width: "5%",
+            width: "15%",
         },
     ].filter(item => !item.hidden);
 
     const QuotationForm = (e) => {
         navigate(
             {
-                pathname: "/FormQuotation",
+                pathname: "/Pdfhtml",
                 search: createSearchParams({
-                    id: DarId
+                    id: e
                 }).toString(),
                 // state: { name: 'John Doe', age: 25 }
             },
         );
     };
-
 
 
     useEffect(() => {
@@ -208,7 +238,7 @@ export default function CreateQuotation() {
             pageSize: tableParams.pagination.pageSize,
         };
         console.log(PageData);
-        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ISR/QuotDarList`, {
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ISR/QuotationList`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -259,10 +289,8 @@ export default function CreateQuotation() {
         setJoiningDate(date);
         console.log(JoiningDate);
     };
-
-
-    return (
-        <div>
+  return (
+    <div>
             <AppHeader data={ProfileData} />
 
             <div className="breadcrumb-area">
@@ -270,13 +298,13 @@ export default function CreateQuotation() {
                     <div className="row pt-1 pb-1">
                         <div className="col-md-6">
                             <nav aria-label="breadcrumb">
-                                <h2>Create Quotation</h2>
+                                <h2>Quotation List</h2>
                             </nav>
                         </div>
                         <div className="col-md-6">
                             <ol className="breadcrumb d-flex justify-content-end bg-transparent">
                                 <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Create Quotation</li>
+                                <li className="breadcrumb-item active" aria-current="page">Quotation List</li>
                             </ol>
                         </div>
                     </div>
@@ -419,5 +447,5 @@ export default function CreateQuotation() {
                 </div>
             </div>
         </div>
-    )
+  )
 }
