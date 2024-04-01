@@ -209,7 +209,7 @@ export default function AddDar() {
             MonthOfOrder: darForm?.monthOfOrder,
             Products: selectedProductsArr,
           };
-
+console.log(submitFormData);
           try {
             const darFormSubmitResponse = await submitDarForm(
               jwtStoredValue,

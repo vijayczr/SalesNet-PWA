@@ -115,7 +115,7 @@ export default function CreateQuotation() {
                         type="button"
                         className="viewbutton"
                         style={{ marginRight: "0px" }}
-                        onClick={() => {setDarId(record.darId) ;QuotationForm() }} 
+                        onClick={() => {QuotationForm(record.darId) }} 
                     >
                         <EditOutlined />
                     </button>
@@ -130,7 +130,7 @@ export default function CreateQuotation() {
             {
                 pathname: "/FormQuotation",
                 search: createSearchParams({
-                    id: DarId
+                    id: e
                 }).toString(),
                 // state: { name: 'John Doe', age: 25 }
             },

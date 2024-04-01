@@ -148,6 +148,7 @@ function DarHeader({
                         }
                         style={{ width: "100%", height: "2rem" }}
                         onChange={(date) => {
+                          console.log(date);
                           setDarHeaderData((prev) => ({
                             ...prev,
                             joiningDate: date,
