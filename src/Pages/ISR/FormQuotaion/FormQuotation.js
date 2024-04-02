@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams,createSearchParams } from "react-router-dom";
 import logo2 from "../../../assets/logo.png"
 import QuotTC from "../../../Components/QuotT&C/QuotTC";
 import { DatePicker, ConfigProvider, Table, Select, Space } from "antd";
@@ -32,6 +32,8 @@ export default function FormQuotation() {
     const [TenderNo, setTenderNo] = useState(null);
     const [BankTenderDate, setBankTenderDate] = useState(null);
     const [Faithfully, setFaithfully] = useState(null);
+
+    const [PdfData, setPdfData] = useState(null);
     
 
     useEffect(() => {
@@ -114,7 +116,53 @@ console.log(pageData);
         );
         const Res = await res.json();
         if (Res.resCode === 200) {
+            
             console.log(Res.resData);
+            getPdfData(Res.resData)
+            Pdfpage(Res.resData);
+        }
+    }
+
+    const Pdfpage = (e) => {
+        console.log(PreQuotData);
+        navigate("/Pdfhtml",
+            {
+                search: createSearchParams({
+                                id: e
+                            }).toString(),
+                state: {
+                    todayDate: PreQuotData.todayDate,
+                    custName : PreQuotData.custName,
+                    custAddress : PreQuotData.custAddress,
+                    custCity : PreQuotData.custCity,
+                    custState : PreQuotData.custState,
+                    custCountry : PreQuotData.custCountry,
+                    custZip: PreQuotData.custZip,
+                    To : PdfData.contactPerson,
+                    KindAttention :PdfData.kindAttention,
+                    quotationNo : PdfData.quotationNo,
+                    Subject : PdfData.subject,
+                    valedictions : PdfData.valedictions
+                },
+            },
+        );
+    }
+
+    async function getPdfData(e) {
+
+        const res = await fetch(
+            `${localStorage.getItem("BaseUrl")}/ISR/Pdfdata?QuotationId=${e}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+                },
+            }
+        );
+        const Res = await res.json();
+        if (Res.resCode === 200) {
+            console.log(Res.resData);
+            setPdfData(Res.resData);
         }
     }
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams,useLocation  } from "react-router-dom";
 import logo2 from "../../../assets/logo.png"
 import QuotTC from "../../../Components/QuotT&C/QuotTC";
 import { DatePicker, ConfigProvider, Table, Select, Space } from "antd";
@@ -9,6 +9,8 @@ export default function Pdfhtml() {
     const [ProfileData, setProfileData] = useState("");
     const navigate = useNavigate();
     const [searchparams] = useSearchParams();
+    const { state } = useLocation();
+    console.log(state);
 
     const [PreQuotData, setPreQuotData] = useState("");
 
@@ -35,8 +37,7 @@ export default function Pdfhtml() {
 
     useEffect(() => {
         let ignore = false;
-
-        if (!ignore) getProfiledata(); getQuotPreInfo();
+        if (!ignore) getProfiledata(); 
         return () => { ignore = true; }
     }, []);
 
@@ -58,41 +59,41 @@ export default function Pdfhtml() {
         }
     }
 
-    async function getQuotPreInfo() {
+    // async function getQuotPreInfo() {
 
-        const res = await fetch(
-            `${localStorage.getItem("BaseUrl")}/ISR/QuotPreInfo?DarId=${searchparams.get("id")}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-                },
-            }
-        );
-        const Res = await res.json();
-        if (Res.resCode === 200) {
-            console.log(Res.resData);
-            setPreQuotData(Res.resData);
-            setProductData(Res.resData.productData);
-            setContactPerson(Res.resData.contactPerson);
-        }
-    }
+    //     const res = await fetch(
+    //         `${localStorage.getItem("BaseUrl")}/ISR/QuotPreInfo?DarId=${searchparams.get("id")}`,
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+    //             },
+    //         }
+    //     );
+    //     const Res = await res.json();
+    //     if (Res.resCode === 200) {
+    //         console.log(Res.resData);
+    //         setPreQuotData(Res.resData);
+    //         setProductData(Res.resData.productData);
+    //         setContactPerson(Res.resData.contactPerson);
+    //     }
+    // }
 
-    const CheqTareek = (date) => {
-        console.log(date);
-        setCheckDate(date);
-    };
+    // const CheqTareek = (date) => {
+    //     console.log(date);
+    //     setCheckDate(date);
+    // };
 
-    const TransactionTareek = (date) => {
-        console.log(date);
-        setBankTransactionDate(date);
-    };
+    // const TransactionTareek = (date) => {
+    //     console.log(date);
+    //     setBankTransactionDate(date);
+    // };
 
 
-    const TenderTareek = (date) => {
-        console.log(date);
-        setBankTenderDate(date);
-    };
+    // const TenderTareek = (date) => {
+    //     console.log(date);
+    //     setBankTenderDate(date);
+    // };
     
     const NavBack = () => {
         navigate(-1);
@@ -111,7 +112,10 @@ export default function Pdfhtml() {
                                 </td>
                             </tr>
                             <tr>
-                                <td style={{ fontSize: "14px" }} align="right">{PreQuotData.todayDate}</td>
+                            <td style={{ fontSize: "14px" }} align="right">Quotation: {state.quotationNo}</td>
+                            </tr>
+                            <tr>
+                                <td style={{ fontSize: "14px" }} align="right">{state.todayDate}</td>
                             </tr>
                             <tr>
                                 <td>
@@ -120,42 +124,36 @@ export default function Pdfhtml() {
                             </tr>
                             <tr>
                                 <td>
-                                    <input
-                                        style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
-                                        onChange={(e) => setSalutation(e.target.value)}
-                                    />
+                                <b fontSize="14px">{state.To}</b><br></br>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <b fontSize="14px">{PreQuotData.custName}</b><br></br>
-                                    <b fontSize="14px">{PreQuotData.custAddress}</b><br></br>
-                                    <b fontSize="14px">{PreQuotData.custCity}</b><br></br>
-                                    <b fontSize="14px">{PreQuotData.custState}</b><br></br>
-                                    <b fontSize="14px">{PreQuotData.custCountry} , {PreQuotData.custZip}</b><br></br>
+                                    <b fontSize="14px">{state.custName}</b><br></br>
+                                    <b fontSize="14px">{state.custAddress}</b><br></br>
+                                    <b fontSize="14px">{state.custCity}</b><br></br>
+                                    <b fontSize="14px">{state.custState}</b><br></br>
+                                    <b fontSize="14px">{state.custCountry} , {state.custZip}</b><br></br>
 
                                 </td>
                             </tr>
                             <tr>
                                 <td style={{ paddingTop: '30px' }}>
                                     <table border="0" cellpadding="0" cellspacing="0" width="600" align="left">
-                                        <tr height="30px;">
+                                        <tr height="20px;">
                                             <td width="199px">
                                                 <b>Kind Attention:</b>
                                             </td>
                                             <td>
-                                                <p height="10px" style={{marginTop:"10px"}}>{ContactPerson}</p>
+                                                <p style={{marginTop:"10px"}}>{state.KindAttention}</p>
                                             </td>
                                         </tr>
-                                        <tr height="30px;" paddingTop="0">
+                                        <tr height="20px;" paddingTop="0">
                                             <td width="199px">
                                                 <b>Subject:</b>
                                             </td>
                                             <td>
-                                                <input
-                                                    style={{ width: '300px', height: '20px', paddingLeft: '5px' }}
-                                                    onChange={(e) => setSubject(e.target.value)}
-                                                />
+                                            <p  style={{marginTop:"10px"}}>{state.Subject}</p>
                                             </td>
                                         </tr>
                                     </table>
@@ -332,11 +330,7 @@ export default function Pdfhtml() {
                                         </tr>
                                         <tr>
                                             <td>
-                                            <input
-                                                    value={Faithfully}
-                                                    style={{ width: '200px', height: '25px', paddingLeft: '5px' }}
-                                                    onChange={(e) => setFaithfully(e.target.value)}
-                                                />
+                                            <b>{state.valedictions}</b>
                                             </td>
                                         </tr>
                                     </table>

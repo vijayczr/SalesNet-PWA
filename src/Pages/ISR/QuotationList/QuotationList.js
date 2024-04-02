@@ -94,7 +94,7 @@ export default function QuotationList() {
                         type="button"
                         className="viewbutton"
                         style={{ marginRight: "0px" }}
-                        onClick={() => QuotationForm(record.darId)} 
+                        // onClick={() => QuotationForm(record.darId)} 
                     >
                         <EditOutlined />
                     </button>
@@ -156,17 +156,17 @@ export default function QuotationList() {
         },
     ].filter(item => !item.hidden);
 
-    const QuotationForm = (e) => {
-        navigate(
-            {
-                pathname: "/Pdfhtml",
-                search: createSearchParams({
-                    id: e
-                }).toString(),
-                // state: { name: 'John Doe', age: 25 }
-            },
-        );
-    };
+    // const QuotationForm = (e) => {
+    //     navigate(
+    //         {
+    //             pathname: "/Pdfhtml",
+    //             search: createSearchParams({
+    //                 id: e
+    //             }).toString(),
+    //             // state: { name: 'John Doe', age: 25 }
+    //         },
+    //     );
+    // };
 
 
     useEffect(() => {
