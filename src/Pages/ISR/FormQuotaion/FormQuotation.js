@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams,createSearchParams } from "react-router-dom";
+import { renderToStaticMarkup,renderToString } from 'react-dom/server';
 import logo2 from "../../../assets/logo.png"
 import QuotTC from "../../../Components/QuotT&C/QuotTC";
 import { DatePicker, ConfigProvider, Table, Select, Space } from "antd";
+import Pdfhtml from "../PDFHtml/Pdfhtml";
 
 export default function FormQuotation() {
     const [ProfileData, setProfileData] = useState("");
@@ -119,19 +121,9 @@ console.log(pageData);
             
             console.log(Res.resData);
             getPdfData(Res.resData)
-            Pdfpage(Res.resData);
-        }
-    }
-
-    const Pdfpage = (e) => {
-        console.log(PreQuotData);
-        navigate("/Pdfhtml",
-            {
-                search: createSearchParams({
-                                id: e
-                            }).toString(),
-                state: {
-                    todayDate: PreQuotData.todayDate,
+            // Pdfpage(Res.resData);
+            let state = {
+                todayDate: PreQuotData.todayDate,
                     custName : PreQuotData.custName,
                     custAddress : PreQuotData.custAddress,
                     custCity : PreQuotData.custCity,
@@ -142,11 +134,39 @@ console.log(pageData);
                     KindAttention :PdfData.kindAttention,
                     quotationNo : PdfData.quotationNo,
                     Subject : PdfData.subject,
-                    valedictions : PdfData.valedictions
-                },
-            },
-        );
+                    valedictions : PdfData.valedictions,
+                    products : PdfData.products
+            };
+            const html = renderToString(<Pdfhtml state={state} />);
+            console.log(html);
+        }
     }
+
+    // const Pdfpage = (e) => {
+    //     console.log(PreQuotData);
+    //     navigate("/Pdfhtml",
+    //         {
+    //             search: createSearchParams({
+    //                             id: e
+    //                         }).toString(),
+    //             state: {
+    //                 todayDate: PreQuotData.todayDate,
+    //                 custName : PreQuotData.custName,
+    //                 custAddress : PreQuotData.custAddress,
+    //                 custCity : PreQuotData.custCity,
+    //                 custState : PreQuotData.custState,
+    //                 custCountry : PreQuotData.custCountry,
+    //                 custZip: PreQuotData.custZip,
+    //                 To : PdfData.contactPerson,
+    //                 KindAttention :PdfData.kindAttention,
+    //                 quotationNo : PdfData.quotationNo,
+    //                 Subject : PdfData.subject,
+    //                 valedictions : PdfData.valedictions,
+    //                 products : PdfData.products
+    //             },
+    //         },
+    //     );
+    // }
 
     async function getPdfData(e) {
 
@@ -184,7 +204,7 @@ console.log(pageData);
     };
     
     const NavBack = () => {
-        navigate(-1);
+        // navigate(-1);
     };
 
 

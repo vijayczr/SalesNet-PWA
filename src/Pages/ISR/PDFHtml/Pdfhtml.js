@@ -5,11 +5,13 @@ import logo2 from "../../../assets/logo.png"
 import QuotTC from "../../../Components/QuotT&C/QuotTC";
 import { DatePicker, ConfigProvider, Table, Select, Space } from "antd";
 
-export default function Pdfhtml() {
+export default function Pdfhtml(
+    state
+) {
     const [ProfileData, setProfileData] = useState("");
-    const navigate = useNavigate();
-    const [searchparams] = useSearchParams();
-    const { state } = useLocation();
+    // const navigate = useNavigate();
+    // const [searchparams] = useSearchParams();
+    // const { state } = useLocation();
     console.log(state);
 
     const [PreQuotData, setPreQuotData] = useState("");
@@ -95,12 +97,12 @@ export default function Pdfhtml() {
     //     setBankTenderDate(date);
     // };
     
-    const NavBack = () => {
-        navigate(-1);
-    };
+    // const NavBack = () => {
+    //     navigate(-1);
+    // };
   return (
 
-    <div className="row">
+    <div className="row" style={{marginLeft:"20%" , marginRight:"20%"}}>
         <div className="col-lg-12">
             <div className="bg-boxshadow">
                 <div className="ibox-content">
@@ -180,18 +182,18 @@ export default function Pdfhtml() {
                             <tr>
                                 <td>
                                     Option 1
-                                    <table style={{ width: "100%" }}>
-                                        <tr style={{ whiteSpace: "nowrap" }}>
-                                            <th>SNo</th>
-                                            <th>Description</th>
-                                            <th>Quantity</th>
-                                            <th>Amount</th>
+                                    <table style={{ width: "100%", border:"solid" ,borderCollapse:"collapse"}}>
+                                        <tr style={{ whiteSpace: "nowrap" ,backgroundColor:"black"}}>
+                                            <th style={{ color:"white"}}>SNo</th>
+                                            <th style={{ color:"white"}}>Description</th>
+                                            <th style={{ color:"white" ,width:"100px"}}>Quantity</th>
+                                            <th style={{ color:"white",width:"100px"}}>Amount</th>
                                         </tr>
-                                        {(ProductData == null) ? <></> : (ProductData.map((e, index) => (
+                                        {(state.products == null) ? <></> : (state.products.map((e, index) => (
                                             <tr style={{ whiteSpace: "nowrap" }}>
-                                                <th>
-                                                    <input
-                                                        value={e.sNo}
+                                                <td style={{ border:"solid"}}>
+                                                    {/* <input
+                                                        value={index}
                                                         style={{ width: '50px', height: '20px', paddingLeft: '5px' }}
                                                         onChange={(m) => {
                                                             setProductData(() => {
@@ -205,10 +207,11 @@ export default function Pdfhtml() {
                                                             ); console.log(ProductData);
                                                         }}
                                                         disabled
-                                                    />
-                                                </th>
-                                                <th>
-                                                    <input
+                                                    /> */}
+                                                    {index+1}
+                                                </td>
+                                                <td style={{ border:"solid"}}>
+                                                    {/* <input
                                                         value={e.description}
                                                         style={{ width: '500px', height: '20px', paddingLeft: '5px' }}
                                                         onChange={(m) => {
@@ -222,10 +225,11 @@ export default function Pdfhtml() {
                                                             }
                                                             ); console.log(ProductData);
                                                         }}
-                                                    />
-                                                </th>
-                                                <th>
-                                                    <input
+                                                    /> */}
+                                                    {e.description}
+                                                </td>
+                                                <td style={{ border:"solid"}}>
+                                                    {/* <input
                                                     type="number"
                                                         value={e.quantity}
                                                         style={{ width: '70px', height: '20px', paddingLeft: '5px' }}
@@ -240,9 +244,11 @@ export default function Pdfhtml() {
                                                             }
                                                             ); console.log(ProductData);
                                                         }}
-                                                    />
-                                                </th>
-                                                <th><input
+                                                    /> */}
+                                                    {e.quantity}
+                                                </td>
+                                                <td style={{ border:"solid"}}>
+                                                    {/* <input
                                                 type="number"
                                                     value={e.amount}
                                                     style={{ width: '90px', height: '20px', paddingLeft: '5px' }}
@@ -257,7 +263,9 @@ export default function Pdfhtml() {
                                                         }
                                                         ); console.log(ProductData);
                                                     }}
-                                                /></th>
+                                                /> */}
+                                                {e.amount}
+                                                </td>
                                             </tr>
                                         ))
                                         )}
