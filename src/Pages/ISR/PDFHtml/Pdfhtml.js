@@ -3,15 +3,16 @@ import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams,useLocation  } from "react-router-dom";
 import logo2 from "../../../assets/logo.png"
 import QuotTC from "../../../Components/QuotT&C/QuotTC";
+import { renderToStaticMarkup,renderToString } from 'react-dom/server';
 import { DatePicker, ConfigProvider, Table, Select, Space } from "antd";
 
 export default function Pdfhtml(
-    state
+    // state
 ) {
     const [ProfileData, setProfileData] = useState("");
     // const navigate = useNavigate();
-    // const [searchparams] = useSearchParams();
-    // const { state } = useLocation();
+    const [searchparams] = useSearchParams();
+    const { state } = useLocation();
     console.log(state);
 
     const [PreQuotData, setPreQuotData] = useState("");
@@ -40,6 +41,9 @@ export default function Pdfhtml(
     useEffect(() => {
         let ignore = false;
         if (!ignore) getProfiledata(); 
+        if(typeof(document) != "undefined"){
+        const htmlBody = document.querySelector("body");
+        console.log(htmlBody);}
         return () => { ignore = true; }
     }, []);
 
@@ -100,6 +104,7 @@ export default function Pdfhtml(
     // const NavBack = () => {
     //     navigate(-1);
     // };
+
   return (
 
     <div className="row" style={{marginLeft:"20%" , marginRight:"20%"}}>

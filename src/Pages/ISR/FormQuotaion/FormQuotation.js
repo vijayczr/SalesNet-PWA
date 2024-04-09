@@ -121,7 +121,7 @@ console.log(pageData);
             
             console.log(Res.resData);
             getPdfData(Res.resData)
-            // Pdfpage(Res.resData);
+            Pdfpage(Res.resData);
             let state = {
                 todayDate: PreQuotData.todayDate,
                     custName : PreQuotData.custName,
@@ -142,31 +142,31 @@ console.log(pageData);
         }
     }
 
-    // const Pdfpage = (e) => {
-    //     console.log(PreQuotData);
-    //     navigate("/Pdfhtml",
-    //         {
-    //             search: createSearchParams({
-    //                             id: e
-    //                         }).toString(),
-    //             state: {
-    //                 todayDate: PreQuotData.todayDate,
-    //                 custName : PreQuotData.custName,
-    //                 custAddress : PreQuotData.custAddress,
-    //                 custCity : PreQuotData.custCity,
-    //                 custState : PreQuotData.custState,
-    //                 custCountry : PreQuotData.custCountry,
-    //                 custZip: PreQuotData.custZip,
-    //                 To : PdfData.contactPerson,
-    //                 KindAttention :PdfData.kindAttention,
-    //                 quotationNo : PdfData.quotationNo,
-    //                 Subject : PdfData.subject,
-    //                 valedictions : PdfData.valedictions,
-    //                 products : PdfData.products
-    //             },
-    //         },
-    //     );
-    // }
+    const Pdfpage = (e) => {
+        console.log(PreQuotData);
+        navigate("/Pdfhtml",
+            {
+                search: createSearchParams({
+                                id: e
+                            }).toString(),
+                state: {
+                    todayDate: PreQuotData.todayDate,
+                    custName : PreQuotData.custName,
+                    custAddress : PreQuotData.custAddress,
+                    custCity : PreQuotData.custCity,
+                    custState : PreQuotData.custState,
+                    custCountry : PreQuotData.custCountry,
+                    custZip: PreQuotData.custZip,
+                    To : PdfData.contactPerson,
+                    KindAttention :PdfData.kindAttention,
+                    quotationNo : PdfData.quotationNo,
+                    Subject : PdfData.subject,
+                    valedictions : PdfData.valedictions,
+                    products : PdfData.products
+                },
+            },
+        );
+    }
 
     async function getPdfData(e) {
 
@@ -204,7 +204,7 @@ console.log(pageData);
     };
     
     const NavBack = () => {
-        // navigate(-1);
+        navigate(-1);
     };
 
 
