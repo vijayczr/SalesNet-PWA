@@ -645,8 +645,7 @@ console.log(pageData);
                                                     <tr>
                                                         <td>
                                                             <b>
-                                                                Tel:
-                                                                +91-11-41118800,  +91-11-41118830 Email: delhi@tridenttechlabs.com, www.tridenttechlabs.com
+                                                                Tel: +91-11-41118800,  +91-11-41118830 Email: delhi@tridenttechlabs.com, www.tridenttechlabs.com
                                                             </b>
 
                                                         </td>

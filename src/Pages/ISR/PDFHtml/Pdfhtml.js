@@ -115,7 +115,7 @@ export default function Pdfhtml(
                     <div className="ibox-content">
                         <div class="box-body">
                             <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                                <tr>
+                                {/* <tr>
                                     <td align="right">
                                         <img src={logo2} width="133" height="65" border="0" alt="TechLabs" />
                                     </td>
@@ -125,7 +125,7 @@ export default function Pdfhtml(
                                 </tr>
                                 <tr>
                                     <td style={{ fontSize: "14px" }} align="right">{state.todayDate}</td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                     <td>
                                         <b>To,</b>

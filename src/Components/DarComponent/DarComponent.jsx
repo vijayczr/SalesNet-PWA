@@ -859,7 +859,7 @@ function DarComponent({
                       });
                     }}
                     value={darFormData?.opportunityStatus}
-                    disabled={disabledField || formType == "Continue"}
+                    // disabled={disabledField || formType == "Continue"}
                   >
                     {OpportunityStatusList?.map((item) => (
                       <option
