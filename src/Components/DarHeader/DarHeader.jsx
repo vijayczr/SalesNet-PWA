@@ -59,7 +59,7 @@ function DarHeader({
               <div className="form-group d-flex">
                 <label className="col-md-5 mt-1 mb-0">
                   Application Engineer
-                  <span style={{ color: "red" }}>*</span>{" "}
+                  {/* <span style={{ color: "red" }}>*</span>{" "} */}
                   <span className="float-right">:</span>
                 </label>
                 <div className="col-md-7">

@@ -195,7 +195,7 @@ export default function AddDar() {
             VisitDate: darHeaderData?.joiningDate,
             VisitTime: darHeaderData?.visitTime,
             LeadTypeId: darHeaderData?.leadType,
-            AppEngId: darHeaderData?.applicationEngineer,
+            AppEngId: darHeaderData?.applicationEngineer == null ? 0 : darHeaderData?.applicationEngineer,
             ContactPersonId: darForm?.contactPerson?.custId,
             CallTypeId: darForm?.callType,
             CallStatusId: darForm?.callStatus,
