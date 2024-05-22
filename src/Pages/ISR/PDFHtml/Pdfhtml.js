@@ -143,7 +143,6 @@ export default function Pdfhtml(
                                         <b fontSize="14px">{state.custCity}</b><br></br>
                                         <b fontSize="14px">{state.custState}</b><br></br>
                                         <b fontSize="14px">{state.custCountry} , {state.custZip}</b><br></br>
-
                                     </td>
                                 </tr>
                                 <tr>
