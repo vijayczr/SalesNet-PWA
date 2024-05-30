@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import AppHeader from "../../../Components/Header/AppHeader";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 import UserDataContext from "../../../Context/UserDataContext/UserDataContext";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 import DarComponent from "../../../Components/DarComponent/DarComponent";
@@ -61,12 +61,63 @@ export default function AddDar() {
   const [principalList, setPrincipalList] = useState(null);
   const [customerContactList, setCustomerContactList] = useState(null);
 
+  async function GetAppEnggList() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/AppEngineer`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+        },
+      }
+    );
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setAppEngList(Response.resData);
+    }
+  }
+
+  async function SearchCustomer() {
+    const res = await fetch(
+      `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtStoredValue}`,
+        },
+      }
+    );
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setcustomerList(Response.resData);
+    }
+  }
+
+  async function getPrincipalList() {
+    const res = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/Dar/PrincipalList`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtStoredValue}`,
+        },
+      }
+    );
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      setPrincipalList(Response.resData);
+    }
+  }
+
+  // fetch on mounting of component
   useEffect(() => {
-    GetAppEnggList();
-    SearchCustomer();
-    getPrincipalList();
+    GetAppEnggList(); // get app engineer list in the DarHeader component
+    SearchCustomer(); // get customer list in the DarHeader component
+    getPrincipalList(); // get principal list in the DarComponent component
   }, []);
 
+  // this runs whenever the customer is changed from the customer select menu in the
+  // DarHeader component.
   useEffect(() => {
     getPersonContactList(darHeaderData?.customer);
     darFormData?.map((_, index) => {
@@ -100,57 +151,10 @@ export default function AddDar() {
     }
   }
 
-  async function getPrincipalList() {
-    const res = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/Dar/PrincipalList`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${jwtStoredValue}`,
-        },
-      }
-    );
-    const Response = await res.json();
-    if (Response.resCode === 200) {
-      setPrincipalList(Response.resData);
-    }
-  }
-
-  async function GetAppEnggList() {
-    const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Dar/AppEngineer`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
-        },
-      }
-    );
-    const Response = await res.json();
-    if (Response.resCode === 200) {
-      setAppEngList(Response.resData);
-    }
-  }
-
-  async function SearchCustomer() {
-    const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Dar/customerList?CustName`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${jwtStoredValue}`,
-        },
-      }
-    );
-    const Response = await res.json();
-    if (Response.resCode === 200) {
-      setcustomerList(Response.resData);
-    }
-  }
-
+  // when clicking the "add form" btn this function will run and add another object to the form array state.
   const addForm = () => {
     setDarFormData((prev) => {
-      let newData = [...prev];
+      let newData = [...prev]; // preserve the previous state and add another form object in the array.
       newData.push({
         contactPerson: {
           custId: null,
@@ -179,6 +183,7 @@ export default function AddDar() {
     });
   };
 
+  // this will run when the form/forms are submitted
   const submitForm = async () => {
     try {
       await Promise.allSettled(
@@ -195,7 +200,10 @@ export default function AddDar() {
             VisitDate: darHeaderData?.joiningDate,
             VisitTime: darHeaderData?.visitTime,
             LeadTypeId: darHeaderData?.leadType,
-            AppEngId: darHeaderData?.applicationEngineer == null ? 0 : darHeaderData?.applicationEngineer,
+            AppEngId:
+              darHeaderData?.applicationEngineer == null
+                ? 0
+                : darHeaderData?.applicationEngineer,
             ContactPersonId: darForm?.contactPerson?.custId,
             CallTypeId: darForm?.callType,
             CallStatusId: darForm?.callStatus,
@@ -209,7 +217,26 @@ export default function AddDar() {
             MonthOfOrder: darForm?.monthOfOrder,
             Products: selectedProductsArr,
           };
-console.log(submitFormData);
+          console.log(submitFormData);
+
+          for(let key in submitFormData) {
+            if(submitFormData[key] === null) {
+              Modal.error({
+                title: "Erorr",
+                content: "Required Fields are empty",
+                footer: (_, { OkBtn }) => (
+                  <>
+                    <OkBtn
+                      className="FunctionButton"
+                      style={{ color: "white" }}
+                      onClick={() => window.location.reload()}
+                    />
+                  </>
+                ),
+              });
+              return;
+            }
+          }
           try {
             const darFormSubmitResponse = await submitDarForm(
               jwtStoredValue,
@@ -237,6 +264,8 @@ console.log(submitFormData);
       );
     } catch (error) {
       console.log("Promise all settled Failed", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -264,6 +293,7 @@ console.log(submitFormData);
       <div className="add-dar-container">
         <AppHeader data={userData} />
 
+        {/* route bar */}
         <div className="breadcrumb-area">
           <div className="container-fluid">
             <div className="row pt-1 pb-1">
@@ -286,6 +316,7 @@ console.log(submitFormData);
           </div>
         </div>
 
+        {/* back btn */}
         <center>
           <Button
             size={"large"}
@@ -317,7 +348,7 @@ console.log(submitFormData);
                   darFormData={formData}
                   setDarFormData={setDarFormData}
                   formIndex={index}
-                  customerContactList={customerContactList}
+                  customerContactList={customerContactList} // data for "person contacted" field
                   principalList={principalList}
                   disabledField={false}
                   removeForm={removeForm}

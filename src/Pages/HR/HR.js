@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import "../HR/HR.css";
 import AppHeader from "../../Components/Header/AppHeader";
 import { useNavigate, Link, createSearchParams } from "react-router-dom";
-import { ConfigProvider, Space, Table, Tag } from 'antd';
-import { EyeOutlined, EditOutlined, FolderViewOutlined, DeleteFilled, FileAddOutlined } from '@ant-design/icons';
-import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
+import { ConfigProvider, Space, Table, Tag } from "antd";
+import {
+  EyeOutlined,
+  EditOutlined,
+  FolderViewOutlined,
+  DeleteFilled,
+  FileAddOutlined,
+} from "@ant-design/icons";
+import EmpListDropdown from "../../Components/EmplistDropdown/EmpListDropdown";
 
 export default function HR() {
   const navigate = useNavigate();
@@ -30,65 +36,106 @@ export default function HR() {
 
   const columns = [
     {
-      title: 'LoginId',
-      dataIndex: 'userId',
-      key: 'userId',
-      width: '7%',
+      title: "LoginId",
+      dataIndex: "userId",
+      key: "userId",
+      width: "7%",
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '18%',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: "18%",
     },
     {
-      title: 'ReportingTo',
-      dataIndex: 'reportingTo',
-      key: 'reportingTo',
-      width: '12.5%',
+      title: "ReportingTo",
+      dataIndex: "reportingTo",
+      key: "reportingTo",
+      width: "12.5%",
     },
     {
-      title: 'Branch',
-      dataIndex: 'branch',
-      key: 'branch',
-      width: '10.5%',
+      title: "Branch",
+      dataIndex: "branch",
+      key: "branch",
+      width: "10.5%",
     },
     {
-      title: 'Vertical',
-      dataIndex: 'vertical',
-      key: 'vertical',
-      width: '10%',
+      title: "Vertical",
+      dataIndex: "vertical",
+      key: "vertical",
+      width: "10%",
     },
     {
-      title: 'Designation',
-      dataIndex: 'designation',
-      key: 'designation',
-      width: '20%',
+      title: "Designation",
+      dataIndex: "designation",
+      key: "designation",
+      width: "20%",
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      width: '7%',
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      width: "7%",
     },
     {
-      title: 'Action',
-      dataIndex: 'stActionatus',
-      key: 'Action',
+      title: "Action",
+      dataIndex: "stActionatus",
+      key: "Action",
       render: (_, record) => (
         <Space size="middle">
-          <button type="button" className="viewbutton" style={{ marginRight: "0px" }} onClick={() => EditEmpPage(record.userId)}><EditOutlined /> </button>
-          <button type="button" className="viewbutton1" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => ViewEmpPage(record.userId)}><FolderViewOutlined /> </button>
-          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" className="viewbutton2" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => SetDelEmpId(record.userId)}><DeleteFilled /> </button>
-          <button type="button" className="viewbutton3" style={{ marginLeft: "0px", marginRight: "0px" }} onClick={() => Empprdct(record.userId)}><FileAddOutlined /></button>
+          <button
+            type="button"
+            className="viewbutton"
+            style={{ marginRight: "0px" }}
+            onClick={() => EditEmpPage(record.userId)}
+          >
+            <EditOutlined />{" "}
+          </button>
+          <button
+            type="button"
+            className="viewbutton1"
+            style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => ViewEmpPage(record.userId)}
+          >
+            <FolderViewOutlined />{" "}
+          </button>
+          <button
+            type="button"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
+            className="viewbutton2"
+            style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => SetDelEmpId(record.userId)}
+          >
+            <DeleteFilled />{" "}
+          </button>
+          <button
+            type="button"
+            className="viewbutton3"
+            style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => Empprdct(record.userId)}
+          >
+            <FileAddOutlined />
+          </button>
 
-
-          <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div
+            className="modal fade"
+            id="exampleModalCenter"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+          >
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="exampleModalLongTitle"></h5>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -96,27 +143,39 @@ export default function HR() {
                   <h5>Do you really want to delete user {DelEmpId}</h5>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="button" className="btn btn-primary" data-dismiss="modal" aria-label="Close" onClick={() => DelEmp(DelEmpId)}>Delete</button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => DelEmp(DelEmpId)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </Space>
       ),
-      width: '15%',
-    }
+      width: "15%",
+    },
   ];
 
   const Empprdct = (e) => {
-    navigate(
-      {
-        pathname: "/EmpProduct",
-        search: createSearchParams({
-          id: e
-        }).toString()
-      }
-    );
+    navigate({
+      pathname: "/EmpProduct",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
   };
 
   async function DelEmp(e) {
@@ -125,7 +184,7 @@ export default function HR() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
         },
       }
     );
@@ -133,48 +192,43 @@ export default function HR() {
     if (Response.resCode === 200) {
       window.location.reload();
     }
-
-  };
-
+  }
 
   const EditEmpPage = (e) => {
-    navigate(
-      {
-        pathname: "/EditEmployee",
-        search: createSearchParams({
-          id: e
-        }).toString()
-      }
-    );
+    navigate({
+      pathname: "/EditEmployee",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
   };
 
   const ViewEmpPage = (e) => {
     // navigate("/EditEmployee", { replace: true });
-    navigate(
-      {
-        pathname: "/ViewEmployee",
-        search: createSearchParams({
-          id: e
-        }).toString()
-      }
-    );
+    navigate({
+      pathname: "/ViewEmployee",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
   };
 
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata()
-    return () => { ignore = true; }
+    if (!ignore) getProfiledata();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   async function getProfiledata() {
-
     const res = await fetch(
       `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
         },
       }
     );
@@ -183,17 +237,17 @@ export default function HR() {
       console.log(profileData.resData);
       setProfileData(profileData.resData);
       console.log(ProfileData.branch);
-      setBranch(profileData.resData.branch)
+      setBranch(profileData.resData.branch);
     }
   }
 
   const DocSearchReser = () => {
     window.location.reload();
-  }
+  };
 
   const DocumentSearch = () => {
     HrEmpList();
-  }
+  };
 
   const SErchWord = (e) => {
     // HrEmpList();
@@ -201,55 +255,64 @@ export default function HR() {
     console.log(value);
     setFilterName(value);
     console.log(FilterName);
-    DocumentSearch()
-  }
+    DocumentSearch();
+  };
 
   const NavBack = () => {
     navigate(-1);
-  }
+  };
 
   const NavAddEmployee = () => {
     navigate("/AddEmployee", { replace: true });
-  }
-
+  };
 
   async function HrEmpList() {
-    let PageData = {
-      IsActive: (FilterStatus === "true") ? true : false,
-      GroupName: (Groupname === "null") ? null : Groupname,
-      Branch: (BranchName === "null") ? null : BranchName,
-      Name: (FilterName === "null") ? true : FilterName,
-      Vertical: (FilterVertical === "null") ? parseInt("7") : parseInt(FilterVertical),
-      Designation: (FilterDesignation === "null") ? parseInt("999") : parseInt(FilterDesignation),
-      pageNumber: tableParams.pagination.current,
-      pageSize: tableParams.pagination.pageSize,
-    };
-    console.log(PageData);
-    const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/HrManual/HrEmpList`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-        },
-        body: JSON.stringify(PageData),
-      }
-    );
-    console.log(localStorage.getItem("JwtToken"));
-    const HrMAnualData = await res.json();
-    if (HrMAnualData.resCode === 200) {
-      console.log(HrMAnualData.resData);
-      setData(HrMAnualData.resData.data);
-      console.log(data);
-      setLoading(false);
-      setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: HrMAnualData.resData.totalCount,
+    // body to be sent to the server
+    try {
+      let PageData = {
+        IsActive: FilterStatus === "true" ? true : false,
+        GroupName: Groupname === "null" ? null : Groupname,
+        Branch: BranchName === "null" ? null : BranchName,
+        Name: FilterName === "null" ? true : FilterName,
+        Vertical: FilterVertical === "null" ? parseInt("7") : parseInt(FilterVertical),
+        Designation:
+          FilterDesignation === "null"
+            ? parseInt("999")
+            : parseInt(FilterDesignation),
+        pageNumber: tableParams.pagination.current,
+        pageSize: tableParams.pagination.pageSize,
+      };
+      console.log(PageData);
+      const res = await fetch(
+        `${localStorage.getItem("BaseUrl")}/HrManual/HrEmpList`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+          },
+          body: JSON.stringify(PageData),
         }
-      })
+      );
+      console.log(localStorage.getItem("JwtToken"));
+      const HrMAnualData = await res.json();
+      if (HrMAnualData.resCode === 200) {
+        console.log(HrMAnualData.resData);
+        setData(HrMAnualData.resData.data);
+        console.log(data);
+        setLoading(false);
+        setTableParams({
+          ...tableParams,
+          pagination: {
+            ...tableParams.pagination,
+            total: HrMAnualData.resData.totalCount,
+          },
+        });
+      }
+    } catch(err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -269,11 +332,8 @@ export default function HR() {
     }
   };
 
-
-
   return (
     <div style={{ height: "100vh", overflow: "auto" }}>
-
       <AppHeader data={ProfileData} />
 
       <div className="breadcrumb-area">
@@ -286,15 +346,22 @@ export default function HR() {
             </div>
             <div className="col-md-6">
               <ol className="breadcrumb d-flex justify-content-end bg-transparent">
-                <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                <li className="breadcrumb-item active" aria-current="page">Employee Lists</li>
+                <li className="breadcrumb-item">
+                  <a href="/Dashboard">Dashboard</a>
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  Employee Lists
+                </li>
               </ol>
             </div>
           </div>
         </div>
       </div>
 
-      <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
+      <div
+        className="containner p-4"
+        style={{ overflow: "auto", backgroundColor: "#f3f5f9" }}
+      >
         <div className="row">
           <div className="col-lg-12">
             <div className="bg-boxshadow">
@@ -302,10 +369,22 @@ export default function HR() {
                 <div className="row">
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Group Name<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <label htmlFor="inputEmail3" className="col-md-5">
+                        Group Name
+                        <span
+                          style={{ paddingLeft: "50px" }}
+                          className="pull-right"
+                        >
+                          :
+                        </span>
+                      </label>
                       <div className="col-md-7">
-                        <select value={Groupname}
-                          onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
+                        <select
+                          value={Groupname}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setGroupname(e.target.value);
+                          }}
                           style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
@@ -317,54 +396,80 @@ export default function HR() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Branch<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                      <label htmlFor="inputEmail3" className="col-md-5">
+                        Branch
+                        <span
+                          style={{ paddingLeft: "30px" }}
+                          className="pull-right"
+                        >
+                          :
+                        </span>
+                      </label>
                       <div className="col-md-7">
-                        <select value={BranchName}
-                          onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
+                        <select
+                          value={BranchName}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setBranchName(e.target.value);
+                          }}
                           style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
-                          {
-                            (Groupname === "null")
-                              ? <></>
-                              :
-                              (
-                                (Groupname === "Branch")
-                                  ? <>
-                                    <option value={"Delhi"}>Delhi</option>
-                                    <option value={"Dehradun"}>Dehradun</option>
-                                    <option value={"Bangalore"}>Bangalore</option>
-                                    <option value={"Chennai"}>Chennai</option>
-                                    <option value={"Hydrabad"}>Hydrabad</option>
-                                    <option value={"Kolkata"}>Kolkata</option>
-                                    <option value={"Pune"}>Pune</option>
-                                  </>
-                                  : <option value={"Corporate"}>Corporate</option>)
-                          }
+                          {Groupname === "null" ? (
+                            <></>
+                          ) : Groupname === "Branch" ? (
+                            <>
+                              <option value={"Delhi"}>Delhi</option>
+                              <option value={"Dehradun"}>Dehradun</option>
+                              <option value={"Bangalore"}>Bangalore</option>
+                              <option value={"Chennai"}>Chennai</option>
+                              <option value={"Hydrabad"}>Hydrabad</option>
+                              <option value={"Kolkata"}>Kolkata</option>
+                              <option value={"Pune"}>Pune</option>
+                            </>
+                          ) : (
+                            <option value={"Corporate"}>Corporate</option>
+                          )}
                         </select>
                       </div>
                     </div>
-
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Name<span className="float-right">:</span></label>
+                      <label htmlFor="inputEmail3" className="col-md-5">
+                        Name<span className="float-right">:</span>
+                      </label>
                       <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                         <input
-                          type='text'
+                          type="text"
                           style={{ width: "100%" }}
                           value={FilterName}
-                          onChange={(e) => { console.log(e.target.value); setFilterName(e.target.value) }}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setFilterName(e.target.value);
+                          }}
                         />
                       </div>
                     </div>
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Status<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <label htmlFor="inputEmail3" className="col-md-5">
+                        Status
+                        <span
+                          style={{ paddingLeft: "50px" }}
+                          className="pull-right"
+                        >
+                          :
+                        </span>
+                      </label>
                       <div className="col-md-7">
-                        <select value={FilterStatus}
-                          onChange={(e) => { console.log(e.target.value); setFilterStatus(e.target.value) }}
+                        <select
+                          value={FilterStatus}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setFilterStatus(e.target.value);
+                          }}
                           style={{ width: "15vw" }}
                         >
                           <option value={"true"}>Active</option>
@@ -375,10 +480,22 @@ export default function HR() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Vertical<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                      <label htmlFor="inputEmail3" className="col-md-5">
+                        Vertical
+                        <span
+                          style={{ paddingLeft: "30px" }}
+                          className="pull-right"
+                        >
+                          :
+                        </span>
+                      </label>
                       <div className="col-md-7">
-                        <select value={FilterVertical}
-                          onChange={(e) => { console.log(e.target.value); setFilterVertical(e.target.value) }}
+                        <select
+                          value={FilterVertical}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setFilterVertical(e.target.value);
+                          }}
                           style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
@@ -394,10 +511,22 @@ export default function HR() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">Designation<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <label htmlFor="inputEmail3" className="col-md-5">
+                        Designation
+                        <span
+                          style={{ paddingLeft: "50px" }}
+                          className="pull-right"
+                        >
+                          :
+                        </span>
+                      </label>
                       <div className="col-md-7">
-                        <select value={FilterDesignation}
-                          onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
+                        <select
+                          value={FilterDesignation}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setFilterDesignation(e.target.value);
+                          }}
                           style={{ width: "15vw" }}
                         >
                           <option value={"null"}>Select</option>
@@ -409,50 +538,96 @@ export default function HR() {
                 </div>
                 <div className="box-footer mt-3">
                   <center style={{ padding: "10px" }}>
-                    <button className="FunctionButton1" style={{ backgroundColor: "#183985" }} onClick={NavAddEmployee}>+ ADD EMPLOYEE</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#1b8532" }} onClick={DocumentSearch}>Search</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                    {/* add employee btn */}
+                    <button
+                      className="FunctionButton1"
+                      style={{ backgroundColor: "#183985" }}
+                      onClick={NavAddEmployee}
+                    >
+                      + ADD EMPLOYEE
+                    </button>
+                    {/* reset btn */}
+                    <button
+                      className="FunctionButton"
+                      style={{ backgroundColor: "#da251c" }}
+                      onClick={DocSearchReser}
+                    >
+                      Reset
+                    </button>
+                    {/* document search btn */}
+                    <button
+                      className="FunctionButton"
+                      style={{ backgroundColor: "#1b8532" }}
+                      onClick={DocumentSearch}
+                    >
+                      Search
+                    </button>
+                    {/* back btn */}
+                    <button
+                      className="FunctionButton"
+                      style={{ backgroundColor: "#e8d105", color: "black" }}
+                      onClick={NavBack}
+                    >
+                      Back
+                    </button>
                   </center>
                 </div>
               </div>
               <div className="col-md-4 mt-3">
                 <div className="d-flex">
-                  <label for="inputEmail3" className="col-md-5">Search<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                  <label htmlFor="inputEmail3" className="col-md-5">
+                    Search
+                    <span
+                      style={{ paddingLeft: "30px" }}
+                      className="pull-right"
+                    >
+                      :
+                    </span>
+                  </label>
                   <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                     <input
-                      type='text'
+                      type="text"
                       value={FilterName}
-                      onChange={(e) => { console.log(e.target.value); SErchWord(e.target.value);  }}
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        SErchWord(e.target.value);
+                      }}
                     />
                   </div>
                   <div className="col-md-5" style={{ paddingLeft: "10px" }}>
-                  <a href={`${localStorage.getItem("BaseUrl")}/HrManual/EmployeeCSVDownload`} ><button className="FunctionButton1" style={{ backgroundColor: "#1b8532" }}>Download CSV</button></a>
-
+                    <a
+                      href={`${localStorage.getItem(
+                        "BaseUrl"
+                      )}/HrManual/EmployeeCSVDownload`}
+                    >
+                      <button
+                        className="FunctionButton1"
+                        style={{ backgroundColor: "#1b8532" }}
+                      >
+                        Download CSV
+                      </button>
+                    </a>
                   </div>
-
                 </div>
               </div>
               <br></br>
-
 
               <ConfigProvider
                 theme={{
                   components: {
                     Table: {
-                      borderColor: '#000000',
-                      headerBg: '#da251c',
-                      headerColor: 'white',
+                      borderColor: "#000000",
+                      headerBg: "#da251c",
+                      headerColor: "white",
                       cellFontSizeMD: 14,
-                      rowHoverBg: '#abc4af',
+                      rowHoverBg: "#abc4af",
                       fontSize: 16,
-                      cellPaddingBlock: 0
+                      cellPaddingBlock: 0,
                     },
                   },
                 }}
               >
                 <Table
-
                   columns={columns}
                   dataSource={data}
                   pagination={tableParams.pagination}
@@ -461,12 +636,10 @@ export default function HR() {
                   style={{ overflowX: "auto" }}
                 />
               </ConfigProvider>
-
             </div>
           </div>
         </div>
       </div>
-
     </div>
-  )
+  );
 }

@@ -5,7 +5,7 @@ import AppHeader from "../../Components/Header/AppHeader";
 import '../HumanResource/HumanResource.css'
 import { ConfigProvider, Space, Table, Tag } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
-import { useNavigate,createSearchParams } from "react-router-dom";
+import { useNavigate,createSearchParams, Link } from "react-router-dom";
 import HrNavbar from '../../Components/Navbars/HrNavbar';
 
 export default function HumanResource() {
@@ -87,7 +87,7 @@ export default function HumanResource() {
         <Space size="middle">
           <button type="button" data-toggle="modal" data-placement="top" data-target=".bd-example-modal-lg" className="viewbutton" onClick={() => manualPopup(record.type)}> <EyeOutlined /> </button>
           {/* <button className="bg-Success " style={{ color: 'white' }}  onClick={() => FileDownload(record.type) }><a href={`https://localhost:44388/HrManual/ManualDownload?DocumentType=${record.type}`} >download</a></button> */}
-          <a className="downoadbutton" href={`${localStorage.getItem("BaseUrl")}/HrManual/ManualDownload?DocumentType=${record.type}`} >
+          <a className="downoadbutton" href={`${localStorage.getItem("BaseUrl")}/HrManual/ManualDownload?DocumentType=${record.type}`}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" className="bi bi-download" viewBox="0 0 16 16">
               <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
               <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
@@ -193,7 +193,6 @@ export default function HumanResource() {
       }
     )
     console.log(a);
-    ;
 
     //   fetch(`https://localhost:44388/HrManual/ManualDownload?DocumentType=${a}`, {
     //     method: "GET",
@@ -274,9 +273,6 @@ export default function HumanResource() {
     navigate(-1);
   }
 
-
-
-
   useEffect(() => {
     HrManual();
   }, [JSON.stringify(tableParams)]);
@@ -305,6 +301,11 @@ export default function HumanResource() {
     );
   };
 
+  const getRowsClassName = (record, index) => {    
+    console.log(record, index);
+    return index % 2 === 0 ? 'zebra' : '';
+  }
+
 
   return (
     <div>
@@ -320,7 +321,7 @@ export default function HumanResource() {
             </div>
             <div className="col-md-6">
               <ol className="breadcrumb d-flex justify-content-end bg-transparent">
-                <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
+                <li className="breadcrumb-item"><Link to="/Dashboard">Dashboard</Link></li>
                 <li className="breadcrumb-item active" aria-current="page">HR Manuals</li>
               </ol>
             </div>
@@ -328,7 +329,7 @@ export default function HumanResource() {
         </div>
       </div>
 
-      <div className='containner p-4' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
+      <div className='containner p-4' style={{ overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
         <div className="row">
           <div className="col-lg-12">
@@ -394,13 +395,13 @@ export default function HumanResource() {
                 }}
               >
                 <Table
-
                   columns={columns}
                   dataSource={data}
                   pagination={tableParams.pagination}
                   loading={loading}
                   onChange={handleTableChange}
                   style={{ overflowX: "auto" }}
+                  rowClassName={getRowsClassName}
                 />
               </ConfigProvider>
             </div>

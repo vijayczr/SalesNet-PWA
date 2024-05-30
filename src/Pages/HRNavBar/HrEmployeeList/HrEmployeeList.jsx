@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
-import "../../HR/HR.css";
+import { useEffect, useState } from "react"
 import AppHeader from "../../../Components/Header/AppHeader";
-import { useNavigate, Link, createSearchParams } from "react-router-dom";
-import { ConfigProvider, Space, Table, Tag } from "antd";
-import {
-  EyeOutlined,
-  EditOutlined,
-  FolderViewOutlined,
-  DeleteFilled,
-  FileAddOutlined,
-} from "@ant-design/icons";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import AdminNavbar from "../../../Components/Navbars/AdminNavbar";
+import RouteBar from "../../../Components/RouteBar/RouteBar";
+import { ConfigProvider, Space, Table } from "antd";
+import { DeleteFilled, EditOutlined, FileAddOutlined, FolderViewOutlined } from "@ant-design/icons";
 import EmpListDropdown from "../../../Components/EmplistDropdown/EmpListDropdown";
 
-export default function EmpTarget() {
+
+function HrEmployeeList() {
+  const [profileData, setProfileData] = useState("");
   const navigate = useNavigate();
-  const [ProfileData, setProfileData] = useState("");
+
   const [Branch, setBranch] = useState("");
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -23,12 +20,14 @@ export default function EmpTarget() {
   const [FilterName, setFilterName] = useState(null);
   const [FilterStatus, setFilterStatus] = useState("true");
   const [FilterVertical, setFilterVertical] = useState(7);
+  const [DelEmpId, SetDelEmpId] = useState(null);
+
   const [FilterDesignation, setFilterDesignation] = useState(999);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 10,
-      position: ["topRight"],
+      // position: ["topRight"]
     },
   });
 
@@ -46,10 +45,10 @@ export default function EmpTarget() {
       width: "18%",
     },
     {
-      title: "Manager",
+      title: "ReportingTo",
       dataIndex: "reportingTo",
       key: "reportingTo",
-      width: "15.5%",
+      width: "12.5%",
     },
     {
       title: "Branch",
@@ -73,7 +72,7 @@ export default function EmpTarget() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: "4%",
+      width: "7%",
     },
     {
       title: "Action",
@@ -85,37 +84,100 @@ export default function EmpTarget() {
             type="button"
             className="viewbutton"
             style={{ marginRight: "0px" }}
-            onClick={() => EditTarget(record.userId)}
+            onClick={() => EditEmpPage(record.userId)}
           >
             <EditOutlined />{" "}
           </button>
+          <button
+            type="button"
+            className="viewbutton1"
+            style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => ViewEmpPage(record.userId)}
+          >
+            <FolderViewOutlined />{" "}
+          </button>
+          <button
+            type="button"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
+            className="viewbutton2"
+            style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => SetDelEmpId(record.userId)}
+          >
+            <DeleteFilled />{" "}
+          </button>
+          <button
+            type="button"
+            className="viewbutton3"
+            style={{ marginLeft: "0px", marginRight: "0px" }}
+            onClick={() => Empprdct(record.userId)}
+          >
+            <FileAddOutlined />
+          </button>
+
+          <div
+            className="modal fade"
+            id="exampleModalCenter"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLongTitle"></h5>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <h5>Do you really want to delete user {DelEmpId}</h5>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => DelEmp(DelEmpId)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </Space>
       ),
       width: "15%",
     },
   ];
 
-  const EditTarget = (e) => {
+  const Empprdct = (e) => {
     navigate({
-      pathname: "/HrEmpTarget",
+      pathname: "/EmpProduct",
       search: createSearchParams({
         id: e,
       }).toString(),
     });
   };
 
-  useEffect(() => {
-    let ignore = false;
-
-    if (!ignore) getProfiledata();
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  async function getProfiledata() {
+  async function DelEmp(e) {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
+      `${localStorage.getItem("BaseUrl")}/HrManual/delEmp?EmpId=${e}`,
       {
         method: "GET",
         headers: {
@@ -123,14 +185,30 @@ export default function EmpTarget() {
         },
       }
     );
-    const profileData = await res.json();
-    if (profileData.resCode === 200) {
-      console.log(profileData.resData);
-      setProfileData(profileData.resData);
-      console.log(ProfileData.branch);
-      setBranch(profileData.resData.branch);
+    const Response = await res.json();
+    if (Response.resCode === 200) {
+      window.location.reload();
     }
   }
+
+  const EditEmpPage = (e) => {
+    navigate({
+      pathname: "/EditEmployee",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
+  };
+
+  const ViewEmpPage = (e) => {
+    // navigate("/EditEmployee", { replace: true });
+    navigate({
+      pathname: "/ViewEmployee",
+      search: createSearchParams({
+        id: e,
+      }).toString(),
+    });
+  };
 
   const DocSearchReser = () => {
     window.location.reload();
@@ -139,59 +217,77 @@ export default function EmpTarget() {
   const DocumentSearch = () => {
     HrEmpList();
   };
+
+  const SErchWord = (e) => {
+    // HrEmpList();
+    var value = e;
+    console.log(value);
+    setFilterName(value);
+    console.log(FilterName);
+    DocumentSearch();
+  };
+
   const NavBack = () => {
     navigate(-1);
   };
 
+  const NavAddEmployee = () => {
+    navigate("/AddEmployee", { replace: true });
+  };
+
   async function HrEmpList() {
-    let PageData = {
-      IsActive: FilterStatus === "true" ? true : false,
-      GroupName: Groupname === "null" ? null : Groupname,
-      Branch: BranchName === "null" ? null : BranchName,
-      Name: FilterName === "null" ? true : FilterName,
-      Vertical:
-        FilterVertical === "null" ? parseInt("7") : parseInt(FilterVertical),
-      Designation:
-        FilterDesignation === "null"
-          ? parseInt("999")
-          : parseInt(FilterDesignation),
-      pageNumber: tableParams.pagination.current,
-      pageSize: tableParams.pagination.pageSize,
-    };
-    console.log(PageData);
-    const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/HrManual/HrEmpList`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
-        },
-        body: JSON.stringify(PageData),
+    // body to be sent to the server
+    try {
+      let PageData = {
+        IsActive: FilterStatus === "true" ? true : false,
+        GroupName: Groupname === "null" ? null : Groupname,
+        Branch: BranchName === "null" ? null : BranchName,
+        Name: FilterName === "null" ? true : FilterName,
+        Vertical: FilterVertical === "null" ? parseInt("7") : parseInt(FilterVertical),
+        Designation:
+          FilterDesignation === "null"
+            ? parseInt("999")
+            : parseInt(FilterDesignation),
+        pageNumber: tableParams.pagination.current,
+        pageSize: tableParams.pagination.pageSize,
+      };
+      console.log(PageData);
+      const res = await fetch(
+        `${localStorage.getItem("BaseUrl")}/HrManual/HrEmpList`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+          },
+          body: JSON.stringify(PageData),
+        }
+      );
+      console.log(localStorage.getItem("JwtToken"));
+      const HrMAnualData = await res.json();
+      if (HrMAnualData.resCode === 200) {
+        console.log(HrMAnualData.resData);
+        setData(HrMAnualData.resData.data);
+        console.log(data);
+        setLoading(false);
+        setTableParams({
+          ...tableParams,
+          pagination: {
+            ...tableParams.pagination,
+            total: HrMAnualData.resData.totalCount,
+          },
+        });
       }
-    );
-    console.log(localStorage.getItem("JwtToken"));
-    const HrMAnualData = await res.json();
-    if (HrMAnualData.resCode === 200) {
-      console.log(HrMAnualData.resData);
-      setData(HrMAnualData.resData.data);
-      console.log(data);
+    } catch(err) {
+      console.log(err.message);
+    } finally {
       setLoading(false);
-      setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: HrMAnualData.resData.totalCount,
-        },
-      });
     }
   }
 
-  // run on initial load
   useEffect(() => {
     HrEmpList();
   }, [JSON.stringify(tableParams)]);
-
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
       pagination,
@@ -204,45 +300,52 @@ export default function EmpTarget() {
       setData([]);
     }
   };
+  
+  useEffect(() => {
+    async function getProfiledata() {
+        try{
+        const res = await fetch(
+          `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+            },
+          }
+        )
+        const profileData = await res.json();
+        if (profileData.resCode === 200) {
+          console.log(profileData.resData);
+          setProfileData(profileData.resData);
+          setBranch(profileData.resData.branch);
+        }
+        }catch(e) {
+          console.log("ok");
+          navigate("/", { replace: true });
+        }
+        // const profileData = await res.json();
+        // if (profileData.resCode === 200) {
+        //   console.log(profileData.resData);
+        //   setProfileData(profileData.resData);
+        // }
+      }
 
+      getProfiledata();
+  }, [])
   return (
-    <div style={{ height: "100vh", overflow: "auto" }}>
-      <AppHeader data={ProfileData} />
+    <div>
+        <AppHeader data={profileData} />
+        <AdminNavbar />
+        <RouteBar heading="Employee List(s)" />
 
-      <div className="breadcrumb-area">
-        <div className="container-fluid">
-          <div className="row pt-1 pb-1">
-            <div className="col-md-6">
-              <nav aria-label="breadcrumb">
-                <h2>Employee Target Lists</h2>
-              </nav>
-            </div>
-            <div className="col-md-6">
-              <ol className="breadcrumb d-flex justify-content-end bg-transparent">
-                <li className="breadcrumb-item">
-                  <a href="/Dashboard">Dashboard</a>
-                </li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Employee Target Lists
-                </li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="containner p-4"
-        style={{ overflow: "auto", backgroundColor: "#f3f5f9" }}
-      >
-        <div className="row">
+        <div className="row p-4">
           <div className="col-lg-12">
             <div className="bg-boxshadow">
               <div className="ibox-content">
                 <div className="row">
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">
+                      <label htmlFor="inputEmail3" className="col-md-5">
                         Group Name
                         <span
                           style={{ paddingLeft: "50px" }}
@@ -269,7 +372,7 @@ export default function EmpTarget() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">
+                      <label htmlFor="inputEmail3" className="col-md-5">
                         Branch
                         <span
                           style={{ paddingLeft: "30px" }}
@@ -309,18 +412,13 @@ export default function EmpTarget() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">
-                        Name
-                        <span
-                          style={{ paddingLeft: "30px" }}
-                          className="pull-right"
-                        >
-                          :
-                        </span>
+                      <label htmlFor="inputEmail3" className="col-md-5">
+                        Name<span className="float-right">:</span>
                       </label>
                       <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                         <input
                           type="text"
+                          style={{ width: "100%" }}
                           value={FilterName}
                           onChange={(e) => {
                             console.log(e.target.value);
@@ -332,7 +430,7 @@ export default function EmpTarget() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">
+                      <label htmlFor="inputEmail3" className="col-md-5">
                         Status
                         <span
                           style={{ paddingLeft: "50px" }}
@@ -358,7 +456,7 @@ export default function EmpTarget() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">
+                      <label htmlFor="inputEmail3" className="col-md-5">
                         Vertical
                         <span
                           style={{ paddingLeft: "30px" }}
@@ -389,7 +487,7 @@ export default function EmpTarget() {
                   </div>
                   <div className="col-md-4 mt-3">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5">
+                      <label htmlFor="inputEmail3" className="col-md-5">
                         Designation
                         <span
                           style={{ paddingLeft: "50px" }}
@@ -416,6 +514,15 @@ export default function EmpTarget() {
                 </div>
                 <div className="box-footer mt-3">
                   <center style={{ padding: "10px" }}>
+                    {/* add employee btn */}
+                    <button
+                      className="FunctionButton1"
+                      style={{ backgroundColor: "#183985" }}
+                      onClick={NavAddEmployee}
+                    >
+                      + ADD EMPLOYEE
+                    </button>
+                    {/* reset btn */}
                     <button
                       className="FunctionButton"
                       style={{ backgroundColor: "#da251c" }}
@@ -423,6 +530,7 @@ export default function EmpTarget() {
                     >
                       Reset
                     </button>
+                    {/* document search btn */}
                     <button
                       className="FunctionButton"
                       style={{ backgroundColor: "#1b8532" }}
@@ -430,6 +538,7 @@ export default function EmpTarget() {
                     >
                       Search
                     </button>
+                    {/* back btn */}
                     <button
                       className="FunctionButton"
                       style={{ backgroundColor: "#e8d105", color: "black" }}
@@ -442,7 +551,7 @@ export default function EmpTarget() {
               </div>
               <div className="col-md-4 mt-3">
                 <div className="d-flex">
-                  <label for="inputEmail3" className="col-md-5">
+                  <label htmlFor="inputEmail3" className="col-md-5">
                     Search
                     <span
                       style={{ paddingLeft: "30px" }}
@@ -457,10 +566,23 @@ export default function EmpTarget() {
                       value={FilterName}
                       onChange={(e) => {
                         console.log(e.target.value);
-                        setFilterName(e.target.value);
-                        DocumentSearch();
+                        SErchWord(e.target.value);
                       }}
                     />
+                  </div>
+                  <div className="col-md-5" style={{ paddingLeft: "10px" }}>
+                    <a
+                      href={`${localStorage.getItem(
+                        "BaseUrl"
+                      )}/HrManual/EmployeeCSVDownload`}
+                    >
+                      <button
+                        className="FunctionButton1"
+                        style={{ backgroundColor: "#1b8532" }}
+                      >
+                        Download CSV
+                      </button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -493,7 +615,8 @@ export default function EmpTarget() {
             </div>
           </div>
         </div>
-      </div>
     </div>
-  );
+  )
 }
+
+export default HrEmployeeList

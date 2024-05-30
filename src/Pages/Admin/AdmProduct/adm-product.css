@@ -1,0 +1,18 @@
+.btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+    border-radius: 0px;
+}
+
+.search-row {
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.search-row label {
+    margin-bottom: 0rem;
+}

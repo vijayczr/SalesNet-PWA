@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "../Login/Login.css";
@@ -13,6 +13,7 @@ export default function Login() {
   const [password, setpassword] = useState("");
   const navigate = useNavigate();
   const [loginErrorMssg, SetLoginErrorMssg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
 
@@ -28,26 +29,40 @@ export default function Login() {
       UserId: UserId,
       password: password,
     };
-    const res = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/Authentication/Login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      }
-    );
-    const loginData = await res.json();
-    
-    if (loginData.resCode === 200) {
-      setJwtStoredValue(loginData.resData.token);
-      localStorage.setItem("EmpId", loginData.resData.employeeId);
 
-      getProfileData(setUserData, jwtStoredValue);
-      navigate("/Dashboard", { replace: true });
-    } else {
-      SetLoginErrorMssg("Please check your UserId and Password!");
-      setUserId("");
-      setpassword("");
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/Authentication/Login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+      const loginData = await res.json();
+      
+      if (loginData.resCode === 200) {
+        setJwtStoredValue(loginData.resData.token);
+        localStorage.setItem("EmpId", loginData.resData.employeeId);
+  
+        getProfileData(setUserData, jwtStoredValue);
+        navigate("/Dashboard", { replace: true });
+      } else if(loginData.resCode === 501) {
+        SetLoginErrorMssg("Internal Server Error");
+        setUserId("");
+        setpassword("");
+      } else {
+        SetLoginErrorMssg("Please check your UserId and Password!");
+        setUserId("");
+        setpassword("");
+      }
+
+    } catch(err) {
+      SetLoginErrorMssg(err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -95,6 +110,12 @@ export default function Login() {
                 {loginErrorMssg ? (
                   <div>
                     <p className="text-danger">{loginErrorMssg}</p>
+                  </div>
+                ) : null}
+
+                {(loading && !loginErrorMssg) ? (
+                  <div>
+                    <p className="text-primary">Loading...</p>
                   </div>
                 ) : null}
                 <div className="form-group row">

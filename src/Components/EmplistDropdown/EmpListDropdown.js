@@ -3,7 +3,6 @@ import React from 'react'
 export default function EmpListDropdown() {
     return (
         <>
-
             <option value={5}>Account Manager</option>
             <option value={6}>Account Manager Automation</option>
             <option value={52}>Account Manager EDA</option>
@@ -188,7 +187,6 @@ export default function EmpListDropdown() {
             <option value={209}>Technical Support (Installation & Licensing) </option>
             <option value={50}>Technical Support Engineer </option>
             <option value={151}>Vice President</option>
-
         </>
     )
 }

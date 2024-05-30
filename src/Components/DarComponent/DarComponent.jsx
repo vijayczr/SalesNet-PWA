@@ -39,7 +39,7 @@ function DarComponent({
   disabledField,
   removeForm,
   formType,
-  DarId
+  DarId,
 }) {
   const [jwtStoredValue, setJwtStoredValue] = useLocalStorage("JwtToken");
   const [previewFile, setPreviewFile] = useState();
@@ -118,12 +118,14 @@ function DarComponent({
     }
   };
 
+  // this will run whenever "principal" field changes
   useEffect(() => {
     getProductLists(darFormData?.principal, jwtStoredValue).then((data) => {
       setProductList(data);
     });
   }, [darFormData?.principal]);
 
+  // this will run whenever the "person contacted" field changes
   useEffect(() => {
     if (typeof darFormData?.contactPerson?.custId === "number") {
       getPersonContactedData(
@@ -173,20 +175,20 @@ function DarComponent({
   async function PostComment() {
     let PageData = {
       DarId: Number(DarId),
-      DarComment: DarCommentSent
-  };
-  console.log(PageData);
+      DarComment: DarCommentSent,
+    };
+    console.log(PageData);
     const res = await fetch(
       `${localStorage.getItem("BaseUrl")}/Dar/AddComment`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(PageData),
       }
-    )
+    );
     const reportingData = await res.json();
     if (reportingData.resCode === 200) {
       console.log(reportingData.resData);
@@ -198,6 +200,7 @@ function DarComponent({
       <div className="row">
         <div className="col-lg-12">
           <div className="bg-boxshadow mb-4">
+            {/* delete btn */}
             {!disabledField && (
               <Button
                 style={{
@@ -374,6 +377,7 @@ function DarComponent({
                         placeholder="Select"
                         onChange={(value) => {
                           setDarFormData((prev) => {
+                            console.log(prev);
                             let newData = [...prev];
                             newData[formIndex] = {
                               ...prev[formIndex],
@@ -412,6 +416,7 @@ function DarComponent({
                       >
                         Add Product
                       </Button>
+                      {/* modal box  */}
                       <div>
                         <Modal
                           width={"90%"}
@@ -477,6 +482,7 @@ function DarComponent({
                   </div>
                 </div>
 
+                {/* inputs are available when there's a product in the modal */}
                 {darFormData?.selectedProducts?.length > 0 && (
                   <div style={{ overflow: "auto" }}>
                     <div>
@@ -739,6 +745,7 @@ function DarComponent({
                   </Select>
                 </div>
 
+                {/* if the status is set to "open", then the below code will run */}
                 {darFormData?.status === 1 && (
                   <div>
                     <label class="col-md-12 mt-2">Next Action Date</label>
@@ -771,6 +778,8 @@ function DarComponent({
                     </div>
                   </div>
                 )}
+
+                {/* if the status is set to "closed", then the below code will run */}
                 {darFormData?.status === 2 && (
                   <div>
                     <label class="col-md-12 mt-2">Closing Date</label>
@@ -804,6 +813,8 @@ function DarComponent({
                     </div>
                   </div>
                 )}
+
+                {/* if the status is set to "lost", then the below code will run */}
                 {darFormData?.status === 3 && (
                   <div>
                     <label class="col-md-12 mt-2">Lost Reason</label>
@@ -871,6 +882,8 @@ function DarComponent({
                     ))}
                   </Select>
                 </div>
+
+                {/* if opportunity status is greater than or equal to 4, then the below code will render */}
                 {darFormData?.opportunityStatus >= 4 && (
                   <div>
                     <label class="col-md-12 mt-2">Is Fund Available</label>
@@ -912,6 +925,8 @@ function DarComponent({
                     </div>
                   </div>
                 )}
+
+                {/* if opportunity status is greater than 5, then the below code will render */}
                 {darFormData?.opportunityStatus > 5 && (
                   <div>
                     <label class="col-md-12 mt-2">Order Value</label>
@@ -1088,6 +1103,7 @@ function DarComponent({
                     </div>
                   </div>
                 )}
+
                 <label class="col-md-12 mt-2">Remark</label>
                 <div className="col-md-12">
                   <Input
@@ -1107,6 +1123,7 @@ function DarComponent({
                     disabled={disabledField}
                   />
                 </div>
+
                 <label class="col-md-12 mt-2">Documents (if any)</label>
                 <div style={{ marginLeft: "1rem" }}>
                   <Upload
@@ -1140,6 +1157,7 @@ function DarComponent({
                   </Upload>
                 </div>
                 
+                {/* if the uploaded file is an image below modal will open on preview */}
                 <Modal
                   open={showPreview}
                   footer={null}
@@ -1156,18 +1174,31 @@ function DarComponent({
                 {formType != "Add" && (
                   <div>
                     {darFormData?.darComment?.map((item, index) => (
-                          <p style={{marginBottom:"0px"}}>{item.commentDate}--{item.commentBy}--{item.comment}</p>
-                        ))}
+                      <p
+                        style={{
+                          marginBottom: "0px",
+                        }}
+                      >
+                        {item.commentDate}--{item.commentBy}--{item.comment}
+                      </p>
+                    ))}
                   </div>
-                ) } 
+                )}
                 {formType != "Add" && formType != "Continue" && (
                   <div className="form-outline mt-2">
-                  <textarea className="form-control" id="textArea1" rows="1" placeholder='messege' style={{height:"100px"}}
-                    // value={VerificationDetails}
-                    onChange={(e) => { setDarCommentSent(e.target.value); console.log(DarCommentSent); }}
-                  >
-                  </textarea>
-                  <div className="col-md-12 mt-3">
+                    <textarea
+                      className="form-control"
+                      id="textArea1"
+                      rows="1"
+                      placeholder="messege"
+                      style={{ height: "100px" }}
+                      // value={VerificationDetails}
+                      onChange={(e) => {
+                        setDarCommentSent(e.target.value);
+                        console.log(DarCommentSent);
+                      }}
+                    ></textarea>
+                    <div className="col-md-12 mt-3">
                       <Button
                         className="FunctionButton5"
                         style={{
@@ -1180,9 +1211,8 @@ function DarComponent({
                         Post Comment
                       </Button>
                     </div>
-
-                </div>
-                ) }
+                  </div>
+                )}
               </div>
             </div>
           </div>

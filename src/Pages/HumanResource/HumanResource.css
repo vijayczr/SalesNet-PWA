@@ -115,3 +115,7 @@
     max-height: 85% !important;
     margin: 2rem auto !important;
 }
+
+.zebra {
+    background-color: rgb(223, 222, 222);
+}

@@ -4,19 +4,12 @@ import AddCustForm from "../../../Components/AddCustForm/AddCustForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function EditCust() {
-    const [searchparams] = useSearchParams();
+  const [searchparams] = useSearchParams();
   return (
     <div>
+      <CustomerHeader />
 
-    <CustomerHeader />
-
-    <AddCustForm 
-    customerId = {searchparams.get(
-        "id"
-      )}
-    FormType ={"Edit"}
-    />
-
-</div>
-  )
+      <AddCustForm customerId={searchparams.get("id")} FormType={"Edit"} />
+    </div>
+  );
 }

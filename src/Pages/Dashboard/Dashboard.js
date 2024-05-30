@@ -7,7 +7,7 @@ import KnowledgeSharinglogo from '../../assets/disbursement.png';
 import HRlogo from '../../assets/voyage_ico.png';
 import BlogLogo from '../../assets/laytime.png';
 import HolidayListLogo from '../../assets/appointment.png';
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
 
@@ -42,69 +42,77 @@ export default function Dashboard() {
                 <div className="container-fluid">
                     <div className="row justify-content-center slider-row" style={{ padding: "50px" }}>
                         <div className="col-md-2">
-                            <a
+                            <Link
                                 // onClick={
                                 //     navigate("/HumanResource", { replace: true })}
-                                // href="#"
-                                href="/HumanResource"
+                                // to="#"
+                                to="/HumanResource"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={humanResourceLogo} className="img-fluid" />
                                 <h5 className="text-center title W100">Human Resource</h5>
-                            </a>
+                            </Link>
                         </div>
                         <div className="col-md-2">
-                            <a
-                                href="/KnowledgeShare"
+                            <Link
+                                to="/KnowledgeShare"
                                 // onClick={
                                 //     navigate("/KnowledgeShare", { replace: true })}
-                                // href="#"
+                                // to="#"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={KnowledgeSharinglogo} className="img-fluid" />
                                 <h5 className="text-center title W100">Knowledge Sharing</h5>
-                            </a>
+                            </Link>
                         </div>
                         <div className="col-md-2">
-                            {(`${localStorage.getItem('EmpId')}` === '297')?<a
-                                href="/DarSummary"
+                            {(`${localStorage.getItem('EmpId')}` === '297')?<Link
+                                to="/DarSummary"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HRlogo} className="img-fluid" />
                                 <h5 className="text-center title W100">DAR Activity</h5>
-                            </a>:null}
-                            {(`${localStorage.getItem('EmpId')}` === '1027')?<a
-                                href="/HR"
+                            </Link>:null}
+                            {(`${localStorage.getItem('EmpId')}` === '1027')?<Link
+                                to="/HR"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HRlogo} className="img-fluid" />
                                 <h5 className="text-center title W100">HR</h5>
-                            </a>: null}
-                            {(`${localStorage.getItem('EmpId')}` === '1040')?<a
-                                href="/CustList"
+                            </Link>: null}
+                            {(`${localStorage.getItem('EmpId')}` === '1040')?<Link
+                                to="/CustList"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HRlogo} className="img-fluid" />
                                 <h5 className="text-center title W100">ISR</h5>
-                            </a>: null}
+                            </Link>: null}
+
+                            {(`${localStorage.getItem('EmpId')}` === '1068')?<Link
+                                to="/HrEmployeeList"
+                                style={{ color: "black", textDecoration: "none" }}
+                            >
+                                <img src={HRlogo} className="img-fluid" />
+                                <h5 className="text-center title W100">Administrative Action</h5>
+                            </Link>:null}
                         </div>
                         <div className="col-md-2">
-                            <a>
+                            <Link style={{ color: "black", textDecoration: "none" }}>
                                 <img src={BlogLogo} className="img-fluid" />
                                 <h5 className="text-center title W100">Blogs</h5>
-                            </a>
+                            </Link>
                         </div>
                         <div className="col-md-2">
-                            <a
-                                href="/HolidayList"
+                            <Link
+                                to="/HolidayList"
                                 // onClick={
                                 //     navigate("/HolidayList", { replace: true })}
-                                // href="#"
+                                // to="#"
                                 style={{ color: "black", textDecoration: "none" }}
                             >
                                 <img src={HolidayListLogo} className="img-fluid" />
                                 <h5 className="text-center title W100">List Of Holidays</h5>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

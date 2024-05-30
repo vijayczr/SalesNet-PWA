@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import AppHeader from "../../Components/Header/AppHeader";
-import '../AddEmployee/AddEmployee.css';
-import { DatePicker, Space ,Button, Modal ,Checkbox  , CheckboxProps  } from 'antd';
-import EmpListDropdown from '../../Components/EmplistDropdown/EmpListDropdown';
-import { useNavigate,createSearchParams } from "react-router-dom";
+import "../AddEmployee/AddEmployee.css";
+import {
+  DatePicker,
+  Space,
+  Modal,
+  Checkbox,
+} from "antd";
+import EmpListDropdown from "../../Components/EmplistDropdown/EmpListDropdown";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 export default function AddEmployee() {
   const navigate = useNavigate();
@@ -18,62 +23,65 @@ export default function AddEmployee() {
 
   useEffect(() => {
     let ignore = false;
-
-    if (!ignore) getProfiledata();GetHeirarchy(10)
-    return () => { ignore = true; }
-  }, []);
-
-  async function getProfiledata() {
-    try {
-      const res = await fetch(
-        `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-          },
+    async function getProfiledata() {
+      try {
+        const res = await fetch(
+          `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+            },
+          }
+        );
+        const profileData = await res.json();
+        if (profileData.resCode === 200) {
+          console.log(profileData.resData);
+          setProfileData(profileData.resData);
         }
-      )
-      const profileData = await res.json();
-      if (profileData.resCode === 200) {
-        console.log(profileData.resData);
-        setProfileData(profileData.resData);
+      } catch (e) {
+        console.log("ok");
+        navigate("/", { replace: true });
       }
-    } catch (e) {
-      console.log("ok");
-      navigate("/", { replace: true });
+      // const profileData = await res.json();
+      // if (profileData.resCode === 200) {
+      //   console.log(profileData.resData);
+      //   setProfileData(profileData.resData);
+      // }
     }
-    // const profileData = await res.json();
-    // if (profileData.resCode === 200) {
-    //   console.log(profileData.resData);
-    //   setProfileData(profileData.resData);
-    // }
-  }
+    if (!ignore) getProfiledata();
+    GetHeirarchy(10);
+    return () => {
+      ignore = true;
+    };
+  }, [navigate]);
+
+  
 
   const NavBack = () => {
     navigate("/HR", { replace: true });
-  }
+  };
 
-  const ToAddproduct=()=>{
-    AddEmployee()
-    navigate(
-      {
+  const ToAddproduct = () => {
+    AddEmployee();
+    if(LoginId) {
+      navigate({
         pathname: "/EmpProduct",
         search: createSearchParams({
-          id: LoginId
-        }).toString()
-      }
-    );
-  }
+          id: LoginId,
+        }).toString(),
+      });
+    }
+  };
 
   async function handleSubmit(e) {
     console.log(e.target.value);
     e.preventDefault();
     AddEmployee();
   }
-  const cancelCourse = () => { 
+  const cancelCourse = () => {
     document.getElementById("clearForm").reset();
-  }
+  };
 
   const [Name, setName] = useState(null);
   const [TeamType, setTeamType] = useState(null);
@@ -82,7 +90,7 @@ export default function AddEmployee() {
   const [ReportingtoSecond, setReportingtoSecond] = useState("null");
   const [ReportingtoThird, setReportingtoThird] = useState("null");
   const [JoiningDate, setJoiningDate] = useState("null");
-  const [Aadhar, setAadhar] = useState('');
+  const [Aadhar, setAadhar] = useState("");
   const [Gender, setGender] = useState(null);
   const [PAN, setPAN] = useState(null);
   const [Groupname, setGroupname] = useState(null);
@@ -240,21 +248,21 @@ export default function AddEmployee() {
     FormData1.append("AcceptedBy", ResignAcceptBy);
     FormData1.append("LastDate", LastDate);
     FormData1.append("Reason", ResignReason);
-    
+
     // console.log(document.querySelector('input[type="file"]').files[0]);
     console.log(Image);
     console.log(Attachment);
     console.log(FormData1);
     for (var pair of FormData1.entries()) {
-      console.log(pair[0]+ ', ' + pair[1]); 
-  }
+      console.log(pair[0] + ", " + pair[1]);
+    }
     const res = await fetch(
       `${localStorage.getItem("BaseUrl")}/HrManual/AddEmployee`,
       {
         method: "POST",
         body: FormData1,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
         },
       }
     );
@@ -270,92 +278,102 @@ export default function AddEmployee() {
   // };
   const onClick1 = () => {
     Modal.confirm({
-      title: 'Success',
-      content: 'EMPLOYEE ADDED SUCCESSFULLY',
+      title: "Success",
+      content: "EMPLOYEE ADDED SUCCESSFULLY",
       footer: (_, { OkBtn }) => (
         <>
-          <OkBtn  className="FunctionButton" style={{ color: "white" }} onClick={onpreviouspage}/>
+          <OkBtn
+            className="FunctionButton"
+            style={{ color: "white" }}
+            onClick={onpreviouspage}
+          />
         </>
       ),
-    });}
-    
+    });
+  };
 
-
-
-  const onpreviouspage =() =>{
+  const onpreviouspage = () => {
     navigate("/HR", { replace: true });
-  }
+  };
 
-  const handleUploadImage = () =>  {
-    alert("Employee Added Successfully!");
-};
+  // const handleUploadImage = () => {
+  //   alert("Employee Added Successfully!");
+  // };
 
   //#region setHierarchy
   async function GetHeirarchy(e) {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyHId?HierarchyId=${e}`,
+      `${localStorage.getItem(
+        "BaseUrl"
+      )}/HrManual/ReportingListbyHId?HierarchyId=${e}`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
         },
       }
-    )
+    );
     const Hierarchy = await res.json();
     if (Hierarchy.resCode === 200) {
       console.log(Hierarchy.resData);
-      setHierarchy1(Hierarchy.resData)
+      setHierarchy1(Hierarchy.resData);
     }
   }
 
   async function GetHeirarchy1(e) {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
+      `${localStorage.getItem(
+        "BaseUrl"
+      )}/HrManual/ReportingListbyName?EmpID=${e}`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+        },
       }
-    )
+    );
     const reportingData = await res.json();
     if (reportingData.resCode === 200) {
       console.log(reportingData.resData);
-      setReportingto1(reportingData.resData)
+      setReportingto1(reportingData.resData);
     }
   }
 
   async function GetReporting2(e) {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/HrManual/ReportingListbyName?EmpID=${e}`,
+      `${localStorage.getItem(
+        "BaseUrl"
+      )}/HrManual/ReportingListbyName?EmpID=${e}`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+        },
       }
-    )
+    );
     const reportingData = await res.json();
     if (reportingData.resCode === 200) {
       console.log(reportingData.resData);
-      setReportingto2(reportingData.resData)
+      setReportingto2(reportingData.resData);
     }
   }
 
   async function SubVerticalList(e) {
     const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/HrManual/SubverticalList?VerticalId=${e}`,
+      `${localStorage.getItem(
+        "BaseUrl"
+      )}/HrManual/SubverticalList?VerticalId=${e}`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+        },
       }
-    )
+    );
     const reportingData = await res.json();
     if (reportingData.resCode === 200) {
       console.log(reportingData.resData);
-      setSubverticallist(reportingData.resData)
+      setSubverticallist(reportingData.resData);
     }
   }
 
@@ -371,40 +389,39 @@ export default function AddEmployee() {
 
   const CerDOB = (date) => {
     setCertificateDOB(date);
-  }
+  };
 
   const onEmpStatFromDate = (date) => {
     setEmpStatFromDate(date);
-  }
+  };
 
   const onEmpStatToDate = (date) => {
     setEmpStatToDate(date);
-  }
+  };
 
   const OriginDOB = (date) => {
     setOrigindob(date);
-  }
+  };
 
   const AnniversaryDate = (date) => {
     setAniversaryDate(date);
-  }
+  };
 
   const MediExpDate = (date) => {
     setMediExpiry(date);
-  }
+  };
 
   const LexpDate = (date) => {
     setLicExpiry(date);
-  }
+  };
 
   const Resignationdate = (date) => {
     setResignDate(date);
-  }
+  };
 
   const LastWorking = (date) => {
     setLastDate(date);
-  }
-
+  };
 
   //#endregion
 
@@ -416,17 +433,16 @@ export default function AddEmployee() {
 
   const uploadImage = (event) => {
     setImage(event.target.files[0]);
-  }
+  };
 
-  const AttachmentUpload = (event) =>{
-    setAttachment(event.target.files[0])
-  }
+  const AttachmentUpload = (event) => {
+    setAttachment(event.target.files[0]);
+  };
 
   const onChangeAddress = (e) => {
     console.log(`checked = ${e.target.checked}`);
-    setSameAddress(`${e.target.checked}`)
+    setSameAddress(`${e.target.checked}`);
   };
-
 
   return (
     <div className="containner">
@@ -442,26 +458,36 @@ export default function AddEmployee() {
             </div>
             <div className="col-md-6">
               <ol className="breadcrumb d-flex justify-content-end bg-transparent">
-                <li className="breadcrumb-item"><a href="/HR">HR</a></li>
-                <li className="breadcrumb-item active" aria-current="page">ADD EMPLOYEE</li>
+                <li className="breadcrumb-item">
+                  <a href="/HR">HR</a>
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  ADD EMPLOYEE
+                </li>
               </ol>
             </div>
           </div>
         </div>
       </div>
 
-      <div className='containner p-2' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
-
+      <div
+        className="containner p-2"
+        style={{ overflow: "auto", backgroundColor: "#f3f5f9" }}
+      >
         <div className="row">
           <div className="col-lg-12">
             <div className="bg-boxshadow">
               <div className="ibox-content">
-
                 <div className="col-lg-12">
                   <div className="form-group d-flex">
                     <span className="pull-right">
-                      <button className="FunctionButton" style={{ color: "white" }} onClick={NavBack}>Back</button>
-
+                      <button
+                        className="FunctionButton"
+                        style={{ color: "white" }}
+                        onClick={NavBack}
+                      >
+                        Back
+                      </button>
                     </span>
                   </div>
                 </div>
@@ -473,20 +499,21 @@ export default function AddEmployee() {
                 </div>
 
                 <div className="col-lg-12">
-                  
-                <form id='clearForm' onSubmit={handleSubmit} >
-                  <div className="row">
-                  
+                  <form id="clearForm" onSubmit={handleSubmit}>
+                    <div className="row">
                       <div className="col-lg-6">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Name <span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Name <span style={{ color: "red" }}>*</span>{" "}
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Name}
                               onChange={(e) => setName(e.target.value)}
-                              placeholder='Name'
+                              placeholder="Name"
                               required
                             />
                           </div>
@@ -494,12 +521,17 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">TeamType <span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Team Type <span style={{ color: "red" }}>*</span>{" "}
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               style={{ width: "100%" }}
                               value={TeamType}
-                              onChange={(e) => { setTeamType(e.target.value); }}
+                              onChange={(e) => {
+                                setTeamType(e.target.value);
+                              }}
                               required
                             >
                               <option value={"null"}>Select</option>
@@ -511,19 +543,28 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Hierarchy<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Hierarchy<span style={{ color: "red" }}>*</span>{" "}
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               style={{ width: "100%" }}
                               value={Hierarchy}
-                              onChange={(e) => { setHierarchy(e.target.value); console.log(e.target.tex); GetHeirarchy(e.target.value); }}
+                              onChange={(e) => {
+                                setHierarchy(e.target.value);
+                                console.log(e.target.tex);
+                                GetHeirarchy(e.target.value);
+                              }}
                               required
                             >
-                              {(TeamType !== null) ?
+                              {TeamType !== null ? (
                                 <>
                                   <option value={0}>Select</option>
                                   <option value={1}>DIRECTOR</option>
-                                  <option value={2}>CHIEF TECHNICAL OFFICER</option>
+                                  <option value={2}>
+                                    CHIEF TECHNICAL OFFICER
+                                  </option>
                                   <option value={3}>DIVISIONAL HEAD</option>
                                   <option value={4}>VERTICAL HEAD</option>
                                   <option value={5}>SUB VERTICAL HEAD</option>
@@ -531,108 +572,154 @@ export default function AddEmployee() {
                                   <option value={7}>BRANCH HEAD</option>
                                   <option value={8}>REPORTING HEAD</option>
                                   <option value={9}>MARKETING ENGINEER</option>
-                                  <option value={10}>APPLICATION ENGINEER</option>
+                                  <option value={10}>
+                                    APPLICATION ENGINEER
+                                  </option>
                                 </>
-                                :
+                              ) : (
                                 <>
                                   <option value={0}>Select</option>
                                 </>
-                              }
+                              )}
                             </select>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Reporting To<span style={{ color: "red" }}>*</span> <span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Reporting To<span style={{ color: "red" }}>*</span>{" "}
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               style={{ width: "100%" }}
-                              onChange={(e) => { setReportingto(e.target.value); console.log(e.target.value); GetHeirarchy1(e.target.value); }}
+                              onChange={(e) => {
+                                setReportingto(e.target.value);
+                                console.log(e.target.value);
+                                GetHeirarchy1(e.target.value);
+                              }}
                               required
                             >
                               <option value={"null"}>Select</option>
-                              {Hierarchy1 ?
-                                Hierarchy1.map((e) => (
-                                  <option key={e.employeeId} value={e.employeeId} >{e.name}</option>
-                                )) : null}
+                              {Hierarchy1
+                                ? Hierarchy1.map((e) => (
+                                    <option
+                                      key={e.employeeId}
+                                      value={e.employeeId}
+                                    >
+                                      {e.name}
+                                    </option>
+                                  ))
+                                : null}
                             </select>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Reporting To (Second)<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Reporting To (Second)
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            {(Reportingto === "null") ?
-                              <select
-                                style={{ width: "100%" }}
-                              >
+                            {Reportingto === "null" ? (
+                              <select style={{ width: "100%" }}>
                                 <option value={"null"}>Select</option>
                               </select>
-                              :
+                            ) : (
                               <select
                                 style={{ width: "100%" }}
-                                onChange={(e) => { setReportingtoSecond(e.target.value); console.log(e.target.value); GetReporting2(e.target.value); }}
-
+                                onChange={(e) => {
+                                  setReportingtoSecond(e.target.value);
+                                  console.log(e.target.value);
+                                  GetReporting2(e.target.value);
+                                }}
                               >
                                 <option value={"null"}>Select</option>
-                                {Reportingto1 ?
-                                  Reportingto1.map((e) => (
-                                    <option key={e.employeeId} value={e.employeeId} >{e.name}</option>
-                                  )) : null}
+                                {Reportingto1
+                                  ? Reportingto1.map((e) => (
+                                      <option
+                                        key={e.employeeId}
+                                        value={e.employeeId}
+                                      >
+                                        {e.name}
+                                      </option>
+                                    ))
+                                  : null}
                               </select>
-                            }
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Reporting To (Third)<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Reporting To (Third)
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            {(ReportingtoSecond === "null") ?
-                              <select
-                                style={{ width: "100%" }}
-                              >
+                            {ReportingtoSecond === "null" ? (
+                              <select style={{ width: "100%" }}>
                                 <option value={"null"}>Select</option>
                               </select>
-                              :
+                            ) : (
                               <select
                                 style={{ width: "100%" }}
-                                onChange={(e) => { setReportingtoThird(e.target.value); console.log(e.target.value); }}
-
+                                onChange={(e) => {
+                                  setReportingtoThird(e.target.value);
+                                  console.log(e.target.value);
+                                }}
                               >
                                 <option value={"null"}>Select</option>
-                                {Reportingto2 ?
-                                  Reportingto2.map((e) => (
-                                    <option key={e.employeeId} value={e.employeeId} >{e.name}</option>
-                                  )) : null}
+                                {Reportingto2
+                                  ? Reportingto2.map((e) => (
+                                      <option
+                                        key={e.employeeId}
+                                        value={e.employeeId}
+                                      >
+                                        {e.name}
+                                      </option>
+                                    ))
+                                  : null}
                               </select>
-                            }
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Joining Date<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Joining Date<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={JoinDate} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={JoinDate}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Aadhar<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Aadhar<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               maxLength={12}
                               value={Aadhar}
-                              onChange={(e) => { setAadhar(e.target.value); console.log(Aadhar); }}
-                              placeholder='Aadhar'
+                              onChange={(e) => {
+                                setAadhar(e.target.value);
+                                console.log(Aadhar);
+                              }}
+                              placeholder="Aadhar"
                               required
                             />
                           </div>
@@ -640,11 +727,17 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Gender<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Gender<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               style={{ width: "100%" }}
-                              onChange={(e) => { setGender(e.target.value); console.log(e.target.value); }}
+                              onChange={(e) => {
+                                setGender(e.target.value);
+                                console.log(e.target.value);
+                              }}
                               required
                             >
                               <option value={"null"}>Select</option>
@@ -658,15 +751,21 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">PAN<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            PAN<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               maxLength={10}
                               value={PAN}
-                              onChange={(e) => { setPAN(e.target.value); console.log(PAN); }}
-                              placeholder='PAN'
+                              onChange={(e) => {
+                                setPAN(e.target.value);
+                                console.log(PAN);
+                              }}
+                              placeholder="PAN"
                               required
                             />
                           </div>
@@ -674,10 +773,17 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Group<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Group<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <select value={Groupname}
-                              onChange={(e) => { console.log(e.target.value); setGroupname(e.target.value) }}
+                            <select
+                              value={Groupname}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setGroupname(e.target.value);
+                              }}
                               style={{ width: "100%" }}
                               required
                             >
@@ -690,41 +796,53 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Branch<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Branch<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <select value={BranchName}
-                              onChange={(e) => { console.log(e.target.value); setBranchName(e.target.value) }}
+                            <select
+                              value={BranchName}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setBranchName(e.target.value);
+                              }}
                               style={{ width: "100%" }}
                               required
                             >
                               <option value={"null"}>Select</option>
-                              {
-                                (Groupname === "null")
-                                  ? <></>
-                                  :
-                                  (
-                                    (Groupname === "Branch")
-                                      ? <>
-                                        <option value={"Delhi"}>Delhi</option>
-                                        <option value={"Dehradun"}>Dehradun</option>
-                                        <option value={"Bangalore"}>Bangalore</option>
-                                        <option value={"Chennai"}>Chennai</option>
-                                        <option value={"Hydrabad"}>Hydrabad</option>
-                                        <option value={"Kolkata"}>Kolkata</option>
-                                        <option value={"Pune"}>Pune</option>
-                                      </>
-                                      : <option value={"Corporate"}>Corporate</option>)
-                              }
+                              {Groupname === "null" ? (
+                                <></>
+                              ) : Groupname === "Branch" ? (
+                                <>
+                                  <option value={"Delhi"}>Delhi</option>
+                                  <option value={"Dehradun"}>Dehradun</option>
+                                  <option value={"Bangalore"}>Bangalore</option>
+                                  <option value={"Chennai"}>Chennai</option>
+                                  <option value={"Hydrabad"}>Hydrabad</option>
+                                  <option value={"Kolkata"}>Kolkata</option>
+                                  <option value={"Pune"}>Pune</option>
+                                </>
+                              ) : (
+                                <option value={"Corporate"}>Corporate</option>
+                              )}
                             </select>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Vertical<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Vertical<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
-                              onChange={(e) => { console.log(e.target.value); setVertical(e.target.value); SubVerticalList(e.target.value) }}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setVertical(e.target.value);
+                                SubVerticalList(e.target.value);
+                              }}
                               style={{ width: "100%" }}
                               required
                             >
@@ -741,28 +859,43 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">SubVertical<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            SubVertical<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <select value={SubVertical}
-                              onChange={(e) => { console.log(e.target.value); setSubVertical(e.target.value) }}
+                            <select
+                              value={SubVertical}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setSubVertical(e.target.value);
+                              }}
                               style={{ width: "100%" }}
                               required
                             >
                               <option value={"null"}>Select</option>
-                              {Subverticallist ?
-                                Subverticallist.map((e) => (
-                                  <option value={e} >{e}</option>
-                                )) : null}
+                              {Subverticallist
+                                ? Subverticallist.map((e) => (
+                                    <option value={e}>{e}</option>
+                                  ))
+                                : null}
                             </select>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Designation<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Designation<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <select value={FilterDesignation}
-                              onChange={(e) => { console.log(e.target.value); setFilterDesignation(e.target.value) }}
+                            <select
+                              value={FilterDesignation}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setFilterDesignation(e.target.value);
+                              }}
                               style={{ width: "100%" }}
                               required
                             >
@@ -774,14 +907,18 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Official E-mail<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Official E-mail
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={OfficialEmail}
                               onChange={(e) => setOfficialEmail(e.target.value)}
-                              placeholder='E-mail'
+                              placeholder="E-mail"
                               required
                             />
                           </div>
@@ -789,25 +926,33 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Referred-By<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Referred-By<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={RefferedBy}
                               onChange={(e) => setRefferedBy(e.target.value)}
-                              placeholder='Referred-By'
+                              placeholder="Referred-By"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Status<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Status<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               style={{ width: "100%" }}
-                              onChange={(e) => { console.log(e.target.value); setEmpStatus(e.target.value) }}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setEmpStatus(e.target.value);
+                              }}
                               required
                             >
                               <option value={"null"}>Select</option>
@@ -819,12 +964,15 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Login Id<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Login Id<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
-                              placeholder='Login Id'
+                              type="text"
+                              placeholder="Login Id"
                               required
                               value={LoginId}
                               onChange={(e) => setLoginId(e.target.value)}
@@ -834,12 +982,16 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Login Password<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Login Password
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
-                              placeholder='Password'
+                              type="text"
+                              placeholder="Password"
                               required
                               value={Password}
                               onChange={(e) => setPassword(e.target.value)}
@@ -849,26 +1001,41 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Verification Details<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Verification Details
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <div className="form-outline">
-                              <textarea className="form-control" id="textArea1" rows="1" placeholder='messege'
+                              <textarea
+                                className="form-control"
+                                id="textArea1"
+                                rows="1"
+                                placeholder="messege"
                                 value={VerificationDetails}
-                                onChange={(e) => { setVerificationDetails(e.target.value); console.log(VerificationDetails); }}
-                              >
-                              </textarea>
+                                onChange={(e) => {
+                                  setVerificationDetails(e.target.value);
+                                  console.log(VerificationDetails);
+                                }}
+                              ></textarea>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Grade<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Grade<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               style={{ width: "100%" }}
                               required
-                              onChange={(e) => { console.log(e.target.value); setGradeId(e.target.value) }}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setGradeId(e.target.value);
+                              }}
                             >
                               <option value={"null"}>Select</option>
                               <option value={"1"}>G1</option>
@@ -886,147 +1053,184 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Resume/CV<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Resume/CV<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <input
-                              type='file'
-                              onChange={AttachmentUpload}
-                               />
+                            <input type="file" onChange={AttachmentUpload} />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">IsSalesnetUser<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            IsSalesnetUser<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <input className="form-check-input ml-3"
+                            <input
+                              className="form-check-input ml-3"
                               type="checkbox"
                               id="checkboxNoLabel"
                               value=""
-                              aria-label="..." style={{ height: "20px" }}
+                              aria-label="..."
+                              style={{ height: "20px" }}
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Certificate Date of Birth<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Certificate Date of Birth
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <Space>
-                              <DatePicker style={{ width: "100%" }} onChange={CerDOB} />
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={CerDOB}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Employee Id<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Employee Id<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               onChange={(e) => setEmployeeId(e.target.value)}
-                              placeholder='Employee Id'
+                              placeholder="Employee Id"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">UAN No.<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            UAN No.<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={UAN}
                               onChange={(e) => setUAN(e.target.value)}
-                              placeholder='UAN No.'
+                              placeholder="UAN No."
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Present Location<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Present Location
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
-                              placeholder='Present Location'
+                              type="text"
+                              placeholder="Present Location"
                               required
                               value={PresentLocation}
-                              onChange={(e) => setPresentLocation(e.target.value)}
+                              onChange={(e) =>
+                                setPresentLocation(e.target.value)
+                              }
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Fixed CTC<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Fixed CTC<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={FixedCtC}
                               onChange={(e) => setFixedCtC(e.target.value)}
-                              placeholder='Fixed Package'
+                              placeholder="Fixed Package"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Annual CTC<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Annual CTC<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={AnnualCtC}
                               onChange={(e) => setAnnualCtC(e.target.value)}
-                              placeholder='Annual CTC'
+                              placeholder="Annual CTC"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Incentive (%)<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Incentive (%)<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={IncentivePer}
                               onChange={(e) => setIncentivePer(e.target.value)}
-                              placeholder='Incentive (%)'
+                              placeholder="Incentive (%)"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Incentive Amount<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Incentive Amount
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={IncentiveAmt}
                               onChange={(e) => setIncentiveAmt(e.target.value)}
-                              placeholder='Incentive Amount'
+                              placeholder="Incentive Amount"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Employee Status<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Employee Status
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               style={{ width: "100%" }}
                               required
                               value={EmployeeStatus}
-                              onChange={(e) => { console.log(e.target.value); setEmployeeStatus(e.target.value) }}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setEmployeeStatus(e.target.value);
+                              }}
                             >
                               <option value={"null"}>Select</option>
                               <option value={1}>Confirmed</option>
@@ -1039,31 +1243,46 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">From Date<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            From Date<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={onEmpStatFromDate} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={onEmpStatFromDate}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">To Date<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            To Date<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={onEmpStatToDate} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={onEmpStatToDate}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Previous Experience<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Previous Experience
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={TotalExp}
                               onChange={(e) => setTotalExp(e.target.value)}
                             />
@@ -1079,65 +1298,91 @@ export default function AddEmployee() {
 
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Father's Name<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Father's Name<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Fathername}
                               required
                               onChange={(e) => setFathername(e.target.value)}
-                              placeholder='Fathers Name'
+                              placeholder="Fathers Name"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Mother's Name<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Mother's Name<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Mothername}
                               required
                               onChange={(e) => setMothername(e.target.value)}
-                              placeholder='Mothers Name'
+                              placeholder="Mothers Name"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Original Date of Birth<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Original Date of Birth
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={OriginDOB} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={OriginDOB}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Personal Contact No.<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Personal Contact No.
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={PersonalContact}
-                              onChange={(e) => setPersonalContact(e.target.value)}
+                              onChange={(e) =>
+                                setPersonalContact(e.target.value)
+                              }
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Marital Status<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Marital Status
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <select
                               value={MaritalStatus}
-                              onChange={(e) => { console.log(e.target.value); setMaritalStatus(e.target.value) }}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                setMaritalStatus(e.target.value);
+                              }}
                               style={{ width: "100%" }}
                             >
                               <option value={"null"}>Select</option>
@@ -1149,58 +1394,75 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Anniversary<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Anniversary<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            {
-                              (MaritalStatus === "true") ?
-                                <Space >
-                                  <DatePicker style={{ width: "100%" }} onChange={AnniversaryDate} />
-                                </Space>
-                                :
-                                <Space >
-                                  <DatePicker style={{ width: "100%" }} onChange={AnniversaryDate} disabled />
-                                </Space>
-
-                            }
+                            {MaritalStatus === "true" ? (
+                              <Space>
+                                <DatePicker
+                                  style={{ width: "100%" }}
+                                  onChange={AnniversaryDate}
+                                />
+                              </Space>
+                            ) : (
+                              <Space>
+                                <DatePicker
+                                  style={{ width: "100%" }}
+                                  onChange={AnniversaryDate}
+                                  disabled
+                                />
+                              </Space>
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Blood Group<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Blood Group<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={BloodGroup}
                               onChange={(e) => setBloodGroup(e.target.value)}
-                              placeholder='Blood Group'
+                              placeholder="Blood Group"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Personal E-mail<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Personal E-mail
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={Peremail}
                               onChange={(e) => setPeremail(e.target.value)}
-                              placeholder='Personal E-mail'
+                              placeholder="Personal E-mail"
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Emergency Contact Number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Emergency Contact Number
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={EmerContact}
                               onChange={(e) => setEmerContact(e.target.value)}
@@ -1210,26 +1472,36 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Relation with that number<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Relation with that number
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
-                              placeholder='Name'
+                              type="text"
+                              placeholder="Name"
                               required
                               value={RelationWcontact}
-                              onChange={(e) => setRelationWcontact(e.target.value)}
+                              onChange={(e) =>
+                                setRelationWcontact(e.target.value)
+                              }
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Emergency Contact Number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Emergency Contact Number 2
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={EmerContact2}
                               onChange={(e) => setEmerContact2(e.target.value)}
@@ -1239,26 +1511,35 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Relation with that number 2<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Relation with that number 2
+                            <span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
-                              placeholder='Name'
+                              type="text"
+                              placeholder="Name"
                               required
                               value={RelationWcontact2}
-                              onChange={(e) => setRelationWcontact2(e.target.value)}
+                              onChange={(e) =>
+                                setRelationWcontact2(e.target.value)
+                              }
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">landline Number<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            landline Number
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={LandlineNo}
                               onChange={(e) => setLandlineNo(e.target.value)}
                             />
@@ -1267,14 +1548,16 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Employee Photo<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Employee Photo<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
-                              type='file'
-                              name='filename1'
+                              type="file"
+                              name="filename1"
                               onChange={uploadImage}
-                              accept="image/*" 
-                               />
+                              accept="image/*"
+                            />
                           </div>
                         </div>
                       </div>
@@ -1287,25 +1570,35 @@ export default function AddEmployee() {
                         </div>
                       </div>
 
-
                       <div className="col-lg-12">
                         <div className="form-group d-flex">
                           <h4>Contact Information-</h4>
                         </div>
                       </div>
                       <div className="col-lg-12 mt-0 mb-0">
-                        <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
+                        <div
+                          className="form-group d-flex mt-0 mb-3"
+                          style={{
+                            paddingLeft: "50px",
+                            width: "50%",
+                            backgroundColor: "#7194e4",
+                            color: "white",
+                          }}
+                        >
                           <p className="mt-0 mb-0">Permanent Address</p>
                         </div>
                       </div>
 
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Address<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Address<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={PAddress}
                               required
                               onChange={(e) => setPAddress(e.target.value)}
@@ -1315,11 +1608,14 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">City<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            City<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={PCity}
                               onChange={(e) => setPCity(e.target.value)}
@@ -1329,11 +1625,14 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">State<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            State<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={PState}
                               onChange={(e) => setPState(e.target.value)}
@@ -1343,11 +1642,14 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Country<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Country<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={Pcountry}
                               onChange={(e) => setPcountry(e.target.value)}
@@ -1357,11 +1659,14 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">PinCode<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            PinCode<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={Ppincode}
                               onChange={(e) => setPpincode(e.target.value)}
@@ -1371,32 +1676,53 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Phone<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Phone<span style={{ color: "red" }}>*</span>
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               required
                               value={Pphone}
-                              onChange={(e) => { setPphone(e.target.value); console.log(Pphone); }}
+                              onChange={(e) => {
+                                setPphone(e.target.value);
+                                console.log(Pphone);
+                              }}
                             />
                           </div>
                         </div>
                       </div>
 
                       <div className="col-lg-12 mt-0 mb-0">
-                        <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
-                          <p className="mt-0 mb-0">Correspondence Address___________</p>
-                          <Checkbox onChange={onChangeAddress}> Same as Permanent Address</Checkbox>
+                        <div
+                          className="form-group d-flex mt-0 mb-3"
+                          style={{
+                            paddingLeft: "50px",
+                            width: "50%",
+                            backgroundColor: "#7194e4",
+                            color: "white",
+                          }}
+                        >
+                          <p className="mt-0 mb-0">
+                            Correspondence Address___________
+                          </p>
+                          <Checkbox onChange={onChangeAddress}>
+                            {" "}
+                            Same as Permanent Address
+                          </Checkbox>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Address<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Address<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Caddress}
                               onChange={(e) => setCaddress(e.target.value)}
                             />
@@ -1405,11 +1731,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">City<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            City<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Ccity}
                               onChange={(e) => setCcity(e.target.value)}
                             />
@@ -1418,11 +1746,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">State<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            State<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Cstate}
                               onChange={(e) => setCstate(e.target.value)}
                             />
@@ -1431,11 +1761,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Country<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Country<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Ccountry}
                               onChange={(e) => setCcountry(e.target.value)}
                             />
@@ -1444,11 +1776,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">PinCode<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            PinCode<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Cpincode}
                               onChange={(e) => setCpincode(e.target.value)}
                             />
@@ -1457,11 +1791,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Phone<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Phone<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Cphone}
                               onChange={(e) => setCphone(e.target.value)}
                             />
@@ -1469,26 +1805,34 @@ export default function AddEmployee() {
                         </div>
                       </div>
 
-
-
                       <div className="col-lg-12">
                         <div className="form-group d-flex">
                           <h4>Mediclaim and LIC-</h4>
                         </div>
                       </div>
                       <div className="col-lg-12 mt-0 mb-0">
-                        <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
+                        <div
+                          className="form-group d-flex mt-0 mb-3"
+                          style={{
+                            paddingLeft: "50px",
+                            width: "50%",
+                            backgroundColor: "#7194e4",
+                            color: "white",
+                          }}
+                        >
                           <p className="mt-0 mb-0">Mediclaim Information</p>
                         </div>
                       </div>
 
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Policy Name<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Policy Name<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Mpolicyname}
                               onChange={(e) => setMpolicyname(e.target.value)}
                             />
@@ -1497,11 +1841,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Policy Detail<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Policy Detail<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Mpolicydetail}
                               onChange={(e) => setMpolicydetail(e.target.value)}
                             />
@@ -1510,11 +1856,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Assured Amount<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Assured Amount<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Massuredamout}
                               onChange={(e) => setMassuredamout(e.target.value)}
                             />
@@ -1523,22 +1871,29 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Expiry Date<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Expiry Date<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={MediExpDate} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={MediExpDate}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Nominee Name<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Nominee Name<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
-                              placeholder='Nominee Name'
+                              type="text"
+                              placeholder="Nominee Name"
                               value={Mnomieename}
                               onChange={(e) => setMnomieename(e.target.value)}
                             />
@@ -1547,18 +1902,28 @@ export default function AddEmployee() {
                       </div>
 
                       <div className="col-lg-12 mt-0 mb-0">
-                        <div className="form-group d-flex mt-0 mb-3" style={{ paddingLeft: "50px", width: "50%", backgroundColor: "#7194e4", color: "white" }}>
+                        <div
+                          className="form-group d-flex mt-0 mb-3"
+                          style={{
+                            paddingLeft: "50px",
+                            width: "50%",
+                            backgroundColor: "#7194e4",
+                            color: "white",
+                          }}
+                        >
                           <p className="mt-0 mb-0">LIC Information</p>
                         </div>
                       </div>
 
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Policy Name<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Policy Name<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Lpolicyname}
                               onChange={(e) => setLpolicyname(e.target.value)}
                             />
@@ -1567,11 +1932,13 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Policy Detail<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Policy Detail<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Lpolicydetail}
                               onChange={(e) => setLpolicydetail(e.target.value)}
                             />
@@ -1580,35 +1947,46 @@ export default function AddEmployee() {
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Assured Amount<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Assured Amount<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={Lassuredamount}
-                              onChange={(e) => setLassuredamount(e.target.value)}
+                              onChange={(e) =>
+                                setLassuredamount(e.target.value)
+                              }
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Expiry Date<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Expiry Date<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={LexpDate} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={LexpDate}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Nominee Name<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Nominee Name<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
-                              placeholder='Nominee Name'
+                              type="text"
+                              placeholder="Nominee Name"
                               value={Lnomineename}
                               onChange={(e) => setLnomineename(e.target.value)}
                             />
@@ -1624,44 +2002,62 @@ export default function AddEmployee() {
 
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Resignation Date<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Resignation Date
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={Resignationdate} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={Resignationdate}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Accepted By<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Accepted By<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={ResignAcceptBy}
-                              onChange={(e) => setResignAcceptBy(e.target.value)}
+                              onChange={(e) =>
+                                setResignAcceptBy(e.target.value)
+                              }
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Last Working Date<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Last Working Date
+                            <span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
-                            <Space >
-                              <DatePicker style={{ width: "100%" }} onChange={LastWorking} />
+                            <Space>
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                onChange={LastWorking}
+                              />
                             </Space>
                           </div>
                         </div>
                       </div>
                       <div className="col-lg-6 ">
                         <div className="form-group d-flex">
-                          <label className="col-md-5 mt-1 mb-0">Reason<span className="float-right">:</span></label>
+                          <label className="col-md-5 mt-1 mb-0">
+                            Reason<span className="float-right">:</span>
+                          </label>
                           <div className="col-md-7">
                             <input
                               style={{ width: "100%" }}
-                              type='text'
+                              type="text"
                               value={ResignReason}
                               onChange={(e) => setResignReason(e.target.value)}
                             />
@@ -1670,12 +2066,26 @@ export default function AddEmployee() {
                       </div>
                       <div className="box-footer mt-3">
                         <center style={{ padding: "10px" }}>
-                          <button className="FunctionButton1" style={{ backgroundColor: "#183985" }} type="submit" >Submit</button>
-                          <button className="FunctionButton1" style={{ backgroundColor: "#183985" ,width:"200px" }}  onClick={ToAddproduct} >Submit & AddProduct</button>
+                          <button
+                            className="FunctionButton1"
+                            style={{ backgroundColor: "#183985" }}
+                            type="submit"
+                          >
+                            Submit
+                          </button>
+                          <button
+                            className="FunctionButton1"
+                            style={{
+                              backgroundColor: "#183985",
+                              width: "200px",
+                            }}
+                            onClick={ToAddproduct}
+                          >
+                            Submit & AddProduct
+                          </button>
                         </center>
                       </div>
-                   
-                  </div>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -1683,8 +2093,6 @@ export default function AddEmployee() {
           </div>
         </div>
       </div>
-
-
-    </div >
-  )
+    </div>
+  );
 }

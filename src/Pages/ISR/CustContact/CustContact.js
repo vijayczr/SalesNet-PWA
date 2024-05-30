@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AppHeader from '../../../Components/Header/AppHeader';
-import { ConfigProvider, Table, Space } from "antd";
+import { ConfigProvider, Table, Space, Modal } from "antd";
 import {
     EditOutlined,
     FolderViewOutlined,
@@ -170,7 +170,7 @@ export default function CustContact() {
                                 <div className="modal-body">
                                     <div className="col-lg-12">
                                         <div className="form-group d-flex">
-                                            <label for="inputEmail3" className="col-md-5 mt-1">Contact Person<span className="pull-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5 mt-1">Contact Person<span className="pull-right">:</span></label>
                                             <div className="col-md-7">
                                                 <input
                                                     onChange={(e) => { setContpersnname(e.target.value); }}
@@ -181,7 +181,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group d-flex">
-                                            <label for="inputEmail3" className="col-md-5 mt-1">Designation<span className="pull-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5 mt-1">Designation<span className="pull-right">:</span></label>
                                             <div className="col-md-7">
                                                 <input
                                                     onChange={(e) => {setcontdesignation(e.target.value); }}
@@ -191,7 +191,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group d-flex">
-                                            <label for="inputEmail3" className="col-md-5 mt-1">Department<span className="pull-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5 mt-1">Department<span className="pull-right">:</span></label>
                                             <div className="col-md-7">
                                             <input
                                                     onChange={(e) => { setcontdepartment(e.target.value); }}
@@ -202,7 +202,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group d-flex">
-                                            <label for="inputEmail3" className="col-md-5 mt-1">Mobile<span className="pull-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5 mt-1">Mobile<span className="pull-right">:</span></label>
                                             <div className="col-md-7">
                                             <input
                                                     onChange={(e) => { setcontmobile(e.target.value); }}
@@ -213,7 +213,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group d-flex">
-                                            <label for="inputEmail3" className="col-md-5 mt-1">Phone<span className="pull-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5 mt-1">Phone<span className="pull-right">:</span></label>
                                             <div className="col-md-7">
                                             <input
                                                     onChange={(e) => { setcontphone(e.target.value); }}
@@ -224,7 +224,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group d-flex">
-                                            <label for="inputEmail3" className="col-md-5 mt-1">Email<span className="pull-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5 mt-1">Email<span className="pull-right">:</span></label>
                                             <div className="col-md-7">
                                             <input
                                                     onChange={(e) => { setcontemail(e.target.value); }}
@@ -246,8 +246,6 @@ export default function CustContact() {
             width: "15%",
         },
     ].filter(item => !item.hidden);
-
-
 
     useEffect(() => {
         let ignore = false;
@@ -331,7 +329,7 @@ export default function CustContact() {
         }
     }
 
-
+    // run on initial load
     useEffect(() => {
         ContactList();
     }, [JSON.stringify(tableParams)]);
@@ -360,6 +358,20 @@ export default function CustContact() {
             Department: contdepartment,
         };
         console.log(PageData);
+
+        // if any of the form fields are empty
+        if(!Contpersnname || !contphone || !contemail || !contmobile || !contdesignation || !contdepartment) {
+            Modal.confirm({
+                title: "Error",
+                content: "Enter Required Field",
+                footer: (_, { OkBtn }) => (
+                  <>
+                    <OkBtn className="FunctionButton" style={{ color: "white" }} />
+                  </>
+                ),
+              });
+            return;
+        }
         const res = await fetch(
             `${localStorage.getItem("BaseUrl")}/ISR/AddContact`,
             {
@@ -404,7 +416,7 @@ export default function CustContact() {
 
             <div
                 className="containner p-4"
-                style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }}
+                style={{ overflow: "auto", backgroundColor: "#f3f5f9" }}
             >
                 <div className="row">
                     <div className="col-lg-12">
@@ -413,7 +425,7 @@ export default function CustContact() {
                                 <div className="row">
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Contact Person<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5">Contact Person<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
@@ -425,7 +437,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Designation<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5">Designation<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
@@ -437,7 +449,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Department<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5">Department<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
@@ -449,7 +461,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Mobile<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5">Mobile<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
@@ -461,7 +473,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Phone<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5">Phone<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
@@ -473,7 +485,7 @@ export default function CustContact() {
                                     </div>
                                     <div className="col-md-4 mt-3">
                                         <div className="d-flex">
-                                            <label for="inputEmail3" className="col-md-5">Email<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
+                                            <label htmlFor="inputEmail3" className="col-md-5">Email<span style={{ color: "red" }}>*</span><span className="float-right">:</span></label>
                                             <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                                 <input
                                                     type='text'
@@ -516,7 +528,7 @@ export default function CustContact() {
 
                             <div className="col-md-6 mt-3 mb-4">
                                 <div className="d-flex">
-                                    <label for="inputEmail3" className="col-md-5">Customer Name<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
+                                    <label htmlFor="inputEmail3" className="col-md-5">Customer Name<span style={{ paddingLeft: "30px" }} className="pull-right">:</span></label>
                                     <div className="col-md-7" style={{ paddingLeft: "10px" }}>
                                         <h4>{CustName}</h4>
                                     </div>

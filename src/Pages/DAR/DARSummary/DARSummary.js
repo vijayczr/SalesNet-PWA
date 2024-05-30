@@ -103,14 +103,16 @@ export default function DARSummary() {
       key: "Action",
       render: (_, record) => (
         <Space size="middle">
+          {/* edit button */}
           <button
-            type="button"
+            type="button"                        
             className="viewbutton"
             style={{ marginRight: "0px" }}
             onClick={() => EditDar(record.darId)}
           >
             <EditOutlined />{" "}
           </button>
+          {/* view button */}
           <button
             type="button"
             className="viewbutton1"
@@ -119,6 +121,7 @@ export default function DARSummary() {
           >
             <FolderViewOutlined />{" "}
           </button>
+          {/* delete button */}
           <button
             type="button"
             data-toggle="modal"
@@ -129,6 +132,7 @@ export default function DARSummary() {
           >
             <DeleteFilled />
           </button>
+          {/* continue button */}
           <button
             type="button"
             className="viewbutton3"
@@ -141,7 +145,7 @@ export default function DARSummary() {
           <div
             className="modal fade"
             id="exampleModalCenter"
-            tabindex="-1"
+            tabIndex="-1"
             role="dialog"
             aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true"
@@ -257,7 +261,7 @@ export default function DARSummary() {
     });
     const HrMAnualData = await res.json();
     if (HrMAnualData.resCode === 200) {
-      setData(HrMAnualData.resData.data);
+      setData(HrMAnualData.resData.data); // table data
       setLoading(false);
       setTableParams({
         ...tableParams,
@@ -268,10 +272,11 @@ export default function DARSummary() {
       });
     }
   }
-
+  // run on initial load
   useEffect(() => {
     DarList();
   }, [JSON.stringify(tableParams)]);
+  
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
       pagination,
@@ -329,7 +334,7 @@ export default function DARSummary() {
 
       <div
         className="containner p-4"
-        style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }}
+        style={{ overflow: "auto", backgroundColor: "#f3f5f9" }}
       >
         <div className="row">
           <div className="col-lg-12">
@@ -337,6 +342,7 @@ export default function DARSummary() {
               <div className="ibox-content">
                 <div className="box-footer">
                   <center style={{ padding: "10px" }}>
+                    {/* add dar btn */}
                     <button
                       className="FunctionButton"
                       style={{ backgroundColor: "#06960b", width: "150px" }}
@@ -344,6 +350,7 @@ export default function DARSummary() {
                     >
                       ADD DAR
                     </button>
+                    {/* doc search reset btn */}
                     <button
                       className="FunctionButton"
                       style={{ backgroundColor: "#da251c" }}
@@ -351,6 +358,7 @@ export default function DARSummary() {
                     >
                       Reset
                     </button>
+                    {/* back navigation btn */}
                     <button
                       className="FunctionButton"
                       style={{ backgroundColor: "#e8d105", color: "black" }}
@@ -358,6 +366,7 @@ export default function DARSummary() {
                     >
                       Back
                     </button>
+                    {/* incentive modal btn */}
                     <button
                       className="FunctionButton"
                       type="button"
@@ -368,10 +377,11 @@ export default function DARSummary() {
                       Incentive Rule
                     </button>
 
+                    {/* incentive rule modal */}
                     <div
                       className="modal fade"
                       id="exampleModalCenter1"
-                      tabindex="-1"
+                      tabIndex="-1"
                       role="dialog"
                       aria-labelledby="exampleModalCenterTitle"
                       aria-hidden="true"
@@ -425,8 +435,9 @@ export default function DARSummary() {
                 </div>
               </div>
 
-              <hr></hr>
-
+              <hr />
+              
+              {/* customer search input field box */}
               <div className="col-md-4 mt-3 mb-4">
                 <div className="d-flex">
                   <label for="inputEmail3" className="col-md-5">
@@ -443,7 +454,6 @@ export default function DARSummary() {
                       type="text"
                       value={FilterName}
                       onChange={(e) => {
-                        console.log(e.target.value);
                         setFilterName(e.target.value);
                         DocumentSearch();
                       }}

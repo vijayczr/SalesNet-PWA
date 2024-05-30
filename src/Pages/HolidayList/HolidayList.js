@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import AppHeader from "../../Components/Header/AppHeader";
 import "../HolidayList/HolidayList.css";
-import { ConfigProvider,Table, Tag } from 'antd';
+import { ConfigProvider, Table, Tag } from "antd";
 
 import { useNavigate } from "react-router-dom";
 
@@ -21,48 +21,48 @@ export default function HolidayList() {
 
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '35%',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: "35%",
     },
     {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
-      width: '15%',
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      width: "15%",
     },
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      width: '34%',
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      width: "34%",
     },
     {
-      title: 'Branch',
-      dataIndex: 'branch',
-      key: 'branch',
-      width: '16%',
-    }
+      title: "Branch",
+      dataIndex: "branch",
+      key: "branch",
+      width: "16%",
+    },
   ];
 
-
-
+  // run on initial load
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore) getProfiledata()
-    return () => { ignore = true; }
+    if (!ignore) getProfiledata();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   async function getProfiledata() {
-
     const res = await fetch(
       `${localStorage.getItem("BaseUrl")}/Authentication/ProfileData`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
+          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
         },
       }
     );
@@ -71,66 +71,71 @@ export default function HolidayList() {
       console.log(profileData.resData);
       setProfileData(profileData.resData);
       console.log(ProfileData.branch);
-      setBranch(profileData.resData.branch)
+      setBranch(profileData.resData.branch);
     }
   }
 
-
-
   const DocSearchReser = () => {
     window.location.reload();
-  }
+  };
 
   async function HolidayList() {
     let PageData = {
       Year: `Jan 1, ${Date}`,
       branchName: Branch,
       pageNumber: tableParams.pagination.current,
-      pageSize: 10,
+      pageSize: tableParams.pagination.pageSize
+        ? tableParams.pagination.pageSize
+        : 10,
     };
     console.log(PageData);
     const userToken = localStorage.getItem("JwtToken");
     console.log(PageData);
-    const res = await fetch(
-      `${localStorage.getItem("BaseUrl")}/Holidays/HolidayList`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("JwtToken")}`
-        },
-        body: JSON.stringify(PageData),
-      }
-    );
-    console.log(localStorage.getItem("JwtToken"));
-    const HrMAnualData = await res.json();
-    if (HrMAnualData.resCode === 200) {
-      console.log(HrMAnualData.resData);
-      setData(HrMAnualData.resData.data);
-      console.log(data);
-      setLoading(false);
-      setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: HrMAnualData.resData.totalCount,
+    try {
+      const res = await fetch(
+        `${localStorage.getItem("BaseUrl")}/Holidays/HolidayList`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("JwtToken")}`,
+          },
+          body: JSON.stringify(PageData),
         }
-      })
+      );
+      console.log(localStorage.getItem("JwtToken"));
+      const HrMAnualData = await res.json();
+      if (HrMAnualData.resCode === 200) {
+        console.log(HrMAnualData.resData);
+        setData(HrMAnualData.resData.data);
+        setLoading(false);
+        setTableParams({
+          ...tableParams,
+          pagination: {
+            ...tableParams.pagination,
+            total: HrMAnualData.resData.totalCount,
+          },
+        });
+      }
+    } catch(err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
     }
+    
   }
   const DocumentSearch = () => {
     HolidayList();
-  }
+  };
   const NavBack = () => {
     navigate(-1);
-  }
+  };
 
-
-
-
+  // run on initial load
   useEffect(() => {
     HolidayList();
   }, [JSON.stringify(tableParams)]);
+
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
       pagination,
@@ -158,16 +163,22 @@ export default function HolidayList() {
             </div>
             <div className="col-md-6">
               <ol className="breadcrumb d-flex justify-content-end bg-transparent">
-                <li className="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
-                <li className="breadcrumb-item active" aria-current="page">Holiday Lists</li>
+                <li className="breadcrumb-item">
+                  <a href="/Dashboard">Dashboard</a>
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  Holiday Lists
+                </li>
               </ol>
             </div>
           </div>
         </div>
       </div>
 
-      <div className='containner p-4' style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }} >
-
+      <div
+        className="containner p-4"
+        style={{ overflow: "auto", backgroundColor: "#f3f5f9" }}
+      >
         <div className="row">
           <div className="col-lg-12">
             <div className="bg-boxshadow">
@@ -175,7 +186,15 @@ export default function HolidayList() {
                 <div className="row">
                   <div className="col-lg-6">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5 mt-1">YEAR<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <label for="inputEmail3" className="col-md-5 mt-1">
+                        YEAR
+                        <span
+                          style={{ paddingLeft: "50px" }}
+                          className="pull-right"
+                        >
+                          :
+                        </span>
+                      </label>
                       <div className="col-md-7">
                         {/* <input
                           className="docinput"
@@ -184,9 +203,14 @@ export default function HolidayList() {
                           onChange={(e) => { console.log(e.target.value); setDate(e.target.value) }}
                         /> */}
 
-                        <select value={Date}
-                          onChange={(e) => { console.log(e.target.value); setDate(e.target.value) }}
-                          style={{ width: "200px" }}>
+                        <select
+                          value={Date}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setDate(e.target.value);
+                          }}
+                          style={{ width: "200px" }}
+                        >
                           <option value={2019}>2019</option>
                           <option value={2020}>2020</option>
                           <option value={2021}>2021</option>
@@ -195,13 +219,20 @@ export default function HolidayList() {
                           <option value={2024}>2024</option>
                           <option value={2025}>2025</option>
                         </select>
-
                       </div>
                     </div>
                   </div>
                   <div className="col-lg-6">
                     <div className="d-flex">
-                      <label for="inputEmail3" className="col-md-5 mt-1">Branch<span style={{ paddingLeft: "50px" }} className="pull-right">:</span></label>
+                      <label for="inputEmail3" className="col-md-5 mt-1">
+                        Branch
+                        <span
+                          style={{ paddingLeft: "50px" }}
+                          className="pull-right"
+                        >
+                          :
+                        </span>
+                      </label>
                       <div className="col-md-7">
                         {/* <input
                           className="docinput"
@@ -210,9 +241,14 @@ export default function HolidayList() {
                           onChange={(e) => { console.log(e.target.value); setBranch(e.target.value) }}
                         /> */}
 
-                        <select value={Branch}
-                          onChange={(e) => { console.log(e.target.value); setBranch(e.target.value) }}
-                          style={{ width: "200px" }}>
+                        <select
+                          value={Branch}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setBranch(e.target.value);
+                          }}
+                          style={{ width: "200px" }}
+                        >
                           <option value={"All"}>All</option>
                           <option value={"Delhi"}>Delhi</option>
                           <option value={"Dehradun"}>Dehradun</option>
@@ -222,7 +258,6 @@ export default function HolidayList() {
                           <option value={"Kolkata"}>Kolkata</option>
                           <option value={"Pune"}>Pune</option>
                         </select>
-
                       </div>
                     </div>
                   </div>
@@ -230,12 +265,29 @@ export default function HolidayList() {
 
                 <div className="box-footer">
                   <center style={{ padding: "10px" }}>
-                    <button className="FunctionButton" style={{ backgroundColor: "#da251c" }} onClick={DocSearchReser}>Reset</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#183985" }} onClick={DocumentSearch}>Search</button>
-                    <button className="FunctionButton" style={{ backgroundColor: "#e8d105", color: "black" }} onClick={NavBack}>Back</button>
+                    <button
+                      className="FunctionButton"
+                      style={{ backgroundColor: "#da251c" }}
+                      onClick={DocSearchReser}
+                    >
+                      Reset
+                    </button>
+                    <button
+                      className="FunctionButton"
+                      style={{ backgroundColor: "#183985" }}
+                      onClick={DocumentSearch}
+                    >
+                      Search
+                    </button>
+                    <button
+                      className="FunctionButton"
+                      style={{ backgroundColor: "#e8d105", color: "black" }}
+                      onClick={NavBack}
+                    >
+                      Back
+                    </button>
                   </center>
                 </div>
-
               </div>
 
               <hr></hr>
@@ -257,19 +309,18 @@ export default function HolidayList() {
                 theme={{
                   components: {
                     Table: {
-                      borderColor: '#000000',
-                      headerBg: '#da251c',
-                      headerColor: 'white',
+                      borderColor: "#000000",
+                      headerBg: "#da251c",
+                      headerColor: "white",
                       cellFontSizeMD: 14,
-                      rowHoverBg: '#abc4af',
+                      rowHoverBg: "#abc4af",
                       fontSize: 16,
-                      cellPaddingBlock: 0
+                      cellPaddingBlock: 0,
                     },
                   },
                 }}
               >
                 <Table
-
                   columns={columns}
                   dataSource={data}
                   pagination={tableParams.pagination}
@@ -282,9 +333,6 @@ export default function HolidayList() {
           </div>
         </div>
       </div>
-
     </div>
-
-
-  )
+  );
 }

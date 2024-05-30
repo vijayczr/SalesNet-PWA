@@ -20,15 +20,22 @@ function DarHeader({
   AppEngList,
   customerList,
   disabledField,
-  formType
+  formType,
 }) {
   const { profileData, applicationEngineer, leadType } = darHeaderData;
 
-  useEffect(() => console.log(darHeaderData), [darHeaderData]);
+  console.log({
+    darHeaderData,
+    setDarHeaderData,
+    AppEngList,
+    customerList,
+    disabledField,
+    formType,
+  })
 
   const disabledDate = (current) => {
     // Can not select days before today and today
-    return current && current < dayjs().endOf('day').subtract(8, 'day');
+    return current && current < dayjs().endOf("day").subtract(8, "day");
   };
 
   return (
@@ -39,6 +46,7 @@ function DarHeader({
           {/* <div className="ibox-content"> */}
 
           <div className="row mt-3">
+            {/* employee name */}
             <div className="col-lg-4 ">
               <div className="form-group d-flex">
                 <label className="col-md-5 mt-1 mb-0">
@@ -55,6 +63,7 @@ function DarHeader({
               </div>
             </div>
 
+            {/* application engineer */}
             <div className="col-lg-4 ">
               <div className="form-group d-flex">
                 <label className="col-md-5 mt-1 mb-0">
@@ -84,7 +93,8 @@ function DarHeader({
                 </div>
               </div>
             </div>
-
+            
+            {/* lead type */}
             <div className="col-lg-4 ">
               <div className="form-group d-flex">
                 <label className="col-md-5 mt-1 mb-0">
@@ -93,7 +103,7 @@ function DarHeader({
                 </label>
                 <div className="col-md-7">
                   <Select
-                    value={(formType == "Continue") ? 3 : darHeaderData?.leadType}
+                    value={formType == "Continue" ? 3 : darHeaderData?.leadType}
                     style={{ width: "100%", height: "2rem" }}
                     placeholder="Select"
                     onChange={(leadTypeId) => {
@@ -102,19 +112,25 @@ function DarHeader({
                         leadType: leadTypeId,
                       }));
                     }}
-                    disabled={(formType == "Continue") ? true : disabledField}
+                    disabled={formType == "Continue" ? true : disabledField}
                   >
-                    {(formType == "Continue") ? ContinueLeadList?.map((leadItem) => (
-                      <option value={leadItem?.id}>{leadItem?.value}</option>
-                    )) : LeadList?.map((leadItem) => (
-                      <option value={leadItem?.id}>{leadItem?.value}</option>
-                    ))}
-
+                    {formType == "Continue"
+                      ? ContinueLeadList?.map((leadItem) => (
+                          <option value={leadItem?.id}>
+                            {leadItem?.value}
+                          </option>
+                        ))
+                      : LeadList?.map((leadItem) => (
+                          <option value={leadItem?.id}>
+                            {leadItem?.value}
+                          </option>
+                        ))}
                   </Select>
                 </div>
               </div>
             </div>
-
+            
+            {/* lead no./lead id */}
             <div className="col-lg-4 ">
               <div className="form-group d-flex">
                 <label className="col-md-5 mt-1 mb-0">
@@ -122,14 +138,12 @@ function DarHeader({
                   <span className="float-right">:</span>
                 </label>
                 <div className="col-md-7">
-                  <Input
-                    value={darHeaderData?.LeadId}
-                    disabled
-                  />
+                  <Input value={darHeaderData?.LeadId} disabled />
                 </div>
               </div>
             </div>
 
+            {/* visit date */}
             <div className="col-lg-4">
               <div className="form-group d-flex">
                 <label for="inputEmail3" className="col-md-5 mt-1">
@@ -162,7 +176,8 @@ function DarHeader({
                 </div>
               </div>
             </div>
-
+            
+            {/* visit time */}
             <div className="col-lg-4 ">
               <div className="form-group d-flex">
                 <label className="col-md-5 mt-1 mb-0">
@@ -203,7 +218,8 @@ function DarHeader({
                     </Space> */}
               </div>
             </div>
-
+            
+            {/* customer list */}
             <div className="col-lg-8 ">
               <div className="form-group d-flex">
                 <label className="col-md-3 mt-1 mb-0">
@@ -222,7 +238,7 @@ function DarHeader({
                       }));
                     }}
                     value={darHeaderData?.customer}
-                    filterOption={(input, option) =>
+                    filterOption={(input, option) => 
                       (option?.label ?? "")
                         .toLowerCase()
                         .includes(input.toLowerCase())

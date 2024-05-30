@@ -137,8 +137,6 @@ export default function CreateQuotation() {
         );
     };
 
-
-
     useEffect(() => {
         let ignore = false;
 
@@ -285,7 +283,7 @@ export default function CreateQuotation() {
 
             <div
                 className="containner p-4"
-                style={{ height: "80vh", overflow: "auto", backgroundColor: "#f3f5f9" }}
+                style={{ overflow: "auto", backgroundColor: "#f3f5f9" }}
             >
                 <div className="row">
                     <div className="col-lg-12">

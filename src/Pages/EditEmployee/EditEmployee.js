@@ -190,7 +190,7 @@ export default function EditEmployee(props) {
       setReportingto(data.reportingId);
       setReportingtoSecond(data.reportingId2);
       setReportingtoThird(data.reportingId3);
-      setJoiningDate(  (data.joiningDate=== null)?null  :data.joiningDate.toString().substring(0,10));
+      setJoiningDate(  (data.joiningDate === null) ? null  :data.joiningDate.toString().substring(0,10));
       setAadhar(data.aadhar);
       setGender(data.gender);
       setPAN(data.pan);
@@ -549,7 +549,7 @@ export default function EditEmployee(props) {
         </div>
       </div>
 
-      <div className='containner p-2' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
+      <div className='containner p-2' style={{ overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
         <div className="row">
           <div className="col-lg-12">
@@ -675,7 +675,6 @@ export default function EditEmployee(props) {
                                 value={ReportingtoSecond}
                                 style={{ width: "100%" }}
                                 onChange={(e) => { setReportingtoSecond(e.target.value); console.log(e.target.value); GetReporting2(e.target.value); }}
-
                               >
                                 <option value={"null"}>Select</option>
                                 {Reportingto1 ?

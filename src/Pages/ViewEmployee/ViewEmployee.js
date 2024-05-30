@@ -493,7 +493,7 @@ export default function ViewEmployee(props) {
                 </div>
             </div>
 
-            <div className='containner p-2' style={{ height: "600px", overflow: "auto", backgroundColor: "#f3f5f9" }} >
+            <div className='containner p-2' style={{ overflow: "auto", backgroundColor: "#f3f5f9" }} >
 
                 <div className="row">
                     <div className="col-lg-12">
